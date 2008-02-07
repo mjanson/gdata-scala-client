@@ -16,7 +16,7 @@
 
 package samples.combinators
 
-import scala.xml.combinators._
+import com.google.xml.combinators._
 import scala.xml._
 
 case class Person(name: String, address: String, tpe: String)
@@ -30,41 +30,29 @@ object PersonParser extends Picklers with Application {
   
   final val URI = "persons-uri"
 
+  /** A pickler for Person. The 'elem' and 'attr' methods define the XML structure.
+   *  The library handles already the '~' type (@see ~), but does not know about our Person
+   *  class. We use 'wrap' to provide a deconstructor and constructor of Person to/from the 
+   *  ~ objects. The same '~' is used as an operator for constructing sequences, denoting that
+   *  the 'name' element should be followed by an 'address' element. The basic 'text' pickler
+   *  handles plain text nodes. Hopefully, the new release of Scala (2.7.0) will improve 
+   *  the inferencer and make some code below not necessary.
+   */
   def person: Pickler[Person] = 
-    (wrap ({p: Person => new ~(p.name, new ~(p.address, p.tpe))}) (Person) 
+    (wrap ({p: Person => new ~(p.name, new ~(p.address, p.tpe))}) (fun3ToPpairR(Person))
           (elem("p", URI, "person", 
-              permute(elem("p", URI, "name", text),
-                      elem("p", URI, "address", text ~ attr("p", URI, "type", text))))))
+              elem("p", URI, "name", text)
+            ~ elem("p", URI, "address", text ~ attr("p", URI, "type", text)))))
 
   val input = 
     <p:person xmlns:p="persons-uri">
-      <p:name>Iulian Dragos</p:name>
-      <p:address p:type="home">Av. de la Rochelle, 10, Prilly</p:address>
+      <p:name>Cartman</p:name>
+      <p:address p:type="home">South Park, 90210</p:address>
     </p:person>
 
   val pp = new PrettyPrinter(80, 4)
 
-  def pSeq2: Pickler[~[String, String]] = 
-    elem("p", URI, "pair", 
-        elem("p", URI, "a", text) ~ elem("p", URI, "b", text))
-          
-  val inputPair =
-    <p:pair xmlns:p="testing-uri">
-      <p:a>alfa</p:a>
-      <p:b>omega</p:b>
-    </p:pair>
-  val pair = new ~("alfa", "omega")
-
-  def testSequencePickle {
-      val pickled = pSeq2.pickle(pair, PicklerState.empty)
-      println(pp.format(pickled.rootNode))
-  }
-  
-  testSequencePickle
-  System.exit(1)
-  
-  val pickled = person.pickle(Person("Iulian Dragos", "Av. de la Rochelle, 10", "home"), emptySt)
-  println("namespaces: " + pickled.ns)
+  val pickled = person.pickle(Person("Kenny", "Southpark, 90211", "home"), emptySt)
   println(pp.format(pickled.rootNode, pickled.ns))
 
   person.unpickle(PicklerState.fromElem(input)) match {

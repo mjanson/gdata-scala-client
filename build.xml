@@ -10,10 +10,11 @@
 
   <!-- PROPERTIES -->
 
-  <property name="source.dir" value="src"/>
-	<property name="tests.dir"  value="tests"/>
-	<property name="lib.dir"    value="lib"/>
-	<property name="junit.jar"  value="${lib.dir}/junit-4.4.jar"/>
+  <property name="source.dir"  value="src"/>
+	<property name="tests.dir"   value="tests"/>
+	<property name="samples.dir" value="samples"/>
+	<property name="lib.dir"     value="lib"/>
+	<property name="junit.jar"   value="${lib.dir}/junit-4.4.jar"/>
   <property file="./build.properties"/>
 
   <!-- the following properties can be set in the above property file -->
@@ -84,8 +85,8 @@
     <mkdir dir="${build.dir}"/>
     <scalac
       target="jvm-1.5"
-      srcdir="${source.dir}"
-      includes="samples/**/*.scala"
+      srcdir="${samples.dir}"
+      includes="**/*.scala"
       destdir="${build.dir}"
       classpathref="build.classpath"
     />
