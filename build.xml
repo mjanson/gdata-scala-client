@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- $Id: build.xml 3057 2006-11-01 17:45:51Z michelou $ -->
+
+<project name="sdata" default="build" basedir=".">
+
+  <property environment="env"/>
+
+  <!-- Prevents system classpath from being used -->
+  <property name="build.sysclasspath" value="ignore"/>
+
+  <!-- PROPERTIES -->
+
+  <property name="source.dir" value="src"/>
+	<property name="tests.dir"  value="tests"/>
+	<property name="lib.dir"    value="lib"/>
+	<property name="junit.jar"  value="${lib.dir}/junit-4.4.jar"/>
+  <property file="./build.properties"/>
+
+  <!-- the following properties can be set in the above property file -->
+  <property name="scala.dir" value="${env.SCALA_HOME}"/>
+  <property name="build.dir" value="classes"/>
+  <property name="docs.dir" value="docs"/>
+
+  <!-- INITIALISATION -->
+
+  <target name="init">
+    <available file="${scala.dir}" property="scala.present"/>
+    <fail
+      message="Installed Scala distribution could not be found."
+      unless="scala.present"
+    />
+    <property name="scala-library.jar" value="${scala.dir}/lib/scala-library.jar"/>
+    <property name="scala-compiler.jar" value="${scala.dir}/lib/scala-compiler.jar"/>
+    <fail message="Scala library '${scala-library.jar}' is not available">
+      <condition><not><and>
+        <available classname="scala.Predef"
+                   classpath="${scala-library.jar}"/>
+        <available classname="scala.List"
+                   classpath="${scala-library.jar}"/>
+      </and></not></condition>
+    </fail>
+    <fail message="Scala library '${scala-compiler.jar}' is not available">
+      <condition><not><and>
+        <available classname="scala.tools.ant.Scalac"
+                   classpath="${scala-compiler.jar}"/>
+        <available classname="scala.tools.nsc.Main"
+                   classpath="${scala-compiler.jar}"/>
+      </and></not></condition>
+    </fail>
+    <path id="scala.classpath">
+      <pathelement location="${scala-library.jar}"/>
+      <pathelement location="${scala-compiler.jar}"/>
+    </path>
+    <taskdef resource="scala/tools/ant/antlib.xml">
+      <classpath>
+        <path refid="scala.classpath"/>
+      </classpath>
+    </taskdef>
+    <path id="build.classpath">
+      <pathelement location="${scala-library.jar}"/>
+      <pathelement location="${build.dir}"/>
+    </path>
+  	<path id="test.classpath">
+      <pathelement location="${scala-library.jar}"/>
+      <pathelement location="${build.dir}"/>
+  		<pathelement location="${junit.jar}"/>
+	  </path>
+  </target>
+
+  <!-- BUILD -->
+
+  <target name="build.combinators" depends="init">
+    <mkdir dir="${build.dir}"/>
+    <scalac
+      target="jvm-1.5"
+      srcdir="${source.dir}"
+      includes="com/google/xml/**/*.scala"
+      destdir="${build.dir}"
+      classpathref="build.classpath"/>
+  </target>
+
+  <target name="build" depends="init,build.combinators">
+    <echo level="verbose" message="build.dir=${build.dir}"/>
+    <mkdir dir="${build.dir}"/>
+    <scalac
+      target="jvm-1.5"
+      srcdir="${source.dir}"
+      includes="samples/**/*.scala"
+      destdir="${build.dir}"
+      classpathref="build.classpath"
+    />
+  </target>
+	
+	<target name="build.test" depends="init,build">
+		<echo level="verbose" message="build.dir=${build.dir}"/>
+		<scalac
+		  target="jvm-1.5"
+	    srcdir="${tests.dir}"
+	    includes="**/*.scala"
+	    destdir="${build.dir}"
+	    classpathref="test.classpath"
+		/>
+	</target>
+	
+	<target name="test" depends="init,build.test">
+		<junit>
+			<test name="com.google.xml.combinators.PicklerTest"/>
+      <formatter type="plain" usefile="false"/>
+			<classpath>
+			  <path refid="test.classpath"/>
+				<pathelement location="${build.dir}"/>
+		  </classpath> 
+		</junit>
+	</target>
+	
+  <!-- DOCS -->
+  
+  <target name="docs.combinators" depends="init">
+    <mkdir dir="${docs.dir}"/>
+    <scaladoc
+      srcdir="${source.dir}"
+      destdir="${docs.dir}"
+      deprecation="yes" unchecked="yes"
+      windowtitle="XML Pickling Combinators Library Documentation"
+      doctitle="Pickler Combinators"
+      classpathref="build.classpath">
+        <include name="scala/xml/**/*.scala"/>
+    </scaladoc>
+  </target>
+
+  <!-- CLEAN -->
+
+  <macrodef name="remove">
+    <attribute name="dir"/>
+    <sequential>
+      <delete dir="@{dir}" includeemptydirs="yes" quiet="yes" failonerror="no"/>
+    </sequential>
+  </macrodef>
+
+  <target name="clean">
+    <remove dir="${build.dir}"/>
+    <remove dir="${docs.dir}"/>
+  </target>
+
+</project>
+
