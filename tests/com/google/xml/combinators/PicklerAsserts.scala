@@ -17,10 +17,12 @@
 package com.google.xml.combinators;
 
 import org.junit.Assert
+import scala.xml._
 
-/** This trait defines specialized asserts for testing picklers.
+/**
+ * This trait defines specialized asserts for testing picklers.
  *
- *  @author Iulian Dragos (iuliandragos@google.com)
+ * @author Iulian Dragos (iuliandragos@google.com)
  */
 trait PicklerAsserts extends Picklers {
   def assertSucceedsWith[A](name: String, expected: A, result: PicklerResult[A]) {
@@ -29,4 +31,10 @@ trait PicklerAsserts extends Picklers {
       case Failure(msg)  => Assert.fail(msg)
     }
   }
+  
+  /**
+   * Return a string representation without unnecessary white-space.
+   * Useful when comparing XML documents.
+   */
+  def normalize(n: Node) = Utility.trim(n).toString
 }

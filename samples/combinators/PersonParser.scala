@@ -14,35 +14,39 @@
  */
 
 
-package samples.combinators
+package combinators
 
 import com.google.xml.combinators._
 import scala.xml._
 
 case class Person(name: String, address: String, tpe: String)
 
-/** Simple example of using XML Pickler combinators
- *  
- *  @author Iulian Dragos (iuliandragos@google.com) 
+/**
+ * Simple example of using XML Pickler combinators
+ * 
+ * @author Iulian Dragos (iuliandragos@google.com) 
  */
 object PersonParser extends Picklers with Application {
   import Picklers._
   
   final val URI = "persons-uri"
 
-  /** A pickler for Person. The 'elem' and 'attr' methods define the XML structure.
-   *  The library handles already the '~' type (@see ~), but does not know about our Person
-   *  class. We use 'wrap' to provide a deconstructor and constructor of Person to/from the 
-   *  ~ objects. The same '~' is used as an operator for constructing sequences, denoting that
-   *  the 'name' element should be followed by an 'address' element. The basic 'text' pickler
-   *  handles plain text nodes. Hopefully, the new release of Scala (2.7.0) will improve 
-   *  the inferencer and make some code below not necessary.
+  /**
+   * A pickler for Person. The 'elem' and 'attr' methods define the XML structure.
+   * The library handles already the '~' type (@see ~), but does not know about our Person
+   * class. We use 'wrap' to provide a deconstructor and constructor of Person to/from the 
+   * ~ objects. The same '~' is used as an operator for constructing sequences, denoting that
+   * the 'name' element should be followed by an 'address' element. The basic 'text' pickler
+   * handles plain text nodes. Hopefully, the new release of Scala (2.7.0) will improve 
+   * the inferencer and make some code below not necessary.
    */
-  def person: Pickler[Person] = 
+  def person: Pickler[Person] = withNamespace("p", URI, TopScope) { puri =>
+    implicit val implUri = puri
     (wrap ({p: Person => new ~(p.name, new ~(p.address, p.tpe))}) (fun3ToPpairR(Person))
-          (elem("p", URI, "person", 
-              elem("p", URI, "name", text)
-            ~ elem("p", URI, "address", text ~ attr("p", URI, "type", text)))))
+          (elem("person", 
+              elem("name", text)
+            ~ elem("address", text ~ attr("p", URI, "type", text)))))
+   }
 
   val input = 
     <p:person xmlns:p="persons-uri">
@@ -55,7 +59,7 @@ object PersonParser extends Picklers with Application {
   val pickled = person.pickle(Person("Kenny", "Southpark, 90211", "home"), emptySt)
   println(pp.format(pickled.rootNode, pickled.ns))
 
-  person.unpickle(PicklerState.fromElem(input)) match {
+  person.unpickle(LinearStore.fromElem(input)) match {
     case Success(v, _) => 
       println("Got: " + v)
     case Failure(msg) =>

@@ -11,10 +11,10 @@
   <!-- PROPERTIES -->
 
   <property name="source.dir"  value="src"/>
-	<property name="tests.dir"   value="tests"/>
-	<property name="samples.dir" value="samples"/>
-	<property name="lib.dir"     value="lib"/>
-	<property name="junit.jar"   value="${lib.dir}/junit-4.4.jar"/>
+  <property name="tests.dir"   value="tests"/>
+  <property name="samples.dir" value="samples"/>
+  <property name="lib.dir"     value="lib"/>
+  <property name="junit.jar"   value="${lib.dir}/junit-4.4.jar"/>
   <property file="./build.properties"/>
 
   <!-- the following properties can be set in the above property file -->
@@ -61,11 +61,11 @@
       <pathelement location="${scala-library.jar}"/>
       <pathelement location="${build.dir}"/>
     </path>
-  	<path id="test.classpath">
+    <path id="test.classpath">
       <pathelement location="${scala-library.jar}"/>
       <pathelement location="${build.dir}"/>
-  		<pathelement location="${junit.jar}"/>
-	  </path>
+      <pathelement location="${junit.jar}"/>
+    </path>
   </target>
 
   <!-- BUILD -->
@@ -91,29 +91,31 @@
       classpathref="build.classpath"
     />
   </target>
-	
-	<target name="build.test" depends="init,build">
-		<echo level="verbose" message="build.dir=${build.dir}"/>
-		<scalac
-		  target="jvm-1.5"
-	    srcdir="${tests.dir}"
-	    includes="**/*.scala"
-	    destdir="${build.dir}"
-	    classpathref="test.classpath"
-		/>
-	</target>
-	
-	<target name="test" depends="init,build.test">
-		<junit>
-			<test name="com.google.xml.combinators.PicklerTest"/>
+        
+  <target name="build.test" depends="init,build">
+    <echo level="verbose" message="build.dir=${build.dir}"/>
+    <scalac
+        target="jvm-1.5"
+        srcdir="${tests.dir}"
+        includes="**/*.scala"
+        destdir="${build.dir}"
+        classpathref="test.classpath"
+        />
+  </target>
+  
+  <target name="test" depends="init,build.test">
+    <junit>
+      <test name="com.google.xml.combinators.PicklerTest"/>
+      <test name="com.google.xml.combinators.PicklerPermuteTest"/>
+      <test name="com.google.xml.combinators.GDataCoreTest"/>
       <formatter type="plain" usefile="false"/>
-			<classpath>
-			  <path refid="test.classpath"/>
-				<pathelement location="${build.dir}"/>
-		  </classpath> 
-		</junit>
-	</target>
-	
+      <classpath>
+        <path refid="test.classpath"/>
+        <pathelement location="${build.dir}"/>
+      </classpath> 
+    </junit>
+  </target>
+  
   <!-- DOCS -->
   
   <target name="docs.combinators" depends="init">

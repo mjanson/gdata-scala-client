@@ -19,20 +19,16 @@ package com.google.xml.combinators
 import scala.xml._
 import org.junit.{Test, Assert, Ignore}
 
-/** This class tests simple XML pickler combinators.
+/** 
+ * This class tests simple XML pickler combinators.
  *
- *  @author Iulian Dragos (iuliandragos@google.com) 
+ * @author Iulian Dragos (iuliandragos@google.com) 
  */
 class PicklerTest extends Picklers with PicklerAsserts {
   
   final val URI = "testing-uri"
 
   val pprinter = new PrettyPrinter(80, 4)
-    
-  /** Return a string representation without unnecessary white-space.
-   *  Useful when comparing XML documents.
-   */
-  private def normalize(n: Node) = Utility.trim(n).toString
     
   def pSeq2: Pickler[~[String, String]] = 
     elem("p", URI, "pair", 
@@ -46,14 +42,14 @@ class PicklerTest extends Picklers with PicklerAsserts {
   val pair = new ~("alfa", "omega")
 
   @Test def testSequencePickle {
-      val pickled = pSeq2.pickle(pair, PicklerState.empty)
+      val pickled = pSeq2.pickle(pair, LinearStore.empty)
       Assert.assertEquals("Sequence pickling failed", normalize(input), normalize(pickled.rootNode))
   }
   
   @Test def testSequenceUnpickle {
     assertSucceedsWith("Sequence unpickling failed",
         pair,
-        pSeq2.unpickle(PicklerState.fromElem(input)))
+        pSeq2.unpickle(LinearStore.fromElem(input)))
   }
   
   def pSeq3: Pickler[String ~ String ~ String] =
@@ -73,101 +69,7 @@ class PicklerTest extends Picklers with PicklerAsserts {
   @Test def testSequence3Unpickle {
     assertSucceedsWith("Sequence 3 unpickling failed", 
         triple,
-        pSeq3.unpickle(PicklerState.fromElem(inputTriple)))
-  }
-  
-  def pPermute2: Pickler[String ~ String] =
-    elem("p", URI, "set2",
-      permute(elem("p", URI, "a", text),
-              elem("p", URI, "b", text)))
-      
-  @Test def testPermute2Unpickle {
-    val perm1 = 
-      <p:set2 xmlns:p="testing-uri">
-        <p:a>alfa</p:a>
-        <p:b>omega</p:b>
-      </p:set2>
-    assertSucceedsWith("Permutation of 2 failed unpickling",
-        pair,
-        pPermute2.unpickle(PicklerState.fromElem(perm1)))
-  }
-  
-  @Test def testPermute2Unpickle1 {
-    val perm1 = 
-      <p:set2 xmlns:p="testing-uri">
-        <p:b>omega</p:b>
-        <p:a>alfa</p:a>
-      </p:set2>
-    assertSucceedsWith("Permutation of 2 failed unpickling",
-        pair,
-        pPermute2.unpickle(PicklerState.fromElem(perm1)))
-  }
-
-  def pPermute3: Pickler[String ~ String ~ String] =
-    elem("p", URI, "set3",
-        elem("p", URI, "a", text)
-      * elem("p", URI, "b", text)
-      * elem("p", URI, "c", text))
-            
-  @Test def testPermute3Unpickle {
-    val perm1 = 
-      <p:set3 xmlns:p="testing-uri">
-        <p:a>alfa</p:a>
-        <p:b>beta</p:b>
-        <p:c>gamma</p:c>
-      </p:set3>
-    assertSucceedsWith("Permutation of 2 failed unpickling",
-        triple,
-        pPermute3.unpickle(PicklerState.fromElem(perm1)))
-  }
-
-  @Test def testPermute3Unpickle1 {
-    val perm1 = 
-      <p:set3 xmlns:p="testing-uri">
-        <p:b>beta</p:b>
-        <p:a>alfa</p:a>
-        <p:c>gamma</p:c>
-      </p:set3>
-    assertSucceedsWith("Permutation of 2 failed unpickling",
-        triple,
-        pPermute3.unpickle(PicklerState.fromElem(perm1)))
-  }
-
-  @Test def testPermute3Unpickle2 {
-    val perm1 = 
-      <p:set3 xmlns:p="testing-uri">
-        <p:c>gamma</p:c>
-        <p:b>beta</p:b>
-        <p:a>alfa</p:a>
-      </p:set3>
-    assertSucceedsWith("Permutation of 2 failed unpickling",
-        triple,
-        pPermute3.unpickle(PicklerState.fromElem(perm1)))
-  }
-
-  @Test def testPermute3Unpickle3 {
-    val perm1 = 
-      <p:set3 xmlns:p="testing-uri">
-        <p:c>gamma</p:c>
-        <p:a>alfa</p:a>
-        <p:b>beta</p:b>
-      </p:set3>
-    assertSucceedsWith("Permutation of 2 failed unpickling",
-        triple,
-        pPermute3.unpickle(PicklerState.fromElem(perm1)))
-  }
-
-  @Ignore // Permutation parsing not yet fully working 
-  @Test def testPermute3Unpickle4 {
-    val perm1 = 
-      <p:set3 xmlns:p="testing-uri">
-        <p:a>alfa</p:a>
-        <p:c>gamma</p:c>
-        <p:b>beta</p:b>
-      </p:set3>
-    assertSucceedsWith("Permutation of 3 failed unpickling",
-        triple,
-        pPermute3.unpickle(PicklerState.fromElem(perm1)))
+        pSeq3.unpickle(LinearStore.fromElem(inputTriple)))
   }
 
   def pStrings = elem("p", URI, "strings", rep(elem("p", URI, "str", text)))
@@ -180,7 +82,7 @@ class PicklerTest extends Picklers with PicklerAsserts {
     val strings = List()
     assertSucceedsWith("Repetition with empty sequence failed",
         strings,
-        pStrings.unpickle(PicklerState.fromElem(inputRep)))
+        pStrings.unpickle(LinearStore.fromElem(inputRep)))
   }
 
   @Test def testRepetition1Unpickle {
@@ -192,7 +94,7 @@ class PicklerTest extends Picklers with PicklerAsserts {
     val strings = List("one")
     assertSucceedsWith("Repetition with one element failed",
         strings,
-        pStrings.unpickle(PicklerState.fromElem(inputRep)))
+        pStrings.unpickle(LinearStore.fromElem(inputRep)))
   }
   
   @Test def testRepetition3Unpickle {
@@ -206,7 +108,7 @@ class PicklerTest extends Picklers with PicklerAsserts {
     val strings = List("one", "two", "three")
     assertSucceedsWith("Repetition failed",
         strings,
-        pStrings.unpickle(PicklerState.fromElem(inputRep)))
+        pStrings.unpickle(LinearStore.fromElem(inputRep)))
   }
   
   @Test def testRepetition0Pickle {
@@ -215,7 +117,7 @@ class PicklerTest extends Picklers with PicklerAsserts {
       </p:strings>
       
     val strings = List()
-    val pickled = pStrings.pickle(strings, PicklerState.empty)
+    val pickled = pStrings.pickle(strings, LinearStore.empty)
     Assert.assertEquals("Empty repetition pickling", normalize(inputRep), normalize(pickled.rootNode))
   }
 
@@ -226,7 +128,7 @@ class PicklerTest extends Picklers with PicklerAsserts {
       </p:strings>
       
     val strings = List("one")
-    val pickled = pStrings.pickle(strings, PicklerState.empty)
+    val pickled = pStrings.pickle(strings, LinearStore.empty)
     Assert.assertEquals("Repetition of 1 element, pickling", normalize(inputRep), normalize(pickled.rootNode))
   }
 
@@ -239,7 +141,7 @@ class PicklerTest extends Picklers with PicklerAsserts {
       </p:strings>
       
     val strings = List("one", "two", "three")
-    val pickled = pStrings.pickle(strings, PicklerState.empty)
+    val pickled = pStrings.pickle(strings, LinearStore.empty)
     Assert.assertEquals("Repetition of 3 elements, pickling", normalize(inputRep), normalize(pickled.rootNode))
   }
 }

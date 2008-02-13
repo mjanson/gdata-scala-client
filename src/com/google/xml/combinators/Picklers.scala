@@ -18,42 +18,45 @@ package com.google.xml.combinators
 
 import scala.xml._
 
-/** A class for XML Pickling combinators. Influenced by the <a href="http://www.fh-wedel.de/~si/HXmlToolbox/">
- *  Haskell XML Toolbox</a>, Andrew Kennedy's Pickling Combinators, and Scala combinator parsers
- *  <p>
- *  A pickler for some type A is a class that can save objects of type A to XML (pickle)
- *  and read XML back to objects of type A (unpickle). This class provides some basic 
- *  building blocks (like text), and several combinators (like elem, attr, 
- *  seq) to build more complex picklers.
- *  <p>
- *  Example:
- *  <xmp>
- *    def picklePair: Pickler[String ~ String] = 
- *       elem("p", URI, "pair", 
- *          elem("p", URI, "a", text) ~ elem("p", URI, "b", text))
- *        
- *    val input =
- *      <p:pair xmlns:p="testing-uri">
- *        <p:a>alfa</p:a>
- *        <p:b>omega</p:b>
- *      </p:pair>
- *  </xmp>
- *  picklePair will be able to pickle and unpickle pairs of Strings that look like the
- *  input.
+/** 
+ * A class for XML Pickling combinators. Influenced by the <a href="http://www.fh-wedel.de/~si/HXmlToolbox/">
+ * Haskell XML Toolbox</a>, Andrew Kennedy's Pickling Combinators, and Scala combinator parsers
+ * <p>
+ * A pickler for some type A is a class that can save objects of type A to XML (pickle)
+ * and read XML back to objects of type A (unpickle). This class provides some basic 
+ * building blocks (like text), and several combinators (like elem, attr, 
+ * seq) to build more complex picklers.
+ * <p>
+ * Example:
+ * <xmp>
+ *   def picklePair: Pickler[String ~ String] = 
+ *      elem("p", URI, "pair", 
+ *         elem("p", URI, "a", text) ~ elem("p", URI, "b", text))
+ *       
+ *   val input =
+ *     <p:pair xmlns:p="testing-uri">
+ *       <p:a>alfa</p:a>
+ *       <p:b>omega</p:b>
+ *     </p:pair>
+ * </xmp>
+ * picklePair will be able to pickle and unpickle pairs of Strings that look like the
+ * input.
  *
- *  @author Iulian Dragos (iuliandragos@google.com) 
+ * @author Iulian Dragos (iuliandragos@google.com) 
  */
 abstract class Picklers {
 
-  /** The state of the pickler is a collection of attributes, a list of 
-   *  nodes (which might be Text nodes), and namespace bindings.
+  /**
+   * The state of the pickler is a collection of attributes, a list of 
+   * nodes (which might be Text nodes), and namespace bindings.
    */
-  type St = PicklerState
+  type St = XmlStore
 
-  val emptySt: St = PicklerState.empty
+  val emptySt: St = LinearStore.empty
 
-  /** A class representing pickling results. It encapsulate the result and the state of 
-   *  the pickler. It can be either @see Success or @see Failure.
+  /**
+   * A class representing pickling results. It encapsulate the result and the state of 
+   * the pickler. It can be either @see Success or @see Failure.
    */
   sealed abstract class PicklerResult[+A] {
     /** Apply 'f' when this result is successful. */
@@ -84,24 +87,20 @@ abstract class Picklers {
     /** Sequential composition. This pickler will accept an A and then a B. */
     def ~[B](pb: => Pickler[B]): Pickler[~[A, B]] = 
       seq(this, pb)
-      
-    /** Permutation operator (left associative). Returns a pickler that parses A and B in
-     *  any order.
-     */
-    def *[B](pb: => Pickler[B]): Pickler[A ~ B] = permute(this, pb)
   }
 
-  /** A basic pickler that serializes a value to a string and back. 
-   *  It can be later wrapped into an element or attribute.
+  /**
+   * A basic pickler that serializes a value to a string and back. 
+   * It can be later wrapped into an element or attribute.
    */
   def text: Pickler[String] = new Pickler[String] {
     def pickle(v: String, in: St): St = 
       in.addText(v)
 
     def unpickle(in: St): PicklerResult[String] = {
-      in.nodes.head match {
-        case Text(content) => Success(content, in.dropNodes(1))
-        case n             => Failure("Text node expected, but " + n + " found")
+      in.acceptText match {
+        case (Some(Text(content)), in1) => Success(content, in1)
+        case (None, in1)                => Failure("Text node expected, but " + in1.nodes + " found")
       }
     }
   }
@@ -112,8 +111,9 @@ abstract class Picklers {
     def unpickle(in: St): PicklerResult[A] = Success(v, in)
   }
 
-  /** Wrap a parser into an attribute. The attribute will contain all the 
-   *  content produced by 'pa' in the 'nodes' field.
+  /**
+   * Wrap a parser into an attribute. The attribute will contain all the 
+   * content produced by 'pa' in the 'nodes' field.
    */
   def attr[A](pre: String, uri: String, key: String, pa: => Pickler[A]) = new Pickler[A] {
     def pickle(v: A, in: St) = {
@@ -121,36 +121,38 @@ abstract class Picklers {
     }
 
     def unpickle(in: St): PicklerResult[A] = {
-      in.attrs(uri, in.ns, key) match {
-        case null  => Failure("Expected attribute " + pre + ":" + key + " in " + uri + " but none found in " + in.attrs)
-        case nodes => pa.unpickle(PicklerState(null, nodes.toList, in.ns))
+      in.acceptAttr(key, uri) match {
+        case (Some(nodes), in1) =>
+          pa.unpickle(LinearStore(Null, nodes.toList, in.ns)) andThen { (v, in2) => Success(v, in1) }
+        case (None, in1) => 
+          Failure("Expected attribute " + pre + ":" + key + " in " + uri + " but none found in " + in.attrs)
       }
     }
   }
-
+  
+  /** Convenience method for creating an element with an implicit namepace. */
+  def elem[A](label: String, pa: => Pickler[A])(implicit ns: NamespaceBinding): Pickler[A] =
+    elem(ns.prefix, ns.uri, label, pa)
+  
   /** Wrap a pickler into an element. */
   def elem[A](pre: String, uri: String, label: String, pa: => Pickler[A]) = new Pickler[A] {
     def pickle(v: A, in: St): St = {
       val ns1 = if (in.ns.getURI(pre) == uri) in.ns else new NamespaceBinding(pre, uri, in.ns)
-      val in1 = pa.pickle(v, PicklerState.empty(ns1))
+      val in1 = pa.pickle(v, LinearStore.empty(ns1))
       in.addNode(Elem(pre, label, in1.attrs, in1.ns, in1.nodes.reverse:_*))
     }
 
     def unpickle(in: St): PicklerResult[A] = {
-      in.nodes match {
-        case (e: Elem) :: _ if (e.label == label) && (e.namespace == uri) => 
-          pa.unpickle(toPicklerState(e)) match {
-            case Success(v, in1) => Success(v, in.dropNodes(1))
-            case f @ Failure(_)  => f
+      in.acceptElem(label, uri) match {
+        case (Some(e: Elem), in1) => 
+          pa.unpickle(LinearStore.enterElem(e)) andThen { (v, in2) =>
+            Success(v, in1)
           }
           
         case _ => 
           Failure("Expected a <" + pre + ":" + label + "> in " + uri + " in " + in.nodes)
       }
     }
-
-    private def toPicklerState(e: Elem): PicklerState = 
-      PicklerState(e.attributes, e.child.toList, e.scope)
   }
 
   /** Sequential composition of two picklers */
@@ -170,28 +172,38 @@ abstract class Picklers {
     }
   }
 
-  /** Accept values of A and B in any order.
-   *  TODO (iuliandragos): Fix the permutations like 'a c b' for 'a * b * c'
+  /** 
+   * Convenience method for creating an element with permuted elements. Elements enclosed
+   * by the given element label can be parsed in any order. Any unknown elements are ignored.
+   * <p/>
+   * Example: 
+   *   <code>permute("entry", elem("link", text) ~ elem("author", text))</code> will
+   * will parse an element entry with two subelements, link and author, in any order, with
+   * possibly other elements between them.
    */
-  def permute[A, B](pa: => Pickler[A], pb: => Pickler[B]): Pickler[~[A, B]] = new Pickler[A ~ B] {
-    def pickle(v: A ~ B, in: St): St = 
-      pb.pickle(v._2, pa.pickle(v._1, in))
-      
-    def unpickle(in: St): PicklerResult[A ~ B] = {
-      pa.unpickle(in) match { 
-        case Success(va, in1) => 
-          pb.unpickle(in1) andThen { (vb, in2) => Success(new ~(va, vb), in2) }
-          
-        case Failure(_) =>
-          pb.unpickle(in) andThen { (vb, in1) =>
-              pa.unpickle(in1) andThen { (va, in2) => Success(new ~(va, vb), in2) }
-          }
+  def permute[A](label: String, pa: => Pickler[A])(implicit ns: NamespaceBinding): Pickler[A] =
+    elem(label, permute(pa))(ns)
+
+  /**
+   * Transform the given parser into a parser that accepts permutations of its containing 
+   * sequences. That is, permute(a ~ b ~ c) will parse a, b, c in any order (with possibly 
+   * other elements in between. It should not be called directly, instead use the
+   * permute which wraps an element around the permuted elements.  
+   */
+  private def permute[A](pa: => Pickler[A]): Pickler[A] = new Pickler[A] {
+    def pickle(v: A, in: St): St = pa.pickle(v, in)
+    
+    def unpickle(in: St): PicklerResult[A] = in match {
+      case _: RandomAccessStore => pa.unpickle(in)
+      case _ => pa.unpickle(new RandomAccessStore(in)) andThen { (v, in1) => 
+        Success(v, in1.toLinear) 
       }
     }
   }
-  
-  /** Return a pickler that always pickles the first value, but unpickles using the second when the
-   *  first one fails.
+
+  /**
+   * Return a pickler that always pickles the first value, but unpickles using the second when the
+   * first one fails.
    */
   def or[A](pa: => Pickler[A], paa: Pickler[A]): Pickler[A] = new Pickler[A] {
     def pickle(v: A, in: St): St = 
@@ -199,6 +211,20 @@ abstract class Picklers {
       
     def unpickle(in: St): PicklerResult[A] = 
       pa.unpickle(in) orElse paa.unpickle(in)
+  }
+  
+  /**
+   * An optional pickler. It pickles v when it is there, and leaves the input unchanged when empty.
+   * It unpickles the value when the underlying parser succeeds, and returns None otherwise.
+   */
+  def opt[A](pa: => Pickler[A]) = new Pickler[Option[A]] {
+    def pickle(v: Option[A], in: St) = v match {
+      case Some(v) => pa.pickle(v, in)
+      case None    => in
+    }
+    
+    def unpickle(in: St): PicklerResult[Option[A]] = 
+      pa.unpickle(in) andThen {(v, in1) => Success(Some(v), in1) } orElse Success(None, in)
   }
   
   def rep[A](pa: => Pickler[A]): Pickler[List[A]] = new Pickler[List[A]] {
@@ -226,6 +252,13 @@ abstract class Picklers {
       }
   }
 
+  def collect: Pickler[NodeSeq] = new Pickler[NodeSeq] {
+    def pickle(v: NodeSeq, in: St) = 
+      v.foldLeft(in) (_.addNode(_))
+    def unpickle(in: St) =
+      Success(NodeSeq.fromSeq(in.nodes), LinearStore(in.attrs, Nil, in.ns))
+  }
+  
   /** A logging combinator */
   def log[A](pa: => Pickler[A])(name: String): Pickler[A] = new Pickler[A] {
     def pickle(v: A, in: St): St = {
@@ -242,6 +275,13 @@ abstract class Picklers {
       res
     }
   }
+
+  def withNamespace[A](pre: String, uri: String, parent: NamespaceBinding)
+    (body: NamespaceBinding => Pickler[A]): Pickler[A] =
+      if (parent.getURI(pre) == uri) 
+        body(parent) 
+      else 
+        body(new NamespaceBinding(pre, uri, parent))
 }
 
 /** Convenience class to hold two values (it has lighter syntax than pairs). */
