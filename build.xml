@@ -80,7 +80,7 @@
       classpathref="build.classpath"/>
   </target>
 
-  <target name="build" depends="init,build.combinators">
+  <target name="build.samples" depends="init,build.combinators">
     <echo level="verbose" message="build.dir=${build.dir}"/>
     <mkdir dir="${build.dir}"/>
     <scalac
@@ -91,7 +91,19 @@
       classpathref="build.classpath"
     />
   </target>
-        
+
+  <target name="build" depends="init,build.combinators">
+    <echo level="verbose" message="build.dir=${build.dir}"/>
+    <mkdir dir="${build.dir}"/>
+    <scalac
+      target="jvm-1.5"
+      srcdir="${source.dir}"
+      includes="**/*.scala"
+      destdir="${build.dir}"
+      classpathref="build.classpath"
+    />
+  </target>
+	
   <target name="build.test" depends="init,build">
     <echo level="verbose" message="build.dir=${build.dir}"/>
     <scalac
