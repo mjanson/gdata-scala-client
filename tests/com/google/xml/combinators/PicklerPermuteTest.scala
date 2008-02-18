@@ -25,12 +25,14 @@ import scala.xml._
  *
  * @author Iulian Dragos (iuliandragos@google.com)
  */
-class PicklerPermuteTest extends Picklers with PicklerAsserts {
+class PicklerPermuteTest extends PicklerAsserts {
+  import Picklers._
+  
   final val URI = "testing-uri"
   implicit val namespace = new NamespaceBinding("p", URI, TopScope)
   
   def pPermute2: Pickler[String ~ String] =
-    permute("set2", elem("a", text) ~ elem("b", text))
+    interleaved("set2", elem("a", text) ~ elem("b", text))
       
   val pair = new ~("alfa", "omega")
   val triple = new ~(new ~("alfa", "beta"), "gamma") 
@@ -58,7 +60,7 @@ class PicklerPermuteTest extends Picklers with PicklerAsserts {
   }
 
   def pPermute3: Pickler[String ~ String ~ String] =
-    permute("set3", 
+    interleaved("set3", 
         elem("a", text)
       ~ elem("b", text)
       ~ elem("c", text))
@@ -141,7 +143,7 @@ class PicklerPermuteTest extends Picklers with PicklerAsserts {
   def pd: Pickler[String] = elem("p", URI, "d", text)
   def pe: Pickler[String] = elem("p", URI, "e", text)
   
-  def pDPermuteE = elem("p", URI, "elems", pd ~ permute("inner", pa ~ pb ~ pc) ~ pe)
+  def pDPermuteE = elem("p", URI, "elems", pd ~ interleaved("inner", pa ~ pb ~ pc) ~ pe)
   val objAbc = new ~(new ~("a", "b"), "c")
   val obj = new ~(new ~("d", objAbc), "e") 
   

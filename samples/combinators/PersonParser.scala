@@ -26,7 +26,7 @@ case class Person(name: String, address: String, tpe: String)
  * 
  * @author Iulian Dragos (iuliandragos@google.com) 
  */
-object PersonParser extends Picklers with Application {
+object PersonParser extends Application {
   import Picklers._
   
   final val URI = "persons-uri"
@@ -42,10 +42,11 @@ object PersonParser extends Picklers with Application {
    */
   def person: Pickler[Person] = withNamespace("p", URI, TopScope) { puri =>
     implicit val implUri = puri
-    (wrap ({p: Person => new ~(p.name, new ~(p.address, p.tpe))}) (fun3ToPpairR(Person))
-          (elem("person", 
+    (wrap (elem("person", 
               elem("name", text)
-            ~ elem("address", text ~ attr("p", URI, "type", text)))))
+            ~ elem("address", text ~ attr("p", URI, "type", text))))
+          (fun3ToPpairR(Person))
+          ({p => new ~(p.name, new ~(p.address, p.tpe))}) )
    }
 
   val input = 

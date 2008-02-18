@@ -24,7 +24,9 @@ import scala.xml._
  *
  * @author Iulian Dragos (iuliandragos@google.com)
  */
-trait PicklerAsserts extends Picklers {
+trait PicklerAsserts {
+  import Picklers._
+   
   def assertSucceedsWith[A](name: String, expected: A, result: PicklerResult[A]) {
     result match {
       case Success(v, _) => Assert.assertEquals(name, expected, v)

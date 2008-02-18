@@ -15,8 +15,10 @@
 
 
 package com.google.xml.combinators
+import com.google.gdata.data.util.DateTime
 
-import scala.xml._
+import scala.xml.{Node, Elem, NamespaceBinding, NodeSeq, Null, Text}
+import java.text.ParseException
 
 /** 
  * A class for XML Pickling combinators. Influenced by the <a href="http://www.fh-wedel.de/~si/HXmlToolbox/">
@@ -44,7 +46,7 @@ import scala.xml._
  *
  * @author Iulian Dragos (iuliandragos@google.com) 
  */
-abstract class Picklers {
+object Picklers {
 
   /**
    * The state of the pickler is a collection of attributes, a list of 
@@ -77,11 +79,10 @@ abstract class Picklers {
   }
 
   /** Pickler for type A */
-  abstract class Pickler[A] extends ((A, St) => St) with (St => PicklerResult[A]) {
-    def apply(v: A, in: St) = pickle(v, in)
-    def apply(in: St): PicklerResult[A] = unpickle(in)
+  abstract class Pickler[+A] {
+    type In = T forSome {type T <: A}
     
-    def pickle(v: A, in: St): St
+    def pickle(v: In, in: St): St
     def unpickle(in: St): PicklerResult[A]
     
     /** Sequential composition. This pickler will accept an A and then a B. */
@@ -94,7 +95,7 @@ abstract class Picklers {
    * It can be later wrapped into an element or attribute.
    */
   def text: Pickler[String] = new Pickler[String] {
-    def pickle(v: String, in: St): St = 
+    def pickle(v: In, in: St): St = 
       in.addText(v)
 
     def unpickle(in: St): PicklerResult[String] = {
@@ -105,18 +106,40 @@ abstract class Picklers {
     }
   }
   
+  def dateTime: Pickler[DateTime] = new Pickler[DateTime] {
+    def pickle(v: In, in: St): St = 
+      in.addText(v.toString)
+      
+    def unpickle(in:St): PicklerResult[DateTime] = 
+      in.acceptText match {
+        case (Some(Text(str)), in1) =>
+          try {
+            Success(DateTime.parse(str), in1)
+          } catch {
+            case e: ParseException => Failure("Invalid date: " + e.getMessage)
+          }
+        case (None, in1) => 
+          Failure("Expected date in textual format: " + in1.nodes) 
+      }
+  }
+
+  
   /** A constant pickler: it always pickles 'v', and always unpickles 'v'. */
   def const[A](v: A, pickler: (A, St) => St): Pickler[A] = new Pickler[A] {
-    def pickle(ignored: A, in: St) = pickler(v, in)
+    def pickle(ignored: In, in: St) = pickler(v, in)
     def unpickle(in: St): PicklerResult[A] = Success(v, in)
   }
 
+  /** Convenience method for creating an element with an implicit namepace. */
+  def attr[A](label: String, pa: => Pickler[A])(implicit ns: NamespaceBinding): Pickler[A] =
+    attr(ns.prefix, ns.uri, label, pa)
+      
   /**
    * Wrap a parser into an attribute. The attribute will contain all the 
    * content produced by 'pa' in the 'nodes' field.
    */
   def attr[A](pre: String, uri: String, key: String, pa: => Pickler[A]) = new Pickler[A] {
-    def pickle(v: A, in: St) = {
+    def pickle(v: In, in: St) = {
       in.addNamespace(pre, uri).addAttribute(pre, key, pa.pickle(v, emptySt).nodes.text)
     }
 
@@ -136,7 +159,7 @@ abstract class Picklers {
   
   /** Wrap a pickler into an element. */
   def elem[A](pre: String, uri: String, label: String, pa: => Pickler[A]) = new Pickler[A] {
-    def pickle(v: A, in: St): St = {
+    def pickle(v: In, in: St): St = {
       val ns1 = if (in.ns.getURI(pre) == uri) in.ns else new NamespaceBinding(pre, uri, in.ns)
       val in1 = pa.pickle(v, LinearStore.empty(ns1))
       in.addNode(Elem(pre, label, in1.attrs, in1.ns, in1.nodes.reverse:_*))
@@ -157,7 +180,7 @@ abstract class Picklers {
 
   /** Sequential composition of two picklers */
   def seq[A, B](pa: => Pickler[A], pb: => Pickler[B]): Pickler[~[A, B]] =  new Pickler[~[A, B]] {
-    def pickle(v: ~[A, B], in: St): St = 
+    def pickle(v: In, in: St): St = 
       pb.pickle(v._2, pa.pickle(v._1, in))
     
     def unpickle(in: St): PicklerResult[~[A, B]] = {
@@ -173,25 +196,25 @@ abstract class Picklers {
   }
 
   /** 
-   * Convenience method for creating an element with permuted elements. Elements enclosed
+   * Convenience method for creating an element with interleaved elements. Elements enclosed
    * by the given element label can be parsed in any order. Any unknown elements are ignored.
    * <p/>
    * Example: 
-   *   <code>permute("entry", elem("link", text) ~ elem("author", text))</code> will
+   *   <code>interleaved("entry", elem("link", text) ~ elem("author", text))</code> will
    * will parse an element entry with two subelements, link and author, in any order, with
    * possibly other elements between them.
    */
-  def permute[A](label: String, pa: => Pickler[A])(implicit ns: NamespaceBinding): Pickler[A] =
-    elem(label, permute(pa))(ns)
+  def interleaved[A](label: String, pa: => Pickler[A])(implicit ns: NamespaceBinding): Pickler[A] =
+    elem(label, interleaved(pa))(ns)
 
   /**
    * Transform the given parser into a parser that accepts permutations of its containing 
-   * sequences. That is, permute(a ~ b ~ c) will parse a, b, c in any order (with possibly 
+   * sequences. That is, interleaved(a ~ b ~ c) will parse a, b, c in any order (with possibly 
    * other elements in between. It should not be called directly, instead use the
-   * permute which wraps an element around the permuted elements.  
+   * interleaved which wraps an element around the interleaved elements.  
    */
-  private def permute[A](pa: => Pickler[A]): Pickler[A] = new Pickler[A] {
-    def pickle(v: A, in: St): St = pa.pickle(v, in)
+  def interleaved[A](pa: => Pickler[A]): Pickler[A] = new Pickler[A] {
+    def pickle(v: In, in: St): St = pa.pickle(v, in)
     
     def unpickle(in: St): PicklerResult[A] = in match {
       case _: RandomAccessStore => pa.unpickle(in)
@@ -206,7 +229,7 @@ abstract class Picklers {
    * first one fails.
    */
   def or[A](pa: => Pickler[A], paa: Pickler[A]): Pickler[A] = new Pickler[A] {
-    def pickle(v: A, in: St): St = 
+    def pickle(v: In, in: St): St = 
       pa.pickle(v, in)
       
     def unpickle(in: St): PicklerResult[A] = 
@@ -218,7 +241,7 @@ abstract class Picklers {
    * It unpickles the value when the underlying parser succeeds, and returns None otherwise.
    */
   def opt[A](pa: => Pickler[A]) = new Pickler[Option[A]] {
-    def pickle(v: Option[A], in: St) = v match {
+    def pickle(v: In, in: St) = v match {
       case Some(v) => pa.pickle(v, in)
       case None    => in
     }
@@ -228,7 +251,7 @@ abstract class Picklers {
   }
   
   def rep[A](pa: => Pickler[A]): Pickler[List[A]] = new Pickler[List[A]] {
-    def pickle(vs: List[A], in: St): St = vs match {
+    def pickle(vs: In, in: St): St = vs match {
       case v :: vs => pickle(vs, pa.pickle(v, in))
       case Nil     => in
     }
@@ -241,8 +264,8 @@ abstract class Picklers {
   }
 
   /** Wrap a pair of functions around a given pickler */
-  def wrap[A, B](f: A => B)(g: B => A)(pb: => Pickler[B]): Pickler[A] = new Pickler[A] {
-    def pickle(v: A, in: St): St = 
+  def wrap[A, B](pb: => Pickler[B])(g: B => A)(f: A => B): Pickler[A] = new Pickler[A] {
+    def pickle(v: In, in: St): St = 
       pb.pickle(f(v), in)
 
     def unpickle(in: St): PicklerResult[A] = 
@@ -252,16 +275,37 @@ abstract class Picklers {
       }
   }
 
+  /** Collect all elements of the input into a NodeSeq. */
   def collect: Pickler[NodeSeq] = new Pickler[NodeSeq] {
-    def pickle(v: NodeSeq, in: St) = 
+    def pickle(v: In, in: St) = 
       v.foldLeft(in) (_.addNode(_))
     def unpickle(in: St) =
       Success(NodeSeq.fromSeq(in.nodes), LinearStore(in.attrs, Nil, in.ns))
   }
   
+  def extend[A <: Extensible, B](pa: => Pickler[A], pb: => Pickler[B]) = new Pickler[A ~ B] {
+    def pickle(v: In, in: St): St = {
+      val in1 = pb.pickle(v._2, LinearStore.empty)
+      v._1.extension = NodeSeq.fromSeq(in1.nodes.reverse)
+      pa.pickle(v._1, in)
+    }
+ 
+    def unpickle(in: St): PicklerResult[A ~ B] = {
+      pa.unpickle(in) andThen { (a, in1) => 
+        pb.unpickle(LinearStore(Null, a.extension.toList, in1.ns)) andThen { (b, in2) =>
+          Success(new ~(a, b), in1)
+        }
+      }
+    }
+  }
+  
+  /** Make a given element handle raw XML elements.  */
+  def extensible[A <: Extensible](pa: => Pickler[A]): Pickler[A] = 
+    wrap (pa ~ collect) { case a ~ ext => a.extension = ext; a } { a => new ~ (a, a.extension) }
+  
   /** A logging combinator */
   def log[A](pa: => Pickler[A])(name: String): Pickler[A] = new Pickler[A] {
-    def pickle(v: A, in: St): St = {
+    def pickle(v: In, in: St): St = {
       println("pickling " + name + " at: " + in)
       val res = pa.pickle(v, in)
       println("got back: " + res)
@@ -282,15 +326,7 @@ abstract class Picklers {
         body(parent) 
       else 
         body(new NamespaceBinding(pre, uri, parent))
-}
 
-/** Convenience class to hold two values (it has lighter syntax than pairs). */
-case class ~[+A, +B](_1: A, _2: B) {
-  override def toString = "~(" + _1 + ", " + _2 + ")"
-}
-
-object Picklers {
-  
   /** Convert a binary function to a function of a pair. */
   implicit def fun2ToPair[A, B, C](f: (A, B) => C): (~[A, B]) => C = { 
     case a ~ b => f(a, b)
@@ -301,10 +337,28 @@ object Picklers {
     case a ~ b ~ c =>  f(a, b, c)
   }
   
+  /** Convert a function of 3 arguments to one that takes a pair of a pair. */
+  implicit def fun4ToPpairL[A, B, C, D, E](f: (A, B, C, D) => E): (~[~[~[A, B], C], D]) => E = { 
+    case a ~ b ~ c ~ d =>  f(a, b, c, d)
+  }
+
   /** Convert a function of 3 arguments to one that takes a pair of a pair, 
    *  right associative. */
   implicit def fun3ToPpairR[A, B, C, D](f: (A, B, C) => D): (~[A, ~[B, C]]) => D = { 
     case a ~ (b ~ c) =>  f(a, b, c)
-  }
+  } 
   
+  def tuple2Pair[A, B](p: (A, B)) = new ~(p._1, p._2)
+  def tuple3Pair[A, B, C](p: (A, B, C)) = new ~(new ~(p._1, p._2), p._3)
+  def tuple4Pair[A, B, C, D](p: (A, B, C, D)) = new ~(new ~(new ~(p._1, p._2), p._3), p._4)
+}
+
+/** Convenience class to hold two values (it has lighter syntax than pairs). */
+case class ~[+A, +B](_1: A, _2: B) {
+  override def toString = "~(" + _1 + ", " + _2 + ")"
+}
+
+/** A trait for extensible data. Unknown elements will be collected in 'extension'. */
+trait Extensible {
+  var extension: NodeSeq = NodeSeq.Empty
 }

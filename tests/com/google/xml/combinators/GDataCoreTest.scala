@@ -16,38 +16,25 @@
 
 package com.google.xml.combinators;
 
+import com.google.gdata.data.{Atom, Uris, Person, Text}
 import org.junit._
 
 /**
  * This class tests picklers for some GData core types.
  */
-class GDataCoreTest extends Picklers with PicklerAsserts {
-  final val ATOM_URI = "http://www.w3.org/2005/Atom"
+class GDataCoreTest extends PicklerAsserts {
+  import Picklers._
+  import Atom._
+  import Uris._
+
   
-  case class Text(tpe: String, content: String)
-  
-  def atomText(elemName: String): Pickler[Text] =
-    (wrap ({t: Text => new ~(t.tpe, t.content)}) (Text) 
-        (elem("atom", ATOM_URI, elemName, 
-          attr("atom", ATOM_URI, "type",  text)
-        ~ text)))
-  
-  case class Person(name: String, uri: Option[String], email: Option[String])
-  
-  def atomPerson: Pickler[Person] = 
-    (wrap ( {p: Person => new ~ (new ~ (p.name, p.uri), p.email)})
-          (Person)  
-          (elem("atom", ATOM_URI, "name", text)
-     ~ opt(elem("atom", ATOM_URI, "uri", text))
-     ~ opt(elem("atom", ATOM_URI, "email", text))))
-        
   val input = 
     <atom:feed xmlns:atom = "http://www.w3.org/2005/Atom">
       <atom:title atom:type="text">This is the title I want to see</atom:title>
     </atom:feed>
     
   @Test def testTitleFeedU {
-    val pTitle = elem("atom", ATOM_URI, "feed", atomText("title"))
+    val pTitle = elem("atom", ATOM, "feed", atomText("title"))
     assertSucceedsWith("Failed unpickling atom text", 
         Text("text", "This is the title I want to see"),
         pTitle.unpickle(LinearStore.fromElem(input)))
@@ -55,14 +42,30 @@ class GDataCoreTest extends Picklers with PicklerAsserts {
   
   @Test def testPersonFeedU {
     val input = 
-      <atom:feed xmlns:atom="http://www.w3.org/2005/Atom">
+      <atom:feed xmlns:atom="http://www.w3.org/2005/Atom" xml:lang="en">
         <atom:name>Kenny</atom:name>
         <atom:email>kenny@southpark.org</atom:email>
       </atom:feed>
       
-      val pPerson = elem("atom", ATOM_URI, "feed", atomPerson)
+      val pPerson = atomPerson("feed")
       assertSucceedsWith("Failed unpickling person",
           Person("Kenny", None, Some("kenny@southpark.org")),
           pPerson.unpickle(LinearStore.fromElem(input)))
   }
+  
+  @Test def testExtendedPersonU {
+    val input = 
+      <atom:person xmlns:atom="http://www.w3.org/2005/Atom" xml:lang="en">
+        <atom:name>Kenny</atom:name>
+        <atom:email>kenny@southpark.org</atom:email>
+        <atom:im type="yahoo">kenny@yahoomessenger.com</atom:im>
+      </atom:person>
+      
+      val pPerson = extend(atomPerson("person"), elem("im", text))
+      assertSucceedsWith("Failed unpickling person",
+          new ~(Person("Kenny", None, Some("kenny@southpark.org")), 
+              "kenny@yahoomessenger.com"),
+          pPerson.unpickle(LinearStore.fromElem(input)))
+  }
+  
 }

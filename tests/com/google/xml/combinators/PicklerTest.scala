@@ -24,7 +24,8 @@ import org.junit.{Test, Assert, Ignore}
  *
  * @author Iulian Dragos (iuliandragos@google.com) 
  */
-class PicklerTest extends Picklers with PicklerAsserts {
+class PicklerTest extends PicklerAsserts {
+  import Picklers._
   
   final val URI = "testing-uri"
 

@@ -160,10 +160,11 @@ case class MalformedXmlStore(msg: String, state: XmlStore) extends RuntimeExcept
  */
 class RandomAccessStore(myAttrs: MetaData, myNodes: List[Node], myNs: NamespaceBinding) extends 
            LinearStore(myAttrs, myNodes, myNs) {
-  import collection.mutable.{Set, Map, HashMap, MultiMap}
+  import collection.mutable.{Set, Map, MultiMap}
+  import collection.jcl.LinkedHashMap
   
   private val nodeMap = 
-    new HashMap[String, Set[Node]] with MultiMap[String, Node]
+    new LinkedHashMap[String, Set[Node]] with MultiMap[String, Node]
     
   for (val n <- myNodes) nodeMap.add(n.label, n)
   
@@ -183,7 +184,6 @@ class RandomAccessStore(myAttrs: MetaData, myNodes: List[Node], myNs: NamespaceB
           return (Some(e), this)
       case _ => ()
     }
-    println("Could not find " + label + " in " + nodeMap)
     (None, this)
   }
   
@@ -229,7 +229,7 @@ object LinearStore {
   /** Create a LinearStore with the given state.*/
   def apply(attrs: MetaData, nodes: List[Node], ns: NamespaceBinding) = 
     new LinearStore(attrs, nodes, ns)
-    
+
   /** Create a LinearStore from an element. */
   def fromElem(e: Elem) = 
     LinearStore(e.attributes, Utility.trimProper(e).toList, TopScope)
