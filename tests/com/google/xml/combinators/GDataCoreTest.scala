@@ -30,13 +30,13 @@ class GDataCoreTest extends PicklerAsserts {
   
   val input = 
     <atom:feed xmlns:atom = "http://www.w3.org/2005/Atom">
-      <atom:title atom:type="text">This is the title I want to see</atom:title>
+      <atom:title type="text">This is the title I want to see</atom:title>
     </atom:feed>
     
   @Test def testTitleFeedU {
     val pTitle = elem("atom", ATOM, "feed", atomText("title"))
     assertSucceedsWith("Failed unpickling atom text", 
-        Text("text", "This is the title I want to see"),
+        Text(Some("text"), "This is the title I want to see"),
         pTitle.unpickle(LinearStore.fromElem(input)))
   }
   

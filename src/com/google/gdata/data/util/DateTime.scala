@@ -66,7 +66,11 @@ class DateTime(private var value: Long, private var tzShift: Long) extends Order
     padInt(sb, calendar.get(HOUR_OF_DAY), 2).append(':')
     padInt(sb, calendar.get(MINUTE), 2).append(':')
     padInt(sb, calendar.get(SECOND), 2)
-    
+    if (calendar.isSet(MILLISECOND)) {
+      val millis = calendar.get(MILLISECOND)
+      if (millis > 0)
+        sb.append('.').append(millis)
+    }
     if (tzShift == 0)
       sb.append('Z')
     else {
@@ -101,6 +105,7 @@ class DateTime(private var value: Long, private var tzShift: Long) extends Order
     sb.append(str)
   }
     
+  private lazy val calendar = new GregorianCalendar(TimeZone.getTimeZone("GMT"))
 }
 
 object DateTime {
@@ -129,6 +134,7 @@ object DateTime {
     assert(min >= 0 && min < 61)
     assert(sec >= 0 && sec < 61)
     
+    val calendar = new GregorianCalendar(TimeZone.getTimeZone("GMT"))
     calendar.clear
     calendar.set(year, month - 1, day, hour, min, sec) // month is 0-based
     frac match {
@@ -137,6 +143,4 @@ object DateTime {
     }
     new DateTime(calendar.getTimeInMillis() - offset, offset) 
   }
-  
-  private lazy val calendar = new GregorianCalendar(TimeZone.getTimeZone("GMT"))
 }

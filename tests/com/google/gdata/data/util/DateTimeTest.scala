@@ -49,6 +49,12 @@ class DateTimeTest {
      assertEquals(str, dt.toString)
    }
    
+   @Test def testValidFractional {
+     val str = "2003-12-13T18:30:02.250+01:00"
+     val dt = DateTime.parse(str)
+     assertEquals(str, dt.toString)
+   }
+   
    def testInvalidDate(date: String) {
      try {
        val dt = DateTime.parse(date)

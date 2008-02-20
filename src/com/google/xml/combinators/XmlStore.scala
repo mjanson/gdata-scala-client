@@ -21,8 +21,9 @@ import scala.collection.mutable.ListBuffer
 
 trait XmlStore {
    protected[combinators] def attrs: MetaData
-   protected[combinators] def nodes: List[Node]
+   /*protected[combinators] */def nodes: List[Node]
    def ns:    NamespaceBinding
+   def skipsWhitespace: Boolean
    
   /**
    * Accept the given element, or fail. Succeeds when the given element is the head of the node
@@ -31,17 +32,27 @@ trait XmlStore {
   def acceptElem(Label: String, uri: String): (Option[Node], XmlStore)
 
   /**
-   * Accept the given attribute, or fail. Succeeds when the given attribute exists (order does
-   * not matter). Returns a Seq[Node], since attributes may contain text nodes interspersed 
-   * with entity references.
+   * Accept the given prefixed attribute, or fail. Succeeds when the given attribute exists
+   * (order does not matter). Returns a Seq[Node], since attributes may contain text nodes 
+   * interspersed with entity references.
    */
   def acceptAttr(label: String, uri: String): (Option[Seq[Node]], XmlStore)
+
+  /**
+   * Accept the given unprefixed attribute, or fail. Succeeds when the given attribute exists
+   * (order does not matter). Returns a Seq[Node], since attributes may contain text nodes 
+   * interspersed with entity references.
+   */
+  def acceptAttr(label: String): (Option[Seq[Node]], XmlStore)
   
   /** Accept a text node. Fails if the head of the node list is not a text node. */
   def acceptText: (Option[Text], XmlStore)
 
-  /** Return a new LinearStore with a new attribute prepended to the list of attrs */
+  /** Return a new XmlStore with a new attribute prepended to the list of attrs */
   def addAttribute(pre: String, key: String, value: String): XmlStore
+  
+  /** Return a new XmlStore with an unprefixed attribute appended to the list of attrs. */
+  def addAttribute(key: String, value: String): XmlStore
    
   /**
    * Return a new LinearStore with a new namespace binding. If the 
@@ -90,24 +101,55 @@ class LinearStore(ats: MetaData, nods: List[Node], bindings: NamespaceBinding) e
   def attrs = ats
   def nodes = nods
   def ns    = bindings
+  var skipsWhitespace = true
+  
+  /** 
+   * Set whitespace handling when looking for elements. Defaults to skipping whitespace, 
+   * comments and processing instructions.
+   */
+  def setSkipsWhitespace(v: Boolean): this.type = {
+    skipsWhitespace = v
+    this
+  }
   
   /**
+   * Skips whitespace from the list of nodes. Whitespace is considered to be: empty (only
+   * space) text nodes, comments and processing instructions. 
+   */
+  private def skipWhitespace: List[Node] = {
+    def isWhiteSpace(n: Node) = n match {
+      case Text(str) => str.trim.isEmpty 
+      case ProcInstr(_, _) | Comment(_) => true
+      case _ => false
+    }
+    
+    if (!skipsWhitespace) nodes
+    else {
+      var n = nodes
+      while (n != Nil && isWhiteSpace(n.head)) n = n.tail
+      n
+    }
+  }
+
+  /**
    * Accept the given element, or fail. Succeeds when the given element is the head of the node
-   * list. Comments, processing instructions and entity references count (they are not skipped). 
+   * list. Comments, processing instructions and white space are skipped if 'skipsWhitespace' is
+   * set (default). 
    */
   def acceptElem(Label: String, uri: String): (Option[Node], LinearStore) = {
-    if (nodes.isEmpty) (None, this)
-    else nodes.head match {
+    val n = skipWhitespace
+    if (n.isEmpty) (None, this)
+    else n.head match {
       case e @ Elem(_, Label, _, scope, _*) if (e.namespace ==  uri) => 
-        (Some(e), mkState(attrs, nodes.tail, ns))
+        (Some(e), mkState(attrs, n.tail, ns))
       case _ => (None, this)
     }
   }
   
   /**
-   * Accept the given attribute, or fail. Succeeds when the given attribute exists (order does
-   * not matter). Returns a Seq[Node], since attributes may contain text nodes interspersed 
-   * with entity references.
+   * Accept the given prefixed attribute, or fail. Succeeds when the given attribute exists
+   * (order does not matter). Returns a Seq[Node], since attributes may contain text nodes 
+   * interspersed with entity references.
    */
   def acceptAttr(label: String, uri: String): (Option[Seq[Node]], LinearStore) = {
     if (attrs.isEmpty) (None, this)
@@ -115,6 +157,20 @@ class LinearStore(ats: MetaData, nods: List[Node], bindings: NamespaceBinding) e
       case null  => (None, this)
       case contents =>
         (Some(contents), mkState(attrs.remove(uri, ns, label), nodes, ns))
+    }
+  }
+
+  /**
+   * Accept the given unprefixed attribute, or fail. Succeeds when the given attribute exists
+   * (order does not matter). Returns a Seq[Node], since attributes may contain text nodes 
+   * interspersed with entity references.
+   */
+  def acceptAttr(label: String): (Option[Seq[Node]], LinearStore) = {
+    if (attrs.isEmpty) (None, this)
+    else attrs(label) match {
+      case null  => (None, this)
+      case contents =>
+        (Some(contents), mkState(attrs.remove(label), nodes, ns))
     }
   }
   
@@ -127,9 +183,13 @@ class LinearStore(ats: MetaData, nods: List[Node], bindings: NamespaceBinding) e
     }
   }
 
-  /** Return a new LinearStore with a new attribute prepended to the list of attrs */
+  /** Return a new LinearStore with a prefixed attribute prepended to the list of attrs */
   def addAttribute(pre: String, key: String, value: String): LinearStore =
     mkState(new PrefixedAttribute(pre, key, value, attrs), nodes, ns)
+
+  /** Return a new LinearStore with an unprefixed attribute prepended to the list of attrs */
+  def addAttribute(key: String, value: String): LinearStore =
+    mkState(new UnprefixedAttribute(key, value, attrs), nodes, ns)
 
   /**
    * Return a new LinearStore with a new namespace binding. If the 
@@ -146,7 +206,7 @@ class LinearStore(ats: MetaData, nods: List[Node], bindings: NamespaceBinding) e
   protected[combinators] def toLinear: LinearStore = this
   
   protected def mkState(attrs: MetaData, nodes: List[Node], ns: NamespaceBinding) = 
-    LinearStore(attrs, nodes, ns)
+    LinearStore(attrs, nodes, ns).setSkipsWhitespace(true)
   
   override def toString = "LinearStore(" + attrs + ", " + nodes.mkString("", ",", "") + ", " + ns + ")"
 }
@@ -160,13 +220,17 @@ case class MalformedXmlStore(msg: String, state: XmlStore) extends RuntimeExcept
  */
 class RandomAccessStore(myAttrs: MetaData, myNodes: List[Node], myNs: NamespaceBinding) extends 
            LinearStore(myAttrs, myNodes, myNs) {
-  import collection.mutable.{Set, Map, MultiMap}
+  import collection.mutable.Set
+  import com.google.util.{ListSet, MultiMap}
   import collection.jcl.LinkedHashMap
   
   private val nodeMap = 
-    new LinkedHashMap[String, Set[Node]] with MultiMap[String, Node]
+    new LinkedHashMap[String, ListSet[Node]] with MultiMap[String, Node, ListSet[Node]] {
+      override def makeSet = new ListSet
+    }
     
-  for (val n <- myNodes) nodeMap.add(n.label, n)
+  for (val n <- myNodes) 
+    nodeMap.add(n.label, n)
   
   def this(underlying: XmlStore) = 
     this(underlying.attrs, underlying.nodes, underlying.ns)

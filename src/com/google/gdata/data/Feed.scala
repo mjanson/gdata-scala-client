@@ -23,85 +23,89 @@ import Atom._
 
 import scala.xml._
 
-/** An Atom Entry. */
-class Entry extends AnyRef with Extensible {
+/** An Atom Feed. */
+class Feed extends AnyRef {
   var authors: List[Person] = Nil
   var categories: List[Category] = Nil
-  var content: Option[Content] = None
   var contributors: List[Person] = Nil
+  var generator: Option[Generator] = None
+  var icon: Option[String] = None
   var id: String = ""
   var links: List[Link] = Nil
-  var published: Option[DateTime] = None
+  var logo: Option[String] = None
   var rights: Option[String] = None
-  var source: Option[Source] = None
-  var summary: Option[Text] = None
+  var subtitle: Option[Text] = None
   var title: Text = NoText
   var updated: DateTime = new DateTime(new java.util.Date())
+  var entries: List[Entry] = Nil
   
   override def toString = {
     val sb = new StringBuffer
     sb.append("Authors: ").append(authors.mkString("", ", ", ""))
       .append("\nCategories: ").append(categories.mkString("", ", ", ""))
-      .append("\nContent: ").append(content)
       .append("\nContributors: ").append(contributors.mkString("", ", ", ""))
+      .append("\nGenerator: ").append(generator)
+      .append("\nIcon: ").append(icon)
       .append("\nId: ").append(id)
       .append("\nLinks: ").append(links.mkString("", ", ", ""))
-      .append("\nPublished: ").append(published)
+      .append("\nLogo: ").append(logo)
       .append("\nRights: ").append(rights)
-      .append("\nSource: ").append(source)
-      .append("\nSummary: ").append(summary)
+      .append("\nSubtitle: ").append(subtitle)
       .append("\nTitle: ").append(title)
       .append("\nUpdated: ").append(updated)
+      .append("\nEntries: ").append(entries.mkString("", "\n", ""))
       .toString
   }
 }
 
-object Entry {
-  lazy val atomEntryContents =
+object Feed {
+  lazy val atomFeedContents =
     interleaved(
         rep(atomPerson("author"))
       ~ rep(Category.pickler)
-      ~ opt(Content.pickler)
       ~ rep(atomPerson("contributor"))
+      ~ opt(Generator.pickler)
+      ~ opt(elem("icon", text))
       ~ elem("id", text)
       ~ rep(Link.pickler)
-      ~ opt(elem("published", dateTime))
+      ~ opt(elem("logo", text))
       ~ opt(elem("rights", text))
-      ~ opt(Source.pickler)
-      ~ opt(atomText("summary"))
+      ~ opt(atomText("subtitle"))
       ~ atomText("title")
-      ~ elem("updated", dateTime))
+      ~ elem("updated", dateTime)
+      ~ rep(Entry.pickler))
         
-  lazy val pickler: Pickler[Entry] = wrap (elem("entry", atomEntryContents)) ({
-    case authors ~ cats ~ content ~ contribs ~ id
-         ~ links ~ published ~ rights ~ src ~ summary ~ title
-         ~ updated => 
-      val e = new Entry
+  lazy val pickler: Pickler[Feed] = wrap (elem("feed", atomFeedContents)) ({
+    case authors ~ cats ~ contribs ~ generator ~ icon ~ id
+         ~ links ~ logo ~ rights ~ subtitle ~ title ~ updated ~ entries => 
+      val e = new Feed
       e.authors = authors
       e.categories = cats
-      e.content = content
       e.contributors = contribs
+      e.generator = generator
+      e.icon = icon
       e.id = id
       e.links = links
-      e.published = published
+      e.logo = logo
       e.rights = rights
-      e.source = src
-      e.summary = summary
+      e.subtitle = subtitle
       e.title = title
       e.updated = updated
+      e.entries = entries
       e
-  }) (fromEntry)
+  }) (fromFeed)
 
-  private def fromEntry(e: Entry) = (new ~(e.authors, e.categories) 
-      ~ e.content
+  private def fromFeed(e: Feed) = (new ~(e.authors, e.categories) 
       ~ e.contributors
+      ~ e.generator
+      ~ e.icon
       ~ e.id
       ~ e.links
-      ~ e.published
+      ~ e.logo
       ~ e.rights
-      ~ e.source
-      ~ e.summary
+      ~ e.subtitle
       ~ e.title
-      ~ e.updated)
+      ~ e.updated
+      ~ e.entries)
       
 }

@@ -65,6 +65,8 @@ object PersonParser extends Application {
       println("Got: " + v)
     case Failure(msg) =>
       println("error: " + msg)
+    case Error(msg) =>
+      println("error: " + msg)
   }
     
 }

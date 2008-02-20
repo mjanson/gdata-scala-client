@@ -31,6 +31,7 @@ trait PicklerAsserts {
     result match {
       case Success(v, _) => Assert.assertEquals(name, expected, v)
       case Failure(msg)  => Assert.fail(msg)
+      case Error(msg)    => Assert.fail(msg)
     }
   }
   

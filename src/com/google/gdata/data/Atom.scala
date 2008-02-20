@@ -21,8 +21,11 @@ import com.google.xml.combinators.{Picklers, Extensible}
 import com.google.gdata.data.util.DateTime
 
 /** A text construct, according to the Atom specification. The content is uninterpreted. */
-case class Text(tpe: String,
+case class Text(tpe: Option[String],
                 content: String) extends Tuple2(tpe, content)
+
+/** A default, empty text construct. */
+object NoText extends Text(None, "")
 
 /** A person construct, according to the Atom specification. */
 case class Person(name: String,
@@ -43,7 +46,7 @@ object Atom {
    * Return a pickler for an element that is a text construct.
    */
   def atomText(elemName: String): Pickler[Text] =
-    (wrap (elem(elemName, attr("type",  text) ~ text))
+    (wrap (elem(elemName, opt(attr("type",  text)) ~ text))
           (Text) (tuple2Pair))
           
   /** Return a pickler for an element that is a person construct. */

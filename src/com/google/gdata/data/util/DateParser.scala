@@ -52,8 +52,8 @@ object DateParser extends Parsers with ImplicitConversions {
     twoDigits >> { n => if (n >= 0 && n < 61) success(n) else failure("Invalid second: " + n) }
     
   lazy val secFraction =
-    (elem('.') ~ elem('1') ~ rep(digit)) ^^ { 
-      case p ~ one ~ rest => (p :: '1' :: rest).mkString("", "", "").toDouble
+    (elem('.') ~ rep1(digit)) ^^ { 
+      case p ~ rest => (p :: rest).mkString("", "", "").toDouble
     }
 
   case class Offset(sign: Char, hour: Int, minute: Int) {

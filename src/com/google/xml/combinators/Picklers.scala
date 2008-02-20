@@ -46,7 +46,7 @@ import java.text.ParseException
  *
  * @author Iulian Dragos (iuliandragos@google.com) 
  */
-object Picklers {
+object Picklers extends AnyRef with ImplicitConversions {
 
   /**
    * The state of the pickler is a collection of attributes, a list of 
@@ -73,11 +73,18 @@ object Picklers {
     def orElse[B >: A](f: => PicklerResult[B]): PicklerResult[B] = this
   }
   
+  /** A Failure means the parsing has failed, but alternatives can still be tried. */
   case class Failure(msg: String) extends PicklerResult[Nothing] {
     def andThen[B](f: (Nothing, St) => PicklerResult[B]) = this
     def orElse[B >: Nothing](f: => PicklerResult[B]): PicklerResult[B] = f
   }
 
+  /** An Error is a failure which causes the entire parsing to fail (no alternatives are tried). */
+  case class Error(msg: String) extends PicklerResult[Nothing] {
+    def andThen[B](f: (Nothing, St) => PicklerResult[B]) = this
+    def orElse[B >: Nothing](f: => PicklerResult[B]): PicklerResult[B] = f
+  }
+  
   /** Pickler for type A */
   abstract class Pickler[+A] {
     type In = T forSome {type T <: A}
@@ -130,10 +137,10 @@ object Picklers {
     def unpickle(in: St): PicklerResult[A] = Success(v, in)
   }
 
-  /** Convenience method for creating an element with an implicit namepace. */
-  def attr[A](label: String, pa: => Pickler[A])(implicit ns: NamespaceBinding): Pickler[A] =
+  /** Convenience method for creating an attribute within a namepace. */
+  def attr[A](label: String, pa: => Pickler[A], ns: NamespaceBinding): Pickler[A] =
     attr(ns.prefix, ns.uri, label, pa)
-      
+
   /**
    * Wrap a parser into an attribute. The attribute will contain all the 
    * content produced by 'pa' in the 'nodes' field.
@@ -153,9 +160,27 @@ object Picklers {
     }
   }
   
-  /** Convenience method for creating an element with an implicit namepace. */
+  def attr[A](label: String, pa: => Pickler[A]): Pickler[A] = new Pickler[A] {
+    def pickle(v: In, in: St) = 
+      in.addAttribute(label, pa.pickle(v, emptySt).nodes.text)
+      
+    def unpickle(in: St): PicklerResult[A] = {
+      in.acceptAttr(label) match {
+        case (Some(nodes), in1) =>
+          pa.unpickle(LinearStore(Null, nodes.toList, in.ns)) andThen { (v, in2) => Success(v, in1) }
+        case (None, in1) => 
+          Failure("Expected unprefixed attribute " + label + " but none found in " + in.attrs)
+      }
+    }
+  }
+  
+  /** 
+   * Convenience method for creating an element with an implicit namepace. Contents of
+   * this element are committed (this parser is not allowed to recover from failures in
+   * parsing its content.
+   */
   def elem[A](label: String, pa: => Pickler[A])(implicit ns: NamespaceBinding): Pickler[A] =
-    elem(ns.prefix, ns.uri, label, pa)
+    elem(ns.prefix, ns.uri, label, commit(pa))
   
   /** Wrap a pickler into an element. */
   def elem[A](pre: String, uri: String, label: String, pa: => Pickler[A]) = new Pickler[A] {
@@ -189,8 +214,10 @@ object Picklers {
           pb.unpickle(in1) match {
             case Success(vb, in2) => Success(new ~(va, vb), in2)
             case f @ Failure(_)   => f
+            case e @ Error(_) => e
           }
         case f @ Failure(_) => f
+        case e @ Error(_) => e
       }
     }
   }
@@ -223,6 +250,19 @@ object Picklers {
       }
     }
   }
+   
+  /** 
+   * A commit parser. Failures are transformed to errors, so alternatives (when combined with 
+   * other parsers) are not tried. 
+   */
+  def commit[A](pa: => Pickler[A]): Pickler[A] = new Pickler[A] {
+    def pickle(v: In, in: St): St = pa.pickle(v, in)
+    def unpickle(in: St): PicklerResult[A] = pa.unpickle(in) match {
+      case s: Success[_] => s
+      case Failure(msg) => Error(msg)
+      case e: Error => e
+    }
+  }
 
   /**
    * Return a pickler that always pickles the first value, but unpickles using the second when the
@@ -233,7 +273,11 @@ object Picklers {
       pa.pickle(v, in)
       
     def unpickle(in: St): PicklerResult[A] = 
-      pa.unpickle(in) orElse paa.unpickle(in)
+      pa.unpickle(in) match {
+        case s: Success[_] => s
+        case f: Failure => paa.unpickle(in)
+        case e: Error => e
+      }
   }
   
   /**
@@ -256,11 +300,17 @@ object Picklers {
       case Nil     => in
     }
     
-    def unpickle(in: St): PicklerResult[List[A]] = 
-      pa.unpickle(in).andThen { (v: A, in1: St) => 
+    def unpickle(in: St): PicklerResult[List[A]] = { 
+      val res1 = pa.unpickle(in).andThen { (v: A, in1: St) => 
          val Success(vs, in2) = unpickle(in1)
          Success(v :: vs, in2)
-      } orElse Success(Nil, in)
+      } 
+      res1 match {
+        case s: Success[_] => s
+        case f: Failure => Success(Nil, in)
+        case e: Error => e
+      }
+    }
   }
 
   /** Wrap a pair of functions around a given pickler */
@@ -272,9 +322,15 @@ object Picklers {
       pb.unpickle(in) match {
         case Success(vb, in1) => Success(g(vb), in1)
         case f @ Failure(_)   => f
+        case e @ Error(_) => e
       }
   }
 
+/* // Waiting for bug fix in 2.7.0
+  def wrapCaseClass[A, B](pa: => Pickler[A])(f: A => B)(g: B => Some[A]): Pickler[B] =
+    wrap(pa) (f) { x => g(x).get }
+*/
+  
   /** Collect all elements of the input into a NodeSeq. */
   def collect: Pickler[NodeSeq] = new Pickler[NodeSeq] {
     def pickle(v: In, in: St) = 
@@ -304,7 +360,7 @@ object Picklers {
     wrap (pa ~ collect) { case a ~ ext => a.extension = ext; a } { a => new ~ (a, a.extension) }
   
   /** A logging combinator */
-  def log[A](pa: => Pickler[A])(name: String): Pickler[A] = new Pickler[A] {
+  def log[A](name: String, pa: => Pickler[A]): Pickler[A] = new Pickler[A] {
     def pickle(v: In, in: St): St = {
       println("pickling " + name + " at: " + in)
       val res = pa.pickle(v, in)
@@ -326,36 +382,64 @@ object Picklers {
         body(parent) 
       else 
         body(new NamespaceBinding(pre, uri, parent))
-
-  /** Convert a binary function to a function of a pair. */
-  implicit def fun2ToPair[A, B, C](f: (A, B) => C): (~[A, B]) => C = { 
-    case a ~ b => f(a, b)
-  }
-  
-  /** Convert a function of 3 arguments to one that takes a pair of a pair. */
-  implicit def fun3ToPpairL[A, B, C, D](f: (A, B, C) => D): (~[~[A, B], C]) => D = { 
-    case a ~ b ~ c =>  f(a, b, c)
-  }
-  
-  /** Convert a function of 3 arguments to one that takes a pair of a pair. */
-  implicit def fun4ToPpairL[A, B, C, D, E](f: (A, B, C, D) => E): (~[~[~[A, B], C], D]) => E = { 
-    case a ~ b ~ c ~ d =>  f(a, b, c, d)
-  }
-
-  /** Convert a function of 3 arguments to one that takes a pair of a pair, 
-   *  right associative. */
-  implicit def fun3ToPpairR[A, B, C, D](f: (A, B, C) => D): (~[A, ~[B, C]]) => D = { 
-    case a ~ (b ~ c) =>  f(a, b, c)
-  } 
-  
-  def tuple2Pair[A, B](p: (A, B)) = new ~(p._1, p._2)
-  def tuple3Pair[A, B, C](p: (A, B, C)) = new ~(new ~(p._1, p._2), p._3)
-  def tuple4Pair[A, B, C, D](p: (A, B, C, D)) = new ~(new ~(new ~(p._1, p._2), p._3), p._4)
 }
 
 /** Convenience class to hold two values (it has lighter syntax than pairs). */
-case class ~[+A, +B](_1: A, _2: B) {
+final case class ~[+A, +B](_1: A, _2: B) {
   override def toString = "~(" + _1 + ", " + _2 + ")"
+  
+  /** Append another value to this pair. */
+  def ~[C](c: C) = new ~(this, c)
+}
+
+trait ImplicitConversions {
+  /** Convert a binary function to a function of a pair. */
+    implicit def fun2ToPair[A, B, C](fun: (A, B) => C): (~[A, B]) => C = { 
+      case a ~ b => fun(a, b)
+    }
+    
+    /** Convert a function of 3 arguments to one that takes a pair of a pair. */
+    implicit def fun3ToPpairL[A, B, C, D]
+        (fun: (A, B, C) => D): (~[~[A, B], C]) => D = { 
+      case a ~ b ~ c =>  fun(a, b, c)
+    }
+    
+    /** Convert a function of 4 arguments to one that takes a pair of a pair. */
+    implicit def fun4ToPpairL[A, B, C, D, E]
+        (fun: (A, B, C, D) => E): (~[~[~[A, B], C], D]) => E = { 
+      case a ~ b ~ c ~ d =>  fun(a, b, c, d)
+    }
+
+    /** Convert a function of 4 arguments to one that takes a pair of a pair. */
+    implicit def fun5ToPpairL[A, B, C, D, E, F]
+        (fun: (A, B, C, D, E) => F): (A ~ B ~ C ~ D ~ E) => F = { 
+      case a ~ b ~ c ~ d ~ e =>  fun(a, b, c, d, e)
+    }
+
+    /** Convert a function of 4 arguments to one that takes a pair of a pair. */
+    implicit def fun6ToPpairL[A, B, C, D, E, F, G]
+        (fun: (A, B, C, D, E, F) => G): (A ~ B ~ C ~ D ~ E ~ F) => G = { 
+      case a ~ b ~ c ~ d ~ e ~ f =>  fun(a, b, c, d, e, f)
+    }
+
+    /** Convert a function of 4 arguments to one that takes a pair of a pair. */
+    implicit def fun7ToPpairL[A, B, C, D, E, F, G, H]
+        (fun: (A, B, C, D, E, F, G) => H): (A ~ B ~ C ~ D ~ E ~ F ~ G) => H = { 
+      case a ~ b ~ c ~ d ~ e ~ f ~ g =>  fun(a, b, c, d, e, f, g)
+    }
+
+    /** Convert a function of 3 arguments to one that takes a pair of a pair, 
+     *  right associative. */
+    implicit def fun3ToPpairR[A, B, C, D](f: (A, B, C) => D): (~[A, ~[B, C]]) => D = { 
+      case a ~ (b ~ c) =>  f(a, b, c)
+    } 
+    
+    implicit def funTuple2ToPair[A, B, C](f: A => (B, C)) = { x: A => tuple2Pair(f(x)) }
+    implicit def funTuple3ToPair[A, B, C, D](f: A => (B, C, D)) = { x: A => tuple3Pair(f(x)) }
+    
+    def tuple2Pair[A, B](p: (A, B)) = new ~(p._1, p._2)
+    def tuple3Pair[A, B, C](p: (A, B, C)) = new ~(new ~(p._1, p._2), p._3)
+    def tuple4Pair[A, B, C, D](p: (A, B, C, D)) = new ~(new ~(new ~(p._1, p._2), p._3), p._4)
 }
 
 /** A trait for extensible data. Unknown elements will be collected in 'extension'. */
