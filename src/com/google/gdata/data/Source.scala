@@ -16,8 +16,9 @@
 
 package com.google.gdata.data;
 
-import com.google.xml.combinators._
+import com.google.xml.combinators.{Picklers, ~}
 import com.google.gdata.data.util.DateTime
+
 import Picklers._
 import Atom._
 

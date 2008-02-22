@@ -16,7 +16,7 @@
 
 package com.google.gdata.data;
 
-import scala.xml._
+import scala.xml.{NamespaceBinding, TopScope}
 import com.google.xml.combinators.{Picklers, Extensible}
 import com.google.gdata.data.util.DateTime
 

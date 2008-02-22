@@ -16,7 +16,7 @@
    
 package com.google.xml.combinators
 
-import scala.xml._
+import scala.xml.PrettyPrinter
 import org.junit.{Test, Assert, Ignore}
 
 /** 

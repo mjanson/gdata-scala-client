@@ -17,7 +17,7 @@
 package com.google.xml.combinators;
 
 import org.junit.Assert
-import scala.xml._
+import scala.xml.{Node, Utility}
 
 /**
  * This trait defines specialized asserts for testing picklers.
@@ -30,8 +30,7 @@ trait PicklerAsserts {
   def assertSucceedsWith[A](name: String, expected: A, result: PicklerResult[A]) {
     result match {
       case Success(v, _) => Assert.assertEquals(name, expected, v)
-      case Failure(msg)  => Assert.fail(msg)
-      case Error(msg)    => Assert.fail(msg)
+      case f: NoSuccess  => Assert.fail(f.toString)
     }
   }
   

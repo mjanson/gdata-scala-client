@@ -16,8 +16,8 @@
 
 package combinators
 
-import com.google.xml.combinators._
-import scala.xml._
+import com.google.xml.combinators.{Picklers, LinearStore, ~}
+import scala.xml.{PrettyPrinter, TopScope}
 
 case class Person(name: String, address: String, tpe: String)
 
@@ -63,10 +63,8 @@ object PersonParser extends Application {
   person.unpickle(LinearStore.fromElem(input)) match {
     case Success(v, _) => 
       println("Got: " + v)
-    case Failure(msg) =>
-      println("error: " + msg)
-    case Error(msg) =>
-      println("error: " + msg)
+    case f: NoSuccess =>
+      println(f)
   }
     
 }

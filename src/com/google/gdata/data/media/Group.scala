@@ -14,27 +14,25 @@
  */
 
 
-package com.google.gdata.data
+package com.google.gdata.data.media
 
-import com.google.xml.combinators.{Picklers, ~}
-
-import scala.xml.{NamespaceBinding, TopScope}
- 
-import Picklers._
- 
-/**
- * An Atom generator construct, as defined by the Atom spec.
- * 
- * @see http://atomenabled.org/developers/syndication/atom-format-spec.php
- */
-case class Generator(name: String, uri: Option[String], version: Option[String])
-
-object Generator {
-  implicit val atomNs = new NamespaceBinding("atom", Uris.ATOM, TopScope)
+import com.google.xml.combinators.~
+import com.google.xml.combinators.Picklers._
   
-  lazy val pickler: Pickler[Generator] =
-    (wrap (elem("generator", text ~ opt(attr("uri", text)) ~ opt(attr("version", text))))
-          (Generator.apply) (toPairs))
+import scala.xml.{NamespaceBinding, TopScope}
 
-  private def toPairs(v: Generator) = new ~(v.name, v.uri) ~ v.version
+/**
+ * A media:group as defined by Media RSS. @see http://search.yahoo.com/mrss
+ *
+ * @author Iulian Dragos
+ */
+case class Group(rating: Option[Rating], title: Text)
+
+object Group {
+  val mediaNs = new NamespaceBinding("media", Uris.MEDIA, TopScope)
+  
+  def pickler: Pickler[Group] =
+    (wrap (elem("group", opt(Rating.pickler) ~ Text.pickler("title"))(mediaNs)) 
+          (Group.apply) 
+          { g => new ~(g.rating, g.title)}) 
 }

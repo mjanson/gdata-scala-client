@@ -20,7 +20,6 @@ import scala.util.parsing.combinator.{Parsers, ImplicitConversions}
 import scala.util.parsing.input.CharArrayReader
 
 import java.text.ParseException
-import java.util.{GregorianCalendar, TimeZone, Calendar}
 
 /**
  * Parse a date that follows RFC 3339 (used by the Atom spec)
@@ -30,12 +29,19 @@ object DateParser extends Parsers with ImplicitConversions {
     
   lazy val digit: Parser[Int] = elem("digit", _.isDigit) ^^ (_ - '0')
   lazy val sign:  Parser[Char] = elem('+') | elem('-')
+  
+  /** Parse a positive integer literal. */
+  lazy val intLiteral: Parser[Int] = rep1(digit) ^^ { case ds => ds.foldLeft(0)(_ * 10 + _) }
     
   lazy val fullYear: Parser[Int] = 
     digit ~ digit ~ digit ~ digit ^^ { case a ~ b ~ c ~ d => a * 1000 + b * 100 + c * 10 + d }
     
   lazy val twoDigits: Parser[Int] = digit ~ digit ^^ {case a ~ b => a * 10 + b }
-    
+  lazy val oneOrTwoDigits: Parser[Int] = digit ~ opt(digit) ^^ {
+    case a ~ Some(b) => a * 10 + b
+    case a ~ None => a
+  }
+  
   lazy val month = 
     twoDigits >> { n => if (n > 0 && n < 13) success(n) else failure("Invalid month: " + n) }
     
@@ -74,7 +80,12 @@ object DateParser extends Parsers with ImplicitConversions {
     case (y ~ m ~ d) ~ (h ~ min ~ sec) ~ frac ~ offset =>
       DateTime(y, m, d, h, min, sec, frac, offset.toMillis)
   }
-  
+
+  /** 
+   * Parse a date/time in RFC 3339 format.
+   *
+   * @throws ParseException when the string is not a proper date/time. 
+   */
   def parse(str: String): DateTime = {
     val input = new CharArrayReader(str.toArray)
     dateTime(input) match {
@@ -82,6 +93,4 @@ object DateParser extends Parsers with ImplicitConversions {
       case f => throw new ParseException(f.toString, 0)
     }
   }
-  
-  private lazy val calendar = new GregorianCalendar(TimeZone.getTimeZone("GMT"))
 }

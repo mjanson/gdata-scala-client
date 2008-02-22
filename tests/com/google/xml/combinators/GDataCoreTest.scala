@@ -17,24 +17,23 @@
 package com.google.xml.combinators;
 
 import com.google.gdata.data.{Atom, Uris, Person, Text}
+
 import org.junit._
+
+import Picklers._
+import Atom._
 
 /**
  * This class tests picklers for some GData core types.
  */
 class GDataCoreTest extends PicklerAsserts {
-  import Picklers._
-  import Atom._
-  import Uris._
-
-  
   val input = 
     <atom:feed xmlns:atom = "http://www.w3.org/2005/Atom">
       <atom:title type="text">This is the title I want to see</atom:title>
     </atom:feed>
     
   @Test def testTitleFeedU {
-    val pTitle = elem("atom", ATOM, "feed", atomText("title"))
+    val pTitle = elem("atom", Uris.ATOM, "feed", atomText("title"))
     assertSucceedsWith("Failed unpickling atom text", 
         Text(Some("text"), "This is the title I want to see"),
         pTitle.unpickle(LinearStore.fromElem(input)))

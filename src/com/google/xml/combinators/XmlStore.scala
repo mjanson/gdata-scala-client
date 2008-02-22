@@ -19,10 +19,29 @@ package com.google.xml.combinators
 import scala.xml._
 import scala.collection.mutable.ListBuffer
 
+/**
+ * This class represents the input/output of picklers. It keeps around XML attributes,
+ * nodes and current namespace bindings. When unpickling, it hides the actual strategy
+ * for reaching a certain node or attribute inside the 'accept*' methods. Implementors
+ * can either use a sequential approach or a more evolved.
+ *
+ * @see LinearStore, RandomAccessStore
+ * @author Iulian Dragos
+ */
 trait XmlStore {
-   protected[combinators] def attrs: MetaData
-   /*protected[combinators] */def nodes: List[Node]
+   /** The current XML attributes. */
+   def attrs: MetaData
+   
+   /** The current XML nodes. */
+   def nodes: List[Node]
+   
+   /** The current namespace bindings. */
    def ns:    NamespaceBinding
+   
+   /**
+    * If 'true' (default), comments, spaces and processing instructions are skipped when
+    * accepting nodes. 
+    */
    def skipsWhitespace: Boolean
    
   /**
@@ -118,7 +137,7 @@ class LinearStore(ats: MetaData, nods: List[Node], bindings: NamespaceBinding) e
    */
   private def skipWhitespace: List[Node] = {
     def isWhiteSpace(n: Node) = n match {
-      case Text(str) => str.trim.isEmpty 
+      case Text(str) => str.trim.isEmpty
       case ProcInstr(_, _) | Comment(_) => true
       case _ => false
     }
@@ -220,17 +239,18 @@ case class MalformedXmlStore(msg: String, state: XmlStore) extends RuntimeExcept
  */
 class RandomAccessStore(myAttrs: MetaData, myNodes: List[Node], myNs: NamespaceBinding) extends 
            LinearStore(myAttrs, myNodes, myNs) {
-  import collection.mutable.Set
-  import com.google.util.{ListSet, MultiMap}
+  import collection.mutable.{Set, MultiMap}
+//  import com.google.util.{ListSet, MultiMap}
   import collection.jcl.LinkedHashMap
   
   private val nodeMap = 
-    new LinkedHashMap[String, ListSet[Node]] with MultiMap[String, Node, ListSet[Node]] {
-      override def makeSet = new ListSet
-    }
+    new LinkedHashMap[String, Set[Entry]] with MultiMap[String, Entry]
+
+  /** A holder class that provides proper identity to nodes. @see NodeBuffer.hashCode. */
+  private class Entry(val n: Node)
     
   for (val n <- myNodes) 
-    nodeMap.add(n.label, n)
+    nodeMap.add(n.label, new Entry(n))
   
   def this(underlying: XmlStore) = 
     this(underlying.attrs, underlying.nodes, underlying.ns)
@@ -241,32 +261,18 @@ class RandomAccessStore(myAttrs: MetaData, myNodes: List[Node], myNs: NamespaceB
    */
   override def acceptElem(label: String, uri: String): (Option[Node], RandomAccessStore) = {
     for (val elems <- nodeMap.get(label);
-         val n     <- elems)
-      n match {
+         val entry <- elems)
+      entry.n match {
         case e: Elem if (e.namespace == uri) => 
-          nodeMap.remove(label, e)
+          nodeMap.remove(label, entry)
           return (Some(e), this)
       case _ => ()
     }
     (None, this)
   }
   
-/*  override def acceptElem(label: String, uri: String) = {
-    val xs: ListBuffer[Node] = new ListBuffer
-    var res: Option[Node] = None
-    
-    for (val n <- nodes) n match {
-      case e: Elem if (e.label == label) && (e.namespace == uri) =>
-        res = Some(e)
-        e +: xs
-      case n => n +: xs
-    }
-    (res, new RandomAccessStore(LinearStore(attrs, xs.toList, ns)))
-  }
-*/ 
-  
   override def nodes: List[Node] = 
-    nodeMap.values.toList.flatMap(_.toList)
+    nodeMap.values.toList.flatMap(_.toList).map(_.n)
     
   override protected[combinators] def toLinear = 
     LinearStore(attrs, nodes, ns)

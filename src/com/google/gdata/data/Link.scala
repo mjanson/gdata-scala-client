@@ -16,9 +16,11 @@
 
 package com.google.gdata.data
 
-import com.google.xml.combinators._
+import com.google.xml.combinators.{Picklers, ~}
+
+import scala.xml.{NamespaceBinding, TopScope}
+
 import Picklers._
-import scala.xml._
  
 /**
  * An Atom link construct, as defined by the Atom spec.

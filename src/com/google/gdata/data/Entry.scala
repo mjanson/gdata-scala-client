@@ -16,47 +16,104 @@
 
 package com.google.gdata.data;
 
-import com.google.xml.combinators._
+import com.google.xml.combinators.{Picklers, ~}
 import com.google.gdata.data.util.DateTime
+
+import scala.xml.{NamespaceBinding, TopScope}
+
 import Picklers._
 import Atom._
 
-import scala.xml._
-
-/** An Atom Entry. */
-class Entry extends AnyRef with Extensible {
-  var authors: List[Person] = Nil
-  var categories: List[Category] = Nil
-  var content: Option[Content] = None
-  var contributors: List[Person] = Nil
-  var id: String = ""
-  var links: List[Link] = Nil
-  var published: Option[DateTime] = None
-  var rights: Option[String] = None
-  var source: Option[Source] = None
-  var summary: Option[Text] = None
-  var title: Text = NoText
-  var updated: DateTime = new DateTime(new java.util.Date())
+/** 
+ * An interface for abstract entries. It is further refined by providing lower
+ * bounds for the Entry type. @see AtomEntries.
+ *
+ * @author Iulian Dragos
+ */
+trait Entries {
+  /** The abstract type for entries. */
+  type Entry
   
-  override def toString = {
-    val sb = new StringBuffer
-    sb.append("Authors: ").append(authors.mkString("", ", ", ""))
-      .append("\nCategories: ").append(categories.mkString("", ", ", ""))
-      .append("\nContent: ").append(content)
-      .append("\nContributors: ").append(contributors.mkString("", ", ", ""))
-      .append("\nId: ").append(id)
-      .append("\nLinks: ").append(links.mkString("", ", ", ""))
-      .append("\nPublished: ").append(published)
-      .append("\nRights: ").append(rights)
-      .append("\nSource: ").append(source)
-      .append("\nSummary: ").append(summary)
-      .append("\nTitle: ").append(title)
-      .append("\nUpdated: ").append(updated)
-      .toString
-  }
+  /** A pickler for the abstract type Entry. */
+  def entryPickler: Pickler[Entry]
 }
 
-object Entry {
+/**
+ * Atom Entries provides a type of Atom entries and a pickler for the AtomEntry. The
+ * Entry type remains abstract, to allow further refinements.
+ *
+ * @author Iulian Dragos
+ */
+trait AtomEntries extends Entries {
+  type Entry <: AtomEntry
+  
+  def entryPickler: Pickler[Entry]
+  
+  /** An Atom Entry. */
+  class AtomEntry  {
+    var authors: List[Person] = Nil
+    var categories: List[Category] = Nil
+    var content: Option[Content] = None
+    var contributors: List[Person] = Nil
+    var id: String = ""
+    var links: List[Link] = Nil
+    var published: Option[DateTime] = None
+    var rights: Option[String] = None
+    var source: Option[Source] = None
+    var summary: Option[Text] = None
+    var title: Text = NoText
+    var updated: DateTime = new DateTime(new java.util.Date())
+    
+    def fillOwnFields(authors: List[Person],
+        cats: List[Category],
+        content: Option[Content],
+        contributors: List[Person],
+        id: String,
+        links: List[Link],
+        published: Option[DateTime],
+        rights: Option[String],
+        source: Option[Source],
+        summary: Option[Text],
+        title: Text,
+        updated: DateTime): this.type = {
+      this.authors = authors
+      this.categories = cats
+      this.content = content
+      this.contributors = contributors
+      this.id = id
+      this.links = links
+      this.published = published
+      this.rights = rights
+      this.source = source
+      this.summary = summary
+      this.title = title
+      this.updated = updated
+      this
+    }
+  
+    def fromAtomEntry(e: AtomEntry) {
+      fillOwnFields(e.authors, e.categories, e.content, e.contributors, e.id, e.links, e.published,
+          e.rights, e.source, e.summary, e.title, e.updated)
+    }
+    
+    override def toString = {
+      val sb = new StringBuffer(256) // override the ridiculous default size of 16-chars
+      sb.append("Authors: ").append(authors.mkString("", ", ", ""))
+        .append("\nCategories: ").append(categories.mkString("", ", ", ""))
+        .append("\nContent: ").append(content)
+        .append("\nContributors: ").append(contributors.mkString("", ", ", ""))
+        .append("\nId: ").append(id)
+        .append("\nLinks: ").append(links.mkString("", ", ", ""))
+        .append("\nPublished: ").append(published)
+        .append("\nRights: ").append(rights)
+        .append("\nSource: ").append(source)
+        .append("\nSummary: ").append(summary)
+        .append("\nTitle: ").append(title)
+        .append("\nUpdated: ").append(updated)
+        .toString
+    }
+  }
+
   lazy val atomEntryContents =
     interleaved(
         rep(atomPerson("author"))
@@ -72,27 +129,14 @@ object Entry {
       ~ atomText("title")
       ~ elem("updated", dateTime))
         
-  lazy val pickler: Pickler[Entry] = wrap (elem("entry", atomEntryContents)) ({
-    case authors ~ cats ~ content ~ contribs ~ id
-         ~ links ~ published ~ rights ~ src ~ summary ~ title
-         ~ updated => 
-      val e = new Entry
-      e.authors = authors
-      e.categories = cats
-      e.content = content
-      e.contributors = contribs
-      e.id = id
-      e.links = links
-      e.published = published
-      e.rights = rights
-      e.source = src
-      e.summary = summary
-      e.title = title
-      e.updated = updated
-      e
+  lazy val atomEntryPickler: Pickler[AtomEntry] = wrap (atomEntryContents) ({
+    case authors ~ cats ~ content ~ contribs ~ id ~ links
+         ~ published ~ rights ~ src ~ summary ~ title ~ updated => 
+      (new AtomEntry).fillOwnFields(authors, cats, content, contribs, id, links, published, 
+          rights, src, summary, title, updated)
   }) (fromEntry)
 
-  private def fromEntry(e: Entry) = (new ~(e.authors, e.categories) 
+  private def fromEntry(e: AtomEntry) = (new ~(e.authors, e.categories) 
       ~ e.content
       ~ e.contributors
       ~ e.id
@@ -103,5 +147,4 @@ object Entry {
       ~ e.summary
       ~ e.title
       ~ e.updated)
-      
 }

@@ -72,17 +72,24 @@ object Picklers extends AnyRef with ImplicitConversions {
     def andThen[B](f: (A, St) => PicklerResult[B]): PicklerResult[B] = f(v, in)
     def orElse[B >: A](f: => PicklerResult[B]): PicklerResult[B] = this
   }
-  
-  /** A Failure means the parsing has failed, but alternatives can still be tried. */
-  case class Failure(msg: String) extends PicklerResult[Nothing] {
+
+  abstract class NoSuccess(msg: String, in: St) extends PicklerResult[Nothing] {
     def andThen[B](f: (Nothing, St) => PicklerResult[B]) = this
     def orElse[B >: Nothing](f: => PicklerResult[B]): PicklerResult[B] = f
+
+    val prefix: String
+
+    override def toString = prefix + msg + " with input: " + in
+  }
+  
+  /** A Failure means the parsing has failed, but alternatives can still be tried. */
+  case class Failure(m: String, i: St) extends NoSuccess(m, i) {
+    override val prefix = "Failure: " 
   }
 
   /** An Error is a failure which causes the entire parsing to fail (no alternatives are tried). */
-  case class Error(msg: String) extends PicklerResult[Nothing] {
-    def andThen[B](f: (Nothing, St) => PicklerResult[B]) = this
-    def orElse[B >: Nothing](f: => PicklerResult[B]): PicklerResult[B] = f
+  case class Error(m: String, i: St) extends NoSuccess(m, i) {
+    override val prefix = "Error: "
   }
   
   /** Pickler for type A */
@@ -108,7 +115,7 @@ object Picklers extends AnyRef with ImplicitConversions {
     def unpickle(in: St): PicklerResult[String] = {
       in.acceptText match {
         case (Some(Text(content)), in1) => Success(content, in1)
-        case (None, in1)                => Failure("Text node expected, but " + in1.nodes + " found")
+        case (None, in1)                => Failure("Text node expected", in1)
       }
     }
   }
@@ -123,10 +130,10 @@ object Picklers extends AnyRef with ImplicitConversions {
           try {
             Success(DateTime.parse(str), in1)
           } catch {
-            case e: ParseException => Failure("Invalid date: " + e.getMessage)
+            case e: ParseException => Failure("Invalid date: " + e.getMessage, in1)
           }
         case (None, in1) => 
-          Failure("Expected date in textual format: " + in1.nodes) 
+          Failure("Expected date in textual format", in1) 
       }
   }
 
@@ -136,6 +143,13 @@ object Picklers extends AnyRef with ImplicitConversions {
     def pickle(ignored: In, in: St) = pickler(v, in)
     def unpickle(in: St): PicklerResult[A] = Success(v, in)
   }
+  
+  /** A pickler for default values. If 'pa' fails, returns 'v' instead. */
+  def default[A](pa: => Pickler[A], v: A): Pickler[A] =  
+    wrap (opt(pa)) ({ 
+      case Some(v1) => v1
+      case None => v
+  }) (v => Some(v))
 
   /** Convenience method for creating an attribute within a namepace. */
   def attr[A](label: String, pa: => Pickler[A], ns: NamespaceBinding): Pickler[A] =
@@ -155,7 +169,7 @@ object Picklers extends AnyRef with ImplicitConversions {
         case (Some(nodes), in1) =>
           pa.unpickle(LinearStore(Null, nodes.toList, in.ns)) andThen { (v, in2) => Success(v, in1) }
         case (None, in1) => 
-          Failure("Expected attribute " + pre + ":" + key + " in " + uri + " but none found in " + in.attrs)
+          Failure("Expected attribute " + pre + ":" + key + " in " + uri, in)
       }
     }
   }
@@ -169,7 +183,7 @@ object Picklers extends AnyRef with ImplicitConversions {
         case (Some(nodes), in1) =>
           pa.unpickle(LinearStore(Null, nodes.toList, in.ns)) andThen { (v, in2) => Success(v, in1) }
         case (None, in1) => 
-          Failure("Expected unprefixed attribute " + label + " but none found in " + in.attrs)
+          Failure("Expected unprefixed attribute " + label, in)
       }
     }
   }
@@ -198,7 +212,7 @@ object Picklers extends AnyRef with ImplicitConversions {
           }
           
         case _ => 
-          Failure("Expected a <" + pre + ":" + label + "> in " + uri + " in " + in.nodes)
+          Failure("Expected a <" + pre + ":" + label + "> in " + uri, in)
       }
     }
   }
@@ -213,11 +227,9 @@ object Picklers extends AnyRef with ImplicitConversions {
         case Success(va, in1) =>
           pb.unpickle(in1) match {
             case Success(vb, in2) => Success(new ~(va, vb), in2)
-            case f @ Failure(_)   => f
-            case e @ Error(_) => e
+            case f: NoSuccess     => f
           }
-        case f @ Failure(_) => f
-        case e @ Error(_) => e
+        case f: NoSuccess => f
       }
     }
   }
@@ -259,7 +271,7 @@ object Picklers extends AnyRef with ImplicitConversions {
     def pickle(v: In, in: St): St = pa.pickle(v, in)
     def unpickle(in: St): PicklerResult[A] = pa.unpickle(in) match {
       case s: Success[_] => s
-      case Failure(msg) => Error(msg)
+      case Failure(msg, in1) => Error(msg, in1)
       case e: Error => e
     }
   }
@@ -321,8 +333,7 @@ object Picklers extends AnyRef with ImplicitConversions {
     def unpickle(in: St): PicklerResult[A] = 
       pb.unpickle(in) match {
         case Success(vb, in1) => Success(g(vb), in1)
-        case f @ Failure(_)   => f
-        case e @ Error(_) => e
+        case f: NoSuccess     => f
       }
   }
 

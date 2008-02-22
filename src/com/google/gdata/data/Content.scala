@@ -16,11 +16,12 @@
 
 package com.google.gdata.data;
 
-import com.google.xml.combinators._
-import Picklers._
+import com.google.xml.combinators.{Picklers, ~}
 
-import scala.xml._
+import scala.xml.{NamespaceBinding, TopScope, NodeSeq}
+
 import Atom._
+import Picklers._
 
 case class MalformedEntry(str: String) extends RuntimeException
 

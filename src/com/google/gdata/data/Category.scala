@@ -16,9 +16,9 @@
 
 package com.google.gdata.data;
 
-import com.google.xml.combinators._
+import com.google.xml.combinators.{Picklers, ~}
 import Picklers._
-import scala.xml._
+import scala.xml.{NamespaceBinding, TopScope}
 
 /**
  * An Atom category, as defined by the Atom spec.

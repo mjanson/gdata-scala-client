@@ -31,4 +31,7 @@ object Uris {
   
   /** XML namespace. <b>Always</b> aliased to 'xml'. */
   final val XML = "http://www.w3.org/XML/1998/namespace"
+  
+  /** The Media RSS namespace. */
+  final val MEDIA = "http://search.yahoo.com/mrss/"
 }

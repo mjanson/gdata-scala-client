@@ -18,7 +18,7 @@ package com.google.xml.combinators;
 
 import org.junit._
 
-import scala.xml._
+import scala.xml.{NamespaceBinding, TopScope}
 
 /**
  * Test permutation parsers.

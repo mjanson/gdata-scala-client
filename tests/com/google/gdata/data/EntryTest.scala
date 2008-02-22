@@ -16,11 +16,11 @@
 
 package com.google.gdata.data;
 
-import com.google.gdata.data.{Uris, Person, Text, Entry}
 import com.google.xml.combinators.{Picklers, PicklerAsserts, LinearStore}
-import org.junit._
-
+import scala.xml.NamespaceBinding
 import scala.xml.Utility
+
+import org.junit._
 
 class EntryTest extends PicklerAsserts {
   import Picklers._
@@ -72,13 +72,21 @@ class EntryTest extends PicklerAsserts {
     </entry>
     </entries>
     
+  import Picklers._
+  
+  object atomEntry extends Object with AtomEntries {
+    implicit val atomNs = new NamespaceBinding("atom", Uris.ATOM, scala.xml.TopScope)
+    type Entry = AtomEntry
+    def entryPickler = elem("entry", atomEntryPickler)
+  }
+    
   @Test def testEntry1 {
-    val p = rep(log("Entry", Entry.pickler))
-    p.unpickle(LinearStore.enterElem(inputEntry)) match {
+    
+    rep(atomEntry.entryPickler).unpickle(LinearStore.enterElem(inputEntry)) match {
       case Success(v, in1) => 
         println(v.length) 
         
-        (new scala.xml.PrettyPrinter(80, 2)).format(p.pickle(v, LinearStore.empty).rootNode)
+        println((new scala.xml.PrettyPrinter(80, 2)).format(rep(atomEntry.entryPickler).pickle(v, LinearStore.empty).rootNode))
       case f  => println(f)
     }
   }
