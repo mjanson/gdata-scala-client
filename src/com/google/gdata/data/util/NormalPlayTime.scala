@@ -16,6 +16,7 @@
 
 package com.google.gdata.data.util
 
+import com.google.xml.combinators.Picklers._
 import java.text.ParseException
 import java.util.{GregorianCalendar, TimeZone, Calendar}
 import java.text.ParseException
@@ -88,5 +89,18 @@ object NormalPlayTime {
         case f: NoSuccess => throw new ParseException(f.toString, 0)
       }
     }
+  }
+  
+  /**
+   * A pickler for NormalPlayTime in Media RSS format.
+   */
+  def pickler: Pickler[NormalPlayTime] = {
+    def parsePlayTime(lit: String, in: St) = try {
+      Success(NormalPlayTime.fromNptString(lit), in)
+    } catch {
+      case e: ParseException => Failure(e.getMessage, in)
+    }
+    
+    filter(text, parsePlayTime, _.toString)
   }
 }

@@ -32,6 +32,9 @@ trait Isomorphic[A, B] {
   def fromB(v: B): A
 }
 
+/** 
+ * TODO: remove the isomorphism class, use plain wrappers.
+ */
 object Category {
   implicit val atomNs = new NamespaceBinding("atom", Uris.ATOM, TopScope)
 

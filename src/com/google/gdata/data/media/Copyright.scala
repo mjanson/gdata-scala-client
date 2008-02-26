@@ -14,27 +14,26 @@
  */
 
 
-package com.google.gdata.data.media
+package com.google.gdata.data.media;
 
 import com.google.xml.combinators.~
 import com.google.xml.combinators.Picklers._
-  
-import scala.xml.{NamespaceBinding, TopScope}
+import com.google.gdata.data.util.NormalPlayTime
+import com.google.gdata.data.Uris.mediaNs
 
 /**
- * A simple text element. It can be used for media:title and
- * media:description elements.  @see http://search.yahoo.com/mrss
- *
- * @author Iulian Dragos
+ * A media:copyright element, as defined by Media RSS
+ * 
+ * @see http://search.yahoo.com/mrss
+ * @author Iulian Dragos 
  */
-case class SimpleText(tpe: String, value: String)
+case class Copyright(url: Option[String], value: String)
 
-object SimpleText {
-  val mediaNs = new NamespaceBinding("media", Uris.MEDIA, TopScope)
-
-  /** Return a pickle for the given element name. */
-  def pickler(elemName: String): Pickler[SimpleText] =
-    (wrap (elem(elemName, default(attr("type", text), "plain") ~ text)(mediaNs)) 
-        (SimpleText.apply)
-        (t => new ~(t.tpe, t.value)))
+object Copyright {
+  def pickler: Pickler[Copyright] = 
+    (wrap (elem("copyright", opt(attr("url", text)) ~ text) (mediaNs))
+      (Copyright.apply)
+      (fromCopyright))
+  
+  private def fromCopyright(c: Copyright) = new ~(c.url, c.value)
 }

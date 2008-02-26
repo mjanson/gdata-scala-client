@@ -93,10 +93,8 @@ object Picklers extends AnyRef with ImplicitConversions {
   }
   
   /** Pickler for type A */
-  abstract class Pickler[+A] {
-    type In = T forSome {type T <: A}
-    
-    def pickle(v: In, in: St): St
+  abstract class Pickler[A] {
+    def pickle(v: A, in: St): St
     def unpickle(in: St): PicklerResult[A]
     
     /** Sequential composition. This pickler will accept an A and then a B. */
@@ -106,10 +104,10 @@ object Picklers extends AnyRef with ImplicitConversions {
 
   /**
    * A basic pickler that serializes a value to a string and back. 
-   * It can be later wrapped into an element or attribute.
+   * It can be later used inside an element or attribute.
    */
   def text: Pickler[String] = new Pickler[String] {
-    def pickle(v: In, in: St): St = 
+    def pickle(v: String, in: St): St = 
       in.addText(v)
 
     def unpickle(in: St): PicklerResult[String] = {
@@ -119,9 +117,23 @@ object Picklers extends AnyRef with ImplicitConversions {
       }
     }
   }
+
+  /**
+   * A basic pickler that serializes an integer value to a string and back.
+   * It can be later used inside an element or attribute.
+   */
+  def integer: Pickler[Int] = {
+    def parseInt(literal: String, in: St): PicklerResult[Int] = try {
+      Success(literal.toInt, in)
+    } catch {
+      case e: NumberFormatException => Failure("Integer literal expected", in) 
+    }
+    filter(text, parseInt, String.valueOf(_))
+  }
+  
   
   def dateTime: Pickler[DateTime] = new Pickler[DateTime] {
-    def pickle(v: In, in: St): St = 
+    def pickle(v: DateTime, in: St): St = 
       in.addText(v.toString)
       
     def unpickle(in:St): PicklerResult[DateTime] = 
@@ -137,10 +149,16 @@ object Picklers extends AnyRef with ImplicitConversions {
       }
   }
 
+  def filter[A, B](pa: => Pickler[A], f: (A, St) => PicklerResult[B], g: B => A): Pickler[B] = new Pickler[B] {
+    def pickle(v: B, in: St): St =
+      pa.pickle(g(v), in)
+    def unpickle(in: St): PicklerResult[B] = 
+      pa.unpickle(in) andThen { (v, in1) => f(v, in) } 
+  }
   
   /** A constant pickler: it always pickles 'v', and always unpickles 'v'. */
   def const[A](v: A, pickler: (A, St) => St): Pickler[A] = new Pickler[A] {
-    def pickle(ignored: In, in: St) = pickler(v, in)
+    def pickle(ignored: A, in: St) = pickler(v, in)
     def unpickle(in: St): PicklerResult[A] = Success(v, in)
   }
   
@@ -156,11 +174,11 @@ object Picklers extends AnyRef with ImplicitConversions {
     attr(ns.prefix, ns.uri, label, pa)
 
   /**
-   * Wrap a parser into an attribute. The attribute will contain all the 
+   * Wrap a parser into a prefixed attribute. The attribute will contain all the 
    * content produced by 'pa' in the 'nodes' field.
    */
   def attr[A](pre: String, uri: String, key: String, pa: => Pickler[A]) = new Pickler[A] {
-    def pickle(v: In, in: St) = {
+    def pickle(v: A, in: St) = {
       in.addNamespace(pre, uri).addAttribute(pre, key, pa.pickle(v, emptySt).nodes.text)
     }
 
@@ -174,8 +192,11 @@ object Picklers extends AnyRef with ImplicitConversions {
     }
   }
   
+  /**
+   * A pickler for unprefixed attributes. Such attributes have no namespace.
+   */
   def attr[A](label: String, pa: => Pickler[A]): Pickler[A] = new Pickler[A] {
-    def pickle(v: In, in: St) = 
+    def pickle(v: A, in: St) = 
       in.addAttribute(label, pa.pickle(v, emptySt).nodes.text)
       
     def unpickle(in: St): PicklerResult[A] = {
@@ -198,7 +219,7 @@ object Picklers extends AnyRef with ImplicitConversions {
   
   /** Wrap a pickler into an element. */
   def elem[A](pre: String, uri: String, label: String, pa: => Pickler[A]) = new Pickler[A] {
-    def pickle(v: In, in: St): St = {
+    def pickle(v: A, in: St): St = {
       val ns1 = if (in.ns.getURI(pre) == uri) in.ns else new NamespaceBinding(pre, uri, in.ns)
       val in1 = pa.pickle(v, LinearStore.empty(ns1))
       in.addNode(Elem(pre, label, in1.attrs, in1.ns, in1.nodes.reverse:_*))
@@ -219,7 +240,7 @@ object Picklers extends AnyRef with ImplicitConversions {
 
   /** Sequential composition of two picklers */
   def seq[A, B](pa: => Pickler[A], pb: => Pickler[B]): Pickler[~[A, B]] =  new Pickler[~[A, B]] {
-    def pickle(v: In, in: St): St = 
+    def pickle(v: A ~ B, in: St): St = 
       pb.pickle(v._2, pa.pickle(v._1, in))
     
     def unpickle(in: St): PicklerResult[~[A, B]] = {
@@ -253,7 +274,7 @@ object Picklers extends AnyRef with ImplicitConversions {
    * interleaved which wraps an element around the interleaved elements.  
    */
   def interleaved[A](pa: => Pickler[A]): Pickler[A] = new Pickler[A] {
-    def pickle(v: In, in: St): St = pa.pickle(v, in)
+    def pickle(v: A, in: St): St = pa.pickle(v, in)
     
     def unpickle(in: St): PicklerResult[A] = in match {
       case _: RandomAccessStore => pa.unpickle(in)
@@ -268,7 +289,7 @@ object Picklers extends AnyRef with ImplicitConversions {
    * other parsers) are not tried. 
    */
   def commit[A](pa: => Pickler[A]): Pickler[A] = new Pickler[A] {
-    def pickle(v: In, in: St): St = pa.pickle(v, in)
+    def pickle(v: A, in: St): St = pa.pickle(v, in)
     def unpickle(in: St): PicklerResult[A] = pa.unpickle(in) match {
       case s: Success[_] => s
       case Failure(msg, in1) => Error(msg, in1)
@@ -281,7 +302,7 @@ object Picklers extends AnyRef with ImplicitConversions {
    * first one fails.
    */
   def or[A](pa: => Pickler[A], paa: Pickler[A]): Pickler[A] = new Pickler[A] {
-    def pickle(v: In, in: St): St = 
+    def pickle(v: A, in: St): St = 
       pa.pickle(v, in)
       
     def unpickle(in: St): PicklerResult[A] = 
@@ -297,7 +318,7 @@ object Picklers extends AnyRef with ImplicitConversions {
    * It unpickles the value when the underlying parser succeeds, and returns None otherwise.
    */
   def opt[A](pa: => Pickler[A]) = new Pickler[Option[A]] {
-    def pickle(v: In, in: St) = v match {
+    def pickle(v: Option[A], in: St) = v match {
       case Some(v) => pa.pickle(v, in)
       case None    => in
     }
@@ -307,7 +328,7 @@ object Picklers extends AnyRef with ImplicitConversions {
   }
   
   def rep[A](pa: => Pickler[A]): Pickler[List[A]] = new Pickler[List[A]] {
-    def pickle(vs: In, in: St): St = vs match {
+    def pickle(vs: List[A], in: St): St = vs match {
       case v :: vs => pickle(vs, pa.pickle(v, in))
       case Nil     => in
     }
@@ -327,7 +348,7 @@ object Picklers extends AnyRef with ImplicitConversions {
 
   /** Wrap a pair of functions around a given pickler */
   def wrap[A, B](pb: => Pickler[B])(g: B => A)(f: A => B): Pickler[A] = new Pickler[A] {
-    def pickle(v: In, in: St): St = 
+    def pickle(v: A, in: St): St = 
       pb.pickle(f(v), in)
 
     def unpickle(in: St): PicklerResult[A] = 
@@ -344,14 +365,14 @@ object Picklers extends AnyRef with ImplicitConversions {
   
   /** Collect all elements of the input into a NodeSeq. */
   def collect: Pickler[NodeSeq] = new Pickler[NodeSeq] {
-    def pickle(v: In, in: St) = 
+    def pickle(v: NodeSeq, in: St) = 
       v.foldLeft(in) (_.addNode(_))
     def unpickle(in: St) =
       Success(NodeSeq.fromSeq(in.nodes), LinearStore(in.attrs, Nil, in.ns))
   }
   
   def extend[A <: Extensible, B](pa: => Pickler[A], pb: => Pickler[B]) = new Pickler[A ~ B] {
-    def pickle(v: In, in: St): St = {
+    def pickle(v: A ~ B, in: St): St = {
       val in1 = pb.pickle(v._2, LinearStore.empty)
       v._1.extension = NodeSeq.fromSeq(in1.nodes.reverse)
       pa.pickle(v._1, in)
@@ -372,7 +393,7 @@ object Picklers extends AnyRef with ImplicitConversions {
   
   /** A logging combinator */
   def log[A](name: String, pa: => Pickler[A]): Pickler[A] = new Pickler[A] {
-    def pickle(v: In, in: St): St = {
+    def pickle(v: A, in: St): St = {
       println("pickling " + name + " at: " + in)
       val res = pa.pickle(v, in)
       println("got back: " + res)
@@ -417,7 +438,7 @@ trait ImplicitConversions {
     
     /** Convert a function of 4 arguments to one that takes a pair of a pair. */
     implicit def fun4ToPpairL[A, B, C, D, E]
-        (fun: (A, B, C, D) => E): (~[~[~[A, B], C], D]) => E = { 
+        (fun: (A, B, C, D) => E): A ~ B ~ C ~ D => E = { 
       case a ~ b ~ c ~ d =>  fun(a, b, c, d)
     }
 

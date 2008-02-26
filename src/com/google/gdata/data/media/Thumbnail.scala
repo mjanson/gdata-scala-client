@@ -14,27 +14,35 @@
  */
 
 
-package com.google.gdata.data.media
+package com.google.gdata.data.media;
 
 import com.google.xml.combinators.~
 import com.google.xml.combinators.Picklers._
-  
+import com.google.gdata.data.util.NormalPlayTime
+
 import scala.xml.{NamespaceBinding, TopScope}
 
 /**
- * A simple text element. It can be used for media:title and
- * media:description elements.  @see http://search.yahoo.com/mrss
- *
- * @author Iulian Dragos
+ * A media:thumbnail element, as defined by the Media RSS spec.
+ * 
+ * @see http://search.yahoo.com/mrss
+ * @author Iulian Dragos 
  */
-case class SimpleText(tpe: String, value: String)
+case class Thumbnail(url: String, width: Option[Int], height: Option[Int], time: Option[NormalPlayTime])
 
-object SimpleText {
+object Thumbnail {
   val mediaNs = new NamespaceBinding("media", Uris.MEDIA, TopScope)
-
-  /** Return a pickle for the given element name. */
-  def pickler(elemName: String): Pickler[SimpleText] =
-    (wrap (elem(elemName, default(attr("type", text), "plain") ~ text)(mediaNs)) 
-        (SimpleText.apply)
-        (t => new ~(t.tpe, t.value)))
+  
+  /** A pickler for thumbnail elements. */
+  def pickler: Pickler[Thumbnail] = 
+    (wrap (elem("thumbnail", 
+                attr("url", text)
+              ~ opt(attr("width", integer))
+              ~ opt(attr("height", integer))
+              ~ opt(attr("time", NormalPlayTime.pickler)))(mediaNs))
+           (Thumbnail.apply)
+           (fromThumbnail))
+  
+  private def fromThumbnail(v: Thumbnail) =
+    new ~(v.url, v.width) ~ v.height ~ v.time
 }

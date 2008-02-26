@@ -14,27 +14,33 @@
  */
 
 
-package com.google.gdata.data.media
+package com.google.gdata.data.media;
 
 import com.google.xml.combinators.~
 import com.google.xml.combinators.Picklers._
-  
+import com.google.gdata.data.util.NormalPlayTime
+
 import scala.xml.{NamespaceBinding, TopScope}
 
 /**
- * A simple text element. It can be used for media:title and
- * media:description elements.  @see http://search.yahoo.com/mrss
- *
- * @author Iulian Dragos
+ * A media:category element, as defined by Media RSS
+ * 
+ * @see http://search.yahoo.com/mrss
+ * @author Iulian Dragos 
  */
-case class SimpleText(tpe: String, value: String)
+case class Category(scheme: String, label: Option[String])
 
-object SimpleText {
+object Category {
   val mediaNs = new NamespaceBinding("media", Uris.MEDIA, TopScope)
-
-  /** Return a pickle for the given element name. */
-  def pickler(elemName: String): Pickler[SimpleText] =
-    (wrap (elem(elemName, default(attr("type", text), "plain") ~ text)(mediaNs)) 
-        (SimpleText.apply)
-        (t => new ~(t.tpe, t.value)))
+  final val DEFAULT_SCHEMA = "http://search.yahoo.com/mrss/category_schema"
+  
+  def pickler: Pickler[Category] = 
+    (wrap (elem("category", 
+         default(attr("scheme", text), DEFAULT_SCHEMA)
+       ~ opt(attr("label", text)))(mediaNs))
+       (Category.apply)
+       (fromCategory))
+  
+  private def fromCategory(c: Category) =
+    new ~(c.scheme, c.label)
 }

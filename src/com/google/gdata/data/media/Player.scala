@@ -14,27 +14,30 @@
  */
 
 
-package com.google.gdata.data.media
+package com.google.gdata.data.media;
 
 import com.google.xml.combinators.~
 import com.google.xml.combinators.Picklers._
-  
-import scala.xml.{NamespaceBinding, TopScope}
+import com.google.gdata.data.util.NormalPlayTime
+import com.google.gdata.data.Uris.mediaNs
 
 /**
- * A simple text element. It can be used for media:title and
- * media:description elements.  @see http://search.yahoo.com/mrss
- *
- * @author Iulian Dragos
+ * A media:player element, as defined by Media RSS
+ * 
+ * @see http://search.yahoo.com/mrss
+ * @author Iulian Dragos 
  */
-case class SimpleText(tpe: String, value: String)
+case class Player(url: String, height: Option[Int], width: Option[Int])
 
-object SimpleText {
-  val mediaNs = new NamespaceBinding("media", Uris.MEDIA, TopScope)
-
-  /** Return a pickle for the given element name. */
-  def pickler(elemName: String): Pickler[SimpleText] =
-    (wrap (elem(elemName, default(attr("type", text), "plain") ~ text)(mediaNs)) 
-        (SimpleText.apply)
-        (t => new ~(t.tpe, t.value)))
+object Player {
+  
+  def pickler: Pickler[Player] =
+    (wrap (elem("player", 
+        attr("url", text)
+      ~ opt(attr("height", integer))
+      ~ opt(attr("width", integer)))(mediaNs))
+      (Player.apply)
+      (fromPlayer))
+  
+  private def fromPlayer(p: Player) = new ~(p.url, p.height) ~ p.width 
 }
