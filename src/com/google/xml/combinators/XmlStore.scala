@@ -136,7 +136,7 @@ class LinearStore(ats: MetaData, nods: List[Node], bindings: NamespaceBinding) e
    * space) text nodes, comments and processing instructions. 
    */
   private def skipWhitespace: List[Node] = {
-    def isWhiteSpace(n: Node) = n match {
+    def isWhiteSpace(n: Node): Boolean = n match {
       case Text(str) => str.trim.isEmpty
       case ProcInstr(_, _) | Comment(_) => true
       case _ => false

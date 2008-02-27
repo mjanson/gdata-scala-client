@@ -17,6 +17,8 @@
 package com.google.gdata.data.util
 
 import com.google.xml.combinators.Picklers._
+import com.google.util.Utility.padInt
+
 import java.text.ParseException
 import java.util.{GregorianCalendar, TimeZone, Calendar}
 import java.text.ParseException
@@ -42,20 +44,26 @@ abstract class NormalPlayTime {
 }
 
 /** A fixed time offset. */
-case class SpecificTime(value: Long) extends NormalPlayTime {
-  assert(value > 0, "Invalid time offset")
+case class SpecificTime(hour: Int, minute: Int, seconds: Int, millis: Int) extends NormalPlayTime {
+  if (!(hour >= 0))
+    throw new IllegalArgumentException("Invalid hour: " + hour)
+  if (!(minute >= 0 && minute < 60))
+    throw new IllegalArgumentException("Invalid minute: " + minute)
+  if (!(seconds >= 0 && seconds < 60))
+    throw new IllegalArgumentException("Invalid second: " + seconds)
   
   def isNow = false
   
-  /** A time offset with given hour, minute, second and milliseconds */
-  def this(h: Int, m: Int, s: Int, millis: Int) = {
-    this(millis + s * 1000 + m * 60000 + h * 3600000)
-    if (!(h >= 0))
-      throw new IllegalArgumentException("Invalid hour: " + h)
-    if (!(m >= 0 && m < 60))
-      throw new IllegalArgumentException("Invalid minute: " + m)
-    if (!(s >= 0 && s < 60))
-      throw new IllegalArgumentException("Invalid second: " + s)
+  /** The value of this offset in milliseconds. */
+  def value = (millis + seconds * DateTime.MILLIS_IN_SECOND
+      + minute * DateTime.MILLIS_IN_MINUTE + hour * DateTime.MILLIS_IN_HOUR) 
+    
+  override def toString = {
+    val sb = new StringBuilder
+    sb.append(hour).append(':')
+    padInt(sb, minute, 2).append(':')
+    padInt(sb, seconds, 2).append('.').append(millis)
+    sb.toString
   }
 }
 
@@ -64,10 +72,19 @@ case object Now extends NormalPlayTime {
   def value: Long = error("No 'value' in milliseconds for Now")
   
   def isNow = true
+  
+  override def toString = "now"
 }
 
 object NormalPlayTime {
   
+  /**
+   * Return a new NormalPlayTime instance based on the given String. It
+   * accepts strings in the RFC 2326 format (roughly 'hh:mm:ss.millis' or
+   * the special string 'now'.
+   * 
+   * @throws ParseException if the string does not follow the grammar.
+   */
   def fromNptString(nptString: String): NormalPlayTime = {
     import DateParser._
 
@@ -79,10 +96,10 @@ object NormalPlayTime {
             ~ (DateParser.oneOrTwoDigits <~ ':')
             ~ DateParser.oneOrTwoDigits
             ~ opt(secFraction) ^^ {
-              case hour ~ min ~ second ~ Some(fraction) => 
-                new SpecificTime(hour, min, second, (fraction * 1000).toInt)
-              case hour ~ min ~ second ~ None => 
-                new SpecificTime(hour, min, second, 0)
+        case hour ~ min ~ second ~ Some(fraction) => 
+	      new SpecificTime(hour, min, second, (fraction * 1000).toInt)
+	    case hour ~ min ~ second ~ None => 
+	      new SpecificTime(hour, min, second, 0)
       })
       p(new CharArrayReader(str.toArray)) match {
         case Success(v, _) => v
@@ -91,10 +108,26 @@ object NormalPlayTime {
     }
   }
   
+  /** Return a new SpecificTime instance, given a positive offset in milliseconds. */
+  def fromMillis(value: Long) = {
+    if (value < 0) throw new IllegalArgumentException("Expected positive offset in milliseconds.")
+
+    import DateTime.{MILLIS_IN_HOUR, MILLIS_IN_MINUTE, MILLIS_IN_SECOND}
+    
+    val (hour, rem1)   = (value / MILLIS_IN_HOUR,  value % MILLIS_IN_HOUR)
+    val (min, rem2)    = (rem1  / MILLIS_IN_MINUTE, rem1 % MILLIS_IN_MINUTE)
+    val (sec, millis)  = (rem2  / MILLIS_IN_SECOND, rem2 % MILLIS_IN_SECOND)
+         
+    new SpecificTime(hour.toInt, min.toInt, sec.toInt, millis.toInt)
+  }
+  
   /**
    * A pickler for NormalPlayTime in Media RSS format.
+   * 
+   * @throws PraseException when the string does not conform to the expected grammar.
+   * @see NormalPlayTime.fromNptString
    */
-  def pickler: Pickler[NormalPlayTime] = {
+  val pickler: Pickler[NormalPlayTime] = {
     def parsePlayTime(lit: String, in: St) = try {
       Success(NormalPlayTime.fromNptString(lit), in)
     } catch {

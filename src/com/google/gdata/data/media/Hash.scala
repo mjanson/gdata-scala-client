@@ -33,7 +33,7 @@ case class Hash(algo: String, value: String)
 object Hash {
   val mediaNs = new NamespaceBinding("media", Uris.MEDIA, TopScope)
   
-  def pickler: Pickler[Hash] = 
+  val pickler: Pickler[Hash] = 
     (wrap (elem("hash", default(attr("algo", text), "md5") ~ text) (mediaNs))
        (Hash.apply)
        (fromHash))

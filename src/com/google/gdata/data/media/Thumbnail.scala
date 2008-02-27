@@ -34,11 +34,11 @@ object Thumbnail {
   val mediaNs = new NamespaceBinding("media", Uris.MEDIA, TopScope)
   
   /** A pickler for thumbnail elements. */
-  def pickler: Pickler[Thumbnail] = 
+  val pickler: Pickler[Thumbnail] = 
     (wrap (elem("thumbnail", 
                 attr("url", text)
-              ~ opt(attr("width", integer))
-              ~ opt(attr("height", integer))
+              ~ opt(attr("width", intVal))
+              ~ opt(attr("height", intVal))
               ~ opt(attr("time", NormalPlayTime.pickler)))(mediaNs))
            (Thumbnail.apply)
            (fromThumbnail))

@@ -36,10 +36,10 @@ class PicklerTest extends PicklerAsserts {
         elem("p", URI, "a", text) ~ elem("p", URI, "b", text))
           
   val input =
-    <p:pair xmlns:p="testing-uri">
-      <p:a>alfa</p:a>
-      <p:b>omega</p:b>
-    </p:pair>
+    (<p:pair xmlns:p="testing-uri">
+       <p:a>alfa</p:a>
+       <p:b>omega</p:b>
+     </p:pair>)
   val pair = new ~("alfa", "omega")
 
   @Test def testSequencePickle {
@@ -48,9 +48,7 @@ class PicklerTest extends PicklerAsserts {
   }
   
   @Test def testSequenceUnpickle {
-    assertSucceedsWith("Sequence unpickling failed",
-        pair,
-        pSeq2.unpickle(LinearStore.fromElem(input)))
+    assertSucceedsWith("Sequence unpickling failed", pair, input, pSeq2)
   }
   
   def pSeq3: Pickler[String ~ String ~ String] =
@@ -61,61 +59,51 @@ class PicklerTest extends PicklerAsserts {
       
   val triple = new ~(new ~("alfa", "beta"), "gamma") 
   val inputTriple =
-    <m:triple xmlns:m="testing-uri">
-      <m:a>alfa</m:a>
-      <m:b>beta</m:b>
-      <m:c>gamma</m:c>
-    </m:triple>
+    (<m:triple xmlns:m="testing-uri">
+       <m:a>alfa</m:a>
+       <m:b>beta</m:b>
+       <m:c>gamma</m:c>
+     </m:triple>)
   
   @Test def testSequence3Unpickle {
-    assertSucceedsWith("Sequence 3 unpickling failed", 
-        triple,
-        pSeq3.unpickle(LinearStore.fromElem(inputTriple)))
+    assertSucceedsWith("Sequence 3 unpickling failed", triple, inputTriple, pSeq3)
   }
 
   def pStrings = elem("p", URI, "strings", rep(elem("p", URI, "str", text)))
   
   @Test def testRepetition0Unpickle {
-    val inputRep = 
-      <p:strings xmlns:p="testing-uri">
-      </p:strings>
+    val inputRep = (<p:strings xmlns:p="testing-uri"></p:strings>)
       
     val strings = List()
     assertSucceedsWith("Repetition with empty sequence failed",
-        strings,
-        pStrings.unpickle(LinearStore.fromElem(inputRep)))
+        strings, inputRep, pStrings)
   }
 
   @Test def testRepetition1Unpickle {
     val inputRep = 
-      <p:strings xmlns:p="testing-uri">
-        <p:str>one</p:str>
-      </p:strings>
+      (<p:strings xmlns:p="testing-uri">
+         <p:str>one</p:str>
+       </p:strings>)
       
     val strings = List("one")
     assertSucceedsWith("Repetition with one element failed",
-        strings,
-        pStrings.unpickle(LinearStore.fromElem(inputRep)))
+        strings, inputRep, pStrings)
   }
   
   @Test def testRepetition3Unpickle {
     val inputRep = 
-      <p:strings xmlns:p="testing-uri">
-        <p:str>one</p:str>
-        <p:str>two</p:str>
-        <p:str>three</p:str>
-      </p:strings>
-      
+      (<p:strings xmlns:p="testing-uri">
+         <p:str>one</p:str>
+         <p:str>two</p:str>
+         <p:str>three</p:str>
+       </p:strings>)
+
     val strings = List("one", "two", "three")
-    assertSucceedsWith("Repetition failed",
-        strings,
-        pStrings.unpickle(LinearStore.fromElem(inputRep)))
+    assertSucceedsWith("Repetition failed", strings, inputRep, pStrings)
   }
   
   @Test def testRepetition0Pickle {
-    val inputRep = 
-      <p:strings xmlns:p="testing-uri">
-      </p:strings>
+    val inputRep = (<p:strings xmlns:p="testing-uri"></p:strings>)
       
     val strings = List()
     val pickled = pStrings.pickle(strings, LinearStore.empty)
@@ -124,9 +112,9 @@ class PicklerTest extends PicklerAsserts {
 
   @Test def testRepetition1Pickle {
     val inputRep = 
-      <p:strings xmlns:p="testing-uri">
-        <p:str>one</p:str>
-      </p:strings>
+      (<p:strings xmlns:p="testing-uri">
+         <p:str>one</p:str>
+       </p:strings>)
       
     val strings = List("one")
     val pickled = pStrings.pickle(strings, LinearStore.empty)
@@ -135,11 +123,11 @@ class PicklerTest extends PicklerAsserts {
 
   @Test def testRepetition3Pickle {
     val inputRep = 
-      <p:strings xmlns:p="testing-uri">
-        <p:str>one</p:str>
-        <p:str>two</p:str>
-        <p:str>three</p:str>
-      </p:strings>
+      (<p:strings xmlns:p="testing-uri">
+         <p:str>one</p:str>
+         <p:str>two</p:str>
+         <p:str>three</p:str>
+       </p:strings>)
       
     val strings = List("one", "two", "three")
     val pickled = pStrings.pickle(strings, LinearStore.empty)

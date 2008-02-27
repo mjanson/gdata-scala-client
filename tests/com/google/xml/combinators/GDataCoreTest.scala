@@ -36,7 +36,7 @@ class GDataCoreTest extends PicklerAsserts {
     val pTitle = elem("atom", Uris.ATOM, "feed", atomText("title"))
     assertSucceedsWith("Failed unpickling atom text", 
         Text(Some("text"), "This is the title I want to see"),
-        pTitle.unpickle(LinearStore.fromElem(input)))
+        input, pTitle)
   }
   
   @Test def testPersonFeedU {
@@ -49,7 +49,7 @@ class GDataCoreTest extends PicklerAsserts {
       val pPerson = atomPerson("feed")
       assertSucceedsWith("Failed unpickling person",
           Person("Kenny", None, Some("kenny@southpark.org")),
-          pPerson.unpickle(LinearStore.fromElem(input)))
+          input, pPerson)
   }
   
   @Test def testExtendedPersonU {
@@ -64,7 +64,7 @@ class GDataCoreTest extends PicklerAsserts {
       assertSucceedsWith("Failed unpickling person",
           new ~(Person("Kenny", None, Some("kenny@southpark.org")), 
               "kenny@yahoomessenger.com"),
-          pPerson.unpickle(LinearStore.fromElem(input)))
+          input, pPerson)
   }
   
 }

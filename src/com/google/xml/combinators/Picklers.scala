@@ -102,10 +102,7 @@ object Picklers extends AnyRef with ImplicitConversions {
       seq(this, pb)
   }
 
-  /**
-   * A basic pickler that serializes a value to a string and back. 
-   * It can be later used inside an element or attribute.
-   */
+  /** A basic pickler that serializes a value to a string and back.  */
   def text: Pickler[String] = new Pickler[String] {
     def pickle(v: String, in: St): St = 
       in.addText(v)
@@ -118,11 +115,8 @@ object Picklers extends AnyRef with ImplicitConversions {
     }
   }
 
-  /**
-   * A basic pickler that serializes an integer value to a string and back.
-   * It can be later used inside an element or attribute.
-   */
-  def integer: Pickler[Int] = {
+  /** A basic pickler that serializes an integer value to a string and back. */
+  def intVal: Pickler[Int] = {
     def parseInt(literal: String, in: St): PicklerResult[Int] = try {
       Success(literal.toInt, in)
     } catch {
@@ -131,7 +125,63 @@ object Picklers extends AnyRef with ImplicitConversions {
     filter(text, parseInt, String.valueOf(_))
   }
   
+  /**
+   * A basic pickler for boolean values. Everything equal to the string 'true' is
+   * unpickled to the boolean value <code>true</code>, everything else to <code>false</code>.
+   * It is not case sensitive.
+   */
+  def boolVal: Pickler[Boolean] =
+    wrap (text) (java.lang.Boolean.valueOf(_).booleanValue) (String.valueOf(_))
   
+  /**
+   * A basic pickler for floating point values. It accepts double values as specified by the
+   * Scala and Java language. 
+   * 
+   * @see java.lang.Double.valueOf for the exact grammar.
+   */
+  def doubleVal: Pickler[Double] = {
+    def parseDouble(literal: String, in: St): PicklerResult[Double] = try {
+      Success(literal.toDouble, in)
+    } catch {
+      case e: NumberFormatException => Failure("Floating point literal expected", in)
+    }
+    
+    filter(text, parseDouble, String.valueOf(_))
+  }
+  
+  /**
+   * Pickler for a list of elements. It unpickles a list of elements separated by 'sep'. It
+   * works best for text nodes. For instance, Media RSS defines a comma-separated list of categories
+   * as the contents of an element.
+   * <p/>
+   * It makes little sense to use this pickler on elem or attr picklers. Use '~' and 'rep' instead.
+   */
+  def list[A](sep: Char, pa: => Pickler[A]): Pickler[List[A]] = {
+    def parseList(str: String, unused: St): PicklerResult[List[A]] = {
+      val elems = str.split(sep).toList.map(_.trim).reverse
+      
+      elems.foldLeft(Success(Nil, LinearStore.empty): PicklerResult[List[A]]) { (result, e) =>
+        result andThen { (es, in) => pa.unpickle(LinearStore.empty.addText(e)) match {
+          case Success(v, in1) => Success(v :: es, in1)
+          case f: NoSuccess => f
+        }}
+      }
+    }
+    
+    def pickleList(es: List[A]): String = {
+      val store = es.reverse.foldLeft(LinearStore.empty: XmlStore) { (in, e) => pa.pickle(e, in) }
+      store.nodes.mkString("", sep.toString, "")
+    }
+    filter(text, parseList, pickleList)
+  } 
+
+  /**
+   * A pickler for date/time in RFC 3339 format. It handles dates that look like
+   * <code>2008-02-15T16:16:02+01:00</code>. The time offset can be replaced by Z 
+   * (zulu time) when it is zero (UTC time).
+   * 
+   * @see http://atomenabled.org/developers/syndication/atom-format-spec.php#date.constructs
+   */
   def dateTime: Pickler[DateTime] = new Pickler[DateTime] {
     def pickle(v: DateTime, in: St): St = 
       in.addText(v.toString)

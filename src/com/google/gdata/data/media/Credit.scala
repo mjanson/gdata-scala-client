@@ -27,16 +27,16 @@ import com.google.gdata.data.Uris.mediaNs
  * @see http://search.yahoo.com/mrss
  * @author Iulian Dragos 
  */
-case class Credit(scheme: String, role: Option[String])
+case class Credit(scheme: String, role: Option[String], value: String)
 
 object Credit {
   /** Default credit scheme is European Broadcasting Union Role Codes. */
   val DEFAULT_SCHEME = "urn:ebu"
   
-  def pickler: Pickler[Credit] = 
-    (wrap (elem("credit", default(attr("scheme", text), DEFAULT_SCHEME) ~ opt(attr("role", text)))(mediaNs))
+  val pickler: Pickler[Credit] = 
+    (wrap (elem("credit", default(attr("scheme", text), DEFAULT_SCHEME) ~ opt(attr("role", text)) ~ text)(mediaNs))
        (Credit.apply)
        (fromCredit))
   
-  private def fromCredit(c: Credit) = new ~(c.scheme, c.role)
+  private def fromCredit(c: Credit) = new ~(c.scheme, c.role) ~ c.value
 }

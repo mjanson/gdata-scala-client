@@ -29,12 +29,9 @@ class NormalPlayTimeTest {
   }
 
   def assertParsedTime(in: String, expected: Long) {
-    NormalPlayTime.fromNptString(in) match {
-      case SpecificTime(value) => 
-        if (value != expected) 
-          fail("Error parsing '" + in + "', expected: " + expected + " but " + value + " found")  
-      case npt => fail("Error parsing: " + npt) 
-    }
+    val npt = NormalPlayTime.fromNptString(in) 
+    if (npt.value != expected) 
+        fail("Error parsing '" + in + "', expected: " + expected + " but " + npt.value + "(" + npt + ") found")  
   }
   
   @Test def testMin {

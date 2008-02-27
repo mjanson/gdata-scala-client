@@ -31,9 +31,11 @@ case class Keywords(values: List[String])
 object Keywords {
   val mediaNs = new NamespaceBinding("media", Uris.MEDIA, TopScope)
   
+  val pickler = wrap (keywordsPickler) (Keywords.apply) (_.values)
+  
   /** Parses keywords separated by ','. It trims spaces around each keyword. */
-  def keywordsPickler: Pickler[Keywords] = 
+  def keywordsPickler: Pickler[List[String]] = 
     (wrap (elem("keywords", text)(mediaNs)) 
-        { str => Keywords(str.split(',').toList.map(_.trim)) }
-        { keywords => keywords.values.mkString("", ", ", "") })
+        { str => str.split(',').toList.map(_.trim) }
+        { keywords => keywords.mkString("", ", ", "") })
 }

@@ -25,22 +25,26 @@ import scala.xml.{NamespaceBinding, TopScope}
 /**
  * A media:category element, as defined by Media RSS
  * 
+ * @param scheme Categorization scheme (defaults to "http://search.yahoo.com/mrss/category_schema").
+ * @param label  User-friendly label for the categorization scheme.
+ * @param value  The category itself.
+ * 
  * @see http://search.yahoo.com/mrss
  * @author Iulian Dragos 
  */
-case class Category(scheme: String, label: Option[String])
+case class Category(scheme: String, label: Option[String], value: String)
 
 object Category {
   val mediaNs = new NamespaceBinding("media", Uris.MEDIA, TopScope)
   final val DEFAULT_SCHEMA = "http://search.yahoo.com/mrss/category_schema"
   
-  def pickler: Pickler[Category] = 
+  val pickler: Pickler[Category] = 
     (wrap (elem("category", 
          default(attr("scheme", text), DEFAULT_SCHEMA)
-       ~ opt(attr("label", text)))(mediaNs))
+       ~ opt(attr("label", text)) ~ text)(mediaNs))
        (Category.apply)
        (fromCategory))
   
   private def fromCategory(c: Category) =
-    new ~(c.scheme, c.label)
+    new ~(c.scheme, c.label) ~ c.value
 }

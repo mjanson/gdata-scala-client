@@ -31,11 +31,11 @@ case class Player(url: String, height: Option[Int], width: Option[Int])
 
 object Player {
   
-  def pickler: Pickler[Player] =
+  val pickler: Pickler[Player] =
     (wrap (elem("player", 
         attr("url", text)
-      ~ opt(attr("height", integer))
-      ~ opt(attr("width", integer)))(mediaNs))
+      ~ opt(attr("height", intVal))
+      ~ opt(attr("width", intVal)))(mediaNs))
       (Player.apply)
       (fromPlayer))
   

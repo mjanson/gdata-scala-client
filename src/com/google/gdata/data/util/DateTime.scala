@@ -16,6 +16,7 @@
 
 package com.google.gdata.data.util
 
+import com.google.util.Utility
 import java.util.{Date, Calendar, GregorianCalendar, TimeZone}
  
 /**
@@ -55,10 +56,11 @@ class DateTime(private var value: Long, private var tzShift: Long) extends Order
   
   override def toString(): String = {
     import DateTime._
-    val sb = new StringBuffer()
+    val sb = new StringBuilder
     calendar.setTimeInMillis(value + tzShift)
     
     import Calendar._
+    import Utility.padInt
     
     padInt(sb, calendar.get(YEAR), 4).append('-')
     padInt(sb, calendar.get(MONTH) + 1, 2).append('-')  // Calendar month is 0-based
@@ -88,27 +90,20 @@ class DateTime(private var value: Long, private var tzShift: Long) extends Order
     sb.toString
   }
   
-  /** 
-   * Adds leading zeroes to a given int to fill 'digits', and appends it to the StringBuffer.
-   * Assumes positive integers.
-   */
-  private def padInt(sb: StringBuffer, n: Long, digits: Int): StringBuffer = {
-    val str = n.toString
-    var delta = digits - str.length
-    
-    assert(delta >= 0, "Not enough digits to pad number: " + n + " on " + digits + " digits")
-    
-    while (delta > 0) {
-      sb.append('0')
-      delta = delta - 1
-    }
-    sb.append(str)
-  }
-    
   private lazy val calendar = new GregorianCalendar(TimeZone.getTimeZone("GMT"))
 }
 
 object DateTime {
+
+  /** Number of milliseconds in a second. */
+  final val MILLIS_IN_SECOND = 1000
+  
+  /** Number of milliseconds in a minute. */
+  final val MILLIS_IN_MINUTE = 60 * MILLIS_IN_SECOND
+  
+  /** Number of milliseconds in an hour */
+  final val MILLIS_IN_HOUR = 60 * MILLIS_IN_MINUTE
+  
   /**  
    * Parse a date time, according to RFC3339
    * 

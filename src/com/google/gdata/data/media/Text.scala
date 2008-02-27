@@ -18,21 +18,28 @@ package com.google.gdata.data.media;
 
 import com.google.xml.combinators.~
 import com.google.xml.combinators.Picklers._
+import com.google.gdata.data.util.NormalPlayTime
+import com.google.gdata.data.Uris.mediaNs
 
-import scala.xml.{NamespaceBinding, TopScope}
-
-/** 
- * A media:rating element, as defined by Media RSS.  @see http://search.yahoo.com/mrss
- *
+/**
+ * A media:text element, as defined by Media RSS
+ * 
+ * @see http://search.yahoo.com/mrss
  * @author Iulian Dragos 
  */
-case class Rating(scheme: String, value: String)
+case class Text(tpe: String, value: String, lang: Option[String], start: Option[NormalPlayTime], end: Option[NormalPlayTime])
 
-object Rating {
-  val mediaNs = new NamespaceBinding("media", Uris.MEDIA, TopScope)
-
-  val pickler: Pickler[Rating] =
-    (wrap (elem("rating", default(attr("scheme", text), "urn:simple") ~ text)(mediaNs))
-          (Rating.apply)
-          (r => new ~(r.scheme, r.value)))
+object Text {
+  
+  val pickler: Pickler[Text] = 
+    (wrap (elem("text", 
+        default(attr("type", text), "plain")
+      ~ text
+      ~ opt(attr("lang", text))
+      ~ opt(attr("start", NormalPlayTime.pickler))
+      ~ opt(attr("end", NormalPlayTime.pickler)))(mediaNs))
+      (Text.apply)
+      (fromText))
+  
+  private def fromText(t: Text) = new ~(t.tpe, t.value) ~ t.lang ~ t.start ~ t.end
 }

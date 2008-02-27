@@ -14,24 +14,26 @@
  */
 
 
-package com.google.gdata.data.media
+package com.google.gdata.data.media;
 
 import com.google.xml.combinators.~
 import com.google.xml.combinators.Picklers._
-import com.google.gdata.data.Uris.mediaNs  
+import com.google.gdata.data.Uris.mediaNs
 
 /**
- * A simple text element. It can be used for media:title and
- * media:description elements.  @see http://search.yahoo.com/mrss
- *
- * @author Iulian Dragos
+ * A media:restriction element, as defined by Media RSS
+ * 
+ * @see http://search.yahoo.com/mrss
+ * @author Iulian Dragos 
  */
-case class SimpleText(tpe: String, value: String)
+case class Restriction(relationship: String, tpe: Option[String], value: List[String])
 
-object SimpleText {
-  /** Return a pickle for the given element name. */
-  def pickler(elemName: String): Pickler[SimpleText] =
-    (wrap (elem(elemName, default(attr("type", text), "plain") ~ text)(mediaNs)) 
-        (SimpleText.apply)
-        (t => new ~(t.tpe, t.value)))
+object Restriction {
+  
+  val pickler: Pickler[Restriction] =
+    (wrap (elem("restriction", attr("relationship", text) ~ opt(attr("type", text)) ~ list(' ', text))(mediaNs))
+        (Restriction.apply)
+        (fromRestriction))
+  
+  private def fromRestriction(r: Restriction) = new ~(r.relationship, r.tpe) ~ r.value
 }

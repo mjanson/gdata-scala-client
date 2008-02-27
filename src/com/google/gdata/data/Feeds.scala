@@ -32,7 +32,16 @@ import Atom._
  *
  * @author Iulian Dragos
  */
-trait AtomFeeds { this: AtomFeeds with Entries =>
+trait Feeds { this: Feeds with Entries =>
+  type Feed
+  
+  def feedPickler: Pickler[Feed]
+}
+
+/**
+ * Atom feeds refines Feeds with Atom-like feeds.
+ */
+trait AtomFeeds extends Feeds { this: AtomFeeds with Entries =>
   type Feed <: AtomFeed
   
   /** A pickler for Feed objects. */

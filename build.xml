@@ -123,6 +123,7 @@
       <test name="com.google.gdata.data.util.DateTimeTest"/>
       <test name="com.google.gdata.data.util.NormalPlayTimeTest"/>
       <test name="com.google.gdata.data.EntryTest"/>
+      <test name="com.google.gdata.data.media.ContentTest"/>
       <formatter type="plain" usefile="false"/>
       <classpath>
         <path refid="test.classpath"/>
@@ -133,16 +134,16 @@
   
   <!-- DOCS -->
   
-  <target name="docs.combinators" depends="init">
+  <target name="docs" depends="init">
     <mkdir dir="${docs.dir}"/>
     <scaladoc
       srcdir="${source.dir}"
       destdir="${docs.dir}"
       deprecation="yes" unchecked="yes"
-      windowtitle="XML Pickling Combinators Library Documentation"
-      doctitle="Pickler Combinators"
+      windowtitle="GData Scala Client Library Documentation"
+      doctitle="GData Scala Client"
       classpathref="build.classpath">
-        <include name="scala/xml/**/*.scala"/>
+        <include name="**/*.scala"/>
     </scaladoc>
   </target>
 

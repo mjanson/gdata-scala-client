@@ -44,8 +44,7 @@ class PicklerPermuteTest extends PicklerAsserts {
         <p:b>omega</p:b>
       </p:set2>
     assertSucceedsWith("Permutation of 2 failed unpickling",
-        pair,
-        pPermute2.unpickle(LinearStore.fromElem(perm1)))
+        pair, perm1, pPermute2)
   }
   
   @Test def testPermute2Unpickle1 {
@@ -55,8 +54,7 @@ class PicklerPermuteTest extends PicklerAsserts {
         <p:a>alfa</p:a>
       </p:set2>
     assertSucceedsWith("Permutation of 2 failed unpickling",
-        pair,
-        pPermute2.unpickle(LinearStore.fromElem(perm1)))
+        pair, perm1, pPermute2)
   }
 
   def pPermute3: Pickler[String ~ String ~ String] =
@@ -73,8 +71,7 @@ class PicklerPermuteTest extends PicklerAsserts {
         <p:c>gamma</p:c>
       </p:set3>
     assertSucceedsWith("Permutation of 2 failed unpickling",
-        triple,
-        pPermute3.unpickle(LinearStore.fromElem(perm1)))
+        triple, perm1, pPermute3)
   }
 
   @Test def testPermute3UnpickleAcb {
@@ -85,8 +82,7 @@ class PicklerPermuteTest extends PicklerAsserts {
         <p:b>beta</p:b>
       </p:set3>
     assertSucceedsWith("Permutation of 3 failed unpickling",
-        triple,
-        pPermute3.unpickle(LinearStore.fromElem(perm1)))
+        triple, perm1,  pPermute3)
   }
 
   @Test def testPermute3UnpickleBac {
@@ -97,8 +93,7 @@ class PicklerPermuteTest extends PicklerAsserts {
         <p:c>gamma</p:c>
       </p:set3>
     assertSucceedsWith("Permutation of 2 failed unpickling",
-        triple,
-        pPermute3.unpickle(LinearStore.fromElem(perm1)))
+        triple, perm1,  pPermute3)
   }
   
   @Test def testPermute3UnpickleBca {
@@ -109,8 +104,7 @@ class PicklerPermuteTest extends PicklerAsserts {
         <p:a>alfa</p:a>
       </p:set3>
     assertSucceedsWith("Permutation of 2 failed unpickling",
-        triple,
-        pPermute3.unpickle(LinearStore.fromElem(perm1)))
+        triple, perm1, pPermute3)
   }
   
   @Test def testPermute3UnpickleCab {
@@ -121,8 +115,7 @@ class PicklerPermuteTest extends PicklerAsserts {
         <p:b>beta</p:b>
       </p:set3>
     assertSucceedsWith("Permutation of 2 failed unpickling",
-        triple,
-        pPermute3.unpickle(LinearStore.fromElem(perm1)))
+        triple, perm1, pPermute3)
   }
 
   @Test def testPermute3UnpickleCba {
@@ -133,8 +126,7 @@ class PicklerPermuteTest extends PicklerAsserts {
         <p:a>alfa</p:a>
       </p:set3>
     assertSucceedsWith("Permutation of 2 failed unpickling",
-        triple,
-        pPermute3.unpickle(LinearStore.fromElem(perm1)))
+        triple, perm1, pPermute3)
   }
 
   def pa: Pickler[String] = elem("p", URI, "a", text)
@@ -162,8 +154,7 @@ class PicklerPermuteTest extends PicklerAsserts {
     val pickled = pDPermuteE.pickle(obj, LinearStore.empty).rootNode
     Assert.assertEquals("Sequence and permutation failed pickling.", normalize(input), normalize(pickled))
     assertSucceedsWith("Sequence and permutation failed unpickling",
-        obj,
-        pDPermuteE.unpickle(LinearStore.fromElem(input)))
+        obj, input, pDPermuteE)
   }
 
   @Test def testSeqPermuteUnpickleCab {
@@ -179,8 +170,7 @@ class PicklerPermuteTest extends PicklerAsserts {
       </p:elems>
       
     assertSucceedsWith("Sequence and permutation failed unpickling",
-        obj,
-        pDPermuteE.unpickle(LinearStore.fromElem(input)))
+        obj, input, pDPermuteE)
   }
 
   @Test def testSeqPermuteUnpickleCabExtra {
@@ -197,7 +187,6 @@ class PicklerPermuteTest extends PicklerAsserts {
       </p:elems>
       
     assertSucceedsWith("Sequence and permutation with unknown elements failed unpickling",
-        obj,
-        pDPermuteE.unpickle(LinearStore.fromElem(input)))
+        obj, input, pDPermuteE)
   }
 }

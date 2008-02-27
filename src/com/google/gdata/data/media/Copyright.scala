@@ -30,7 +30,7 @@ import com.google.gdata.data.Uris.mediaNs
 case class Copyright(url: Option[String], value: String)
 
 object Copyright {
-  def pickler: Pickler[Copyright] = 
+  val pickler: Pickler[Copyright] = 
     (wrap (elem("copyright", opt(attr("url", text)) ~ text) (mediaNs))
       (Copyright.apply)
       (fromCopyright))
