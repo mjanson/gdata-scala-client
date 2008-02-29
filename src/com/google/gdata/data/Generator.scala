@@ -18,8 +18,6 @@ package com.google.gdata.data
 
 import com.google.xml.combinators.{Picklers, ~}
 
-import scala.xml.{NamespaceBinding, TopScope}
- 
 import Picklers._
  
 /**
@@ -30,10 +28,8 @@ import Picklers._
 case class Generator(name: String, uri: Option[String], version: Option[String])
 
 object Generator {
-  implicit val atomNs = new NamespaceBinding("atom", Uris.ATOM, TopScope)
-  
-  lazy val pickler: Pickler[Generator] =
-    (wrap (elem("generator", text ~ opt(attr("uri", text)) ~ opt(attr("version", text))))
+  val pickler: Pickler[Generator] =
+    (wrap (elem("generator", text ~ opt(attr("uri", text)) ~ opt(attr("version", text)))(Uris.atomNs))
           (Generator.apply) (toPairs))
 
   private def toPairs(v: Generator) = new ~(v.name, v.uri) ~ v.version

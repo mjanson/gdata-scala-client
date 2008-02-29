@@ -167,7 +167,20 @@ class ContentTest extends PicklerAsserts {
         <media:copyright url="http://blah.com/additional-info.html">FooBar</media:copyright>
       </media:group>
     )
-    val Picklers.Success(group, left) = Group.pickler.unpickle(LinearStore.fromElem(input))
+    
+    /** A media group. */
+    object mediaGroup extends MediaGroup with MediaContent {
+      import Picklers._
+      
+      type Group = BaseGroup
+      type Content = BaseContent
+      
+      def groupContentsPickler = baseGroupPickler
+      def contentContentsPickler = baseContentPickler
+    }
+    import mediaGroup._
+    
+    val Picklers.Success(group, left) = mediaGroup.groupPickler.unpickle(LinearStore.fromElem(input))
     Assert.assertEquals("content entries length", 5, group.contentEntries.length)
     Assert.assertEquals("credits length", 2, group.credits.length)
     Assert.assertEquals("rating", Some(Rating("urn:simple", "nonadult")), group.rating)

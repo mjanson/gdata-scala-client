@@ -31,15 +31,14 @@ import scala.xml.{NamespaceBinding, TopScope}
 case class Thumbnail(url: String, width: Option[Int], height: Option[Int], time: Option[NormalPlayTime])
 
 object Thumbnail {
-  val mediaNs = new NamespaceBinding("media", Uris.MEDIA, TopScope)
-  
+
   /** A pickler for thumbnail elements. */
   val pickler: Pickler[Thumbnail] = 
     (wrap (elem("thumbnail", 
                 attr("url", text)
               ~ opt(attr("width", intVal))
               ~ opt(attr("height", intVal))
-              ~ opt(attr("time", NormalPlayTime.pickler)))(mediaNs))
+              ~ opt(attr("time", NormalPlayTime.pickler)))(Uris.mediaNs))
            (Thumbnail.apply)
            (fromThumbnail))
   

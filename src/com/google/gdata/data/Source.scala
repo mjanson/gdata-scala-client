@@ -69,7 +69,9 @@ object Source {
       ~ opt(atomText("subtitle"))
       ~ opt(atomText("title"))
       ~ opt(elem("updated", dateTime)))
-        
+
+  private implicit val atomNs = Uris.atomNs
+  
   lazy val pickler: Pickler[Source] = wrap (elem("source", atomSourceContents)) ({
     case authors ~ cats ~ contribs ~ generator ~ id
          ~ links ~ logo ~ rights ~ subtitle ~ title ~ updated => 

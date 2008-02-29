@@ -31,10 +31,8 @@ import scala.xml.{NamespaceBinding, TopScope}
 case class Hash(algo: String, value: String)
 
 object Hash {
-  val mediaNs = new NamespaceBinding("media", Uris.MEDIA, TopScope)
-  
   val pickler: Pickler[Hash] = 
-    (wrap (elem("hash", default(attr("algo", text), "md5") ~ text) (mediaNs))
+    (wrap (elem("hash", default(attr("algo", text), "md5") ~ text) (Uris.mediaNs))
        (Hash.apply)
        (fromHash))
   

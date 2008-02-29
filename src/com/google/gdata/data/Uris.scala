@@ -16,8 +16,6 @@
 
 package com.google.gdata.data;
 
-import scala.xml.{NamespaceBinding, TopScope}
-
 /**
  * This object holds together common namespace definitions.
  */
@@ -26,29 +24,35 @@ object Uris {
   final val ATOM = "http://www.w3.org/2005/Atom"
 
   /** An atom namespace binding. */
-  lazy val atomNs = new NamespaceBinding("atom", ATOM, TopScope)
+  lazy val atomNs = ("atom", ATOM)
   
   /** GData namespace. Usually aliased to 'gd'. */
   final val GDATA = "http://schemas.google.com/g/2005"
 
   /** A gdata namespace binding. */
-  lazy val gdNs = new NamespaceBinding("gd", GDATA, TopScope)
+  lazy val gdNs = ("gd", GDATA)
   
   /** XHTML namespace. Usually aliased to 'xhtml'. */
   final val XHTML = "http://www.w3.org/1999/xhtml"
   
   /** An xhtml namespace binding. */
-  lazy val xhtmlNs = new NamespaceBinding("xhtml", XHTML, TopScope)
+  lazy val xhtmlNs = ("xhtml", XHTML)
 
   /** XML namespace. <b>Always</b> aliased to 'xml'. */
   final val XML = "http://www.w3.org/XML/1998/namespace"
   
   /** An xml namespace binding. */
-  lazy val xmlNs = new NamespaceBinding("xml", XML, TopScope)
+  lazy val xmlNs = ("xml", XML)
 
   /** The Media RSS namespace. */
   final val MEDIA = "http://search.yahoo.com/mrss/"
   
   /** A media namespace binding. */
-  lazy val mediaNs = new NamespaceBinding("media", MEDIA, TopScope)
+  lazy val mediaNs = ("media", MEDIA)
+  
+  /** Youtube API namespace. */
+  final val YOUTUBE = "http://gdata.youtube.com/schemas/2007"
+  
+  /** A youtube namespace binding. */
+  lazy val ytNs = ("yt", YOUTUBE)
 }

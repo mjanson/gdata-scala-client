@@ -18,8 +18,6 @@ package com.google.xml.combinators;
 
 import org.junit._
 
-import scala.xml.{NamespaceBinding, TopScope}
-
 /**
  * Test permutation parsers.
  *
@@ -29,7 +27,7 @@ class PicklerPermuteTest extends PicklerAsserts {
   import Picklers._
   
   final val URI = "testing-uri"
-  implicit val namespace = new NamespaceBinding("p", URI, TopScope)
+  implicit val namespace = ("p", URI)
   
   def pPermute2: Pickler[String ~ String] =
     interleaved("set2", elem("a", text) ~ elem("b", text))

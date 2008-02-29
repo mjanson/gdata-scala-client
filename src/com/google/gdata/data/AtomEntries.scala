@@ -114,7 +114,8 @@ trait AtomEntries extends Entries {
     }
   }
 
-  lazy val atomEntryContents =
+  lazy val atomEntryContents = {
+    implicit val ns = Uris.atomNs
     interleaved(
         rep(atomPerson("author"))
       ~ rep(Category.pickler)
@@ -128,6 +129,7 @@ trait AtomEntries extends Entries {
       ~ opt(atomText("summary"))
       ~ atomText("title")
       ~ elem("updated", dateTime))
+  }
         
   lazy val atomEntryPickler: Pickler[AtomEntry] = wrap (atomEntryContents) ({
     case authors ~ cats ~ content ~ contribs ~ id ~ links

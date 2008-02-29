@@ -35,13 +35,12 @@ import scala.xml.{NamespaceBinding, TopScope}
 case class Category(scheme: String, label: Option[String], value: String)
 
 object Category {
-  val mediaNs = new NamespaceBinding("media", Uris.MEDIA, TopScope)
   final val DEFAULT_SCHEMA = "http://search.yahoo.com/mrss/category_schema"
   
   val pickler: Pickler[Category] = 
     (wrap (elem("category", 
          default(attr("scheme", text), DEFAULT_SCHEMA)
-       ~ opt(attr("label", text)) ~ text)(mediaNs))
+       ~ opt(attr("label", text)) ~ text)(Uris.mediaNs))
        (Category.apply)
        (fromCategory))
   

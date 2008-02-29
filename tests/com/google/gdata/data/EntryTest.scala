@@ -25,7 +25,7 @@ import org.junit._
 class EntryTest extends PicklerAsserts {
   import Picklers._
   
-  val inputEntry =
+  val inputEntry = (
     <entries>
     <entry xmlns="http://www.w3.org/2005/Atom">
       <title>Atom-Powered Robots Run Amok</title>
@@ -71,13 +71,13 @@ class EntryTest extends PicklerAsserts {
       <summary>Some text.</summary>
     </entry>
     </entries>
-    
+  )
+  
   import Picklers._
   
   object atomEntry extends Object with AtomEntries {
-    implicit val atomNs = new NamespaceBinding("atom", Uris.ATOM, scala.xml.TopScope)
     type Entry = AtomEntry
-    def entryPickler = elem("entry", atomEntryPickler)
+    def entryPickler = elem("entry", atomEntryPickler)(Uris.atomNs)
   }
     
   @Test def testEntry1 {

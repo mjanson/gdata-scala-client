@@ -40,8 +40,8 @@ object PersonParser extends Application {
    * handles plain text nodes. Hopefully, the new release of Scala (2.7.0) will improve 
    * the inferencer and make some code below not necessary.
    */
-  def person: Pickler[Person] = withNamespace("p", URI, TopScope) { puri =>
-    implicit val implUri = puri
+  def person: Pickler[Person] = {
+    implicit val implUri = ("p", URI)
     (wrap (elem("person", 
               elem("name", text)
             ~ elem("address", text ~ attr("p", URI, "type", text))))

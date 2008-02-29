@@ -36,12 +36,12 @@ trait Isomorphic[A, B] {
  * TODO: remove the isomorphism class, use plain wrappers.
  */
 object Category {
-  implicit val atomNs = new NamespaceBinding("atom", Uris.ATOM, TopScope)
+  implicit val atomNs = Uris.atomNs
 
   def wrap[A, B](p: => Pickler[A], iso: Isomorphic[A, B]): Pickler[B] =
     Picklers.wrap (p) (iso.toB) (iso.fromB)
   
-  lazy val pickler: Pickler[Category] =
+  val pickler: Pickler[Category] =
     wrap(elem("category",
         attr("term", text) ~ opt(attr("scheme", text)) ~ opt(attr("label", text))),
         isoCategory)

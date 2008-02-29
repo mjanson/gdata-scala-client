@@ -18,8 +18,6 @@ package com.google.gdata.data.media
 
 import com.google.xml.combinators.~
 import com.google.xml.combinators.Picklers._
-  
-import scala.xml.{NamespaceBinding, TopScope}
 
 /**
  * A media:keywords element, as defined by Media RSS.  @see http://search.yahoo.com/mrss
@@ -29,13 +27,11 @@ import scala.xml.{NamespaceBinding, TopScope}
 case class Keywords(values: List[String])
 
 object Keywords {
-  val mediaNs = new NamespaceBinding("media", Uris.MEDIA, TopScope)
-  
   val pickler = wrap (keywordsPickler) (Keywords.apply) (_.values)
   
   /** Parses keywords separated by ','. It trims spaces around each keyword. */
   def keywordsPickler: Pickler[List[String]] = 
-    (wrap (elem("keywords", text)(mediaNs)) 
+    (wrap (elem("keywords", text)(Uris.mediaNs)) 
         { str => str.split(',').toList.map(_.trim) }
         { keywords => keywords.mkString("", ", ", "") })
 }

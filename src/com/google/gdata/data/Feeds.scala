@@ -19,8 +19,6 @@ package com.google.gdata.data;
 import com.google.xml.combinators.{Picklers, ~}
 import com.google.gdata.data.util.DateTime
 
-import scala.xml.{NamespaceBinding, TopScope}
-
 import Picklers._
 import Atom._
 
@@ -118,7 +116,9 @@ trait AtomFeeds extends Feeds { this: AtomFeeds with Entries =>
     }
   }
 
-  lazy val atomFeedContents =
+  lazy val atomFeedContents = {
+    implicit val ns = Uris.atomNs
+    
     interleaved(
         rep(atomPerson("author"))
       ~ rep(Category.pickler)
@@ -133,7 +133,8 @@ trait AtomFeeds extends Feeds { this: AtomFeeds with Entries =>
       ~ atomText("title")
       ~ elem("updated", dateTime)
       ~ rep(entryPickler))
-        
+  }
+
   lazy val atomFeedPickler: Pickler[AtomFeed] = wrap (atomFeedContents) ({
     case authors ~ cats ~ contribs ~ generator ~ icon ~ id
          ~ links ~ logo ~ rights ~ subtitle ~ title ~ updated ~ entries => 

@@ -16,11 +16,10 @@
 
 package com.google.gdata.data;
 
-import com.google.xml.combinators.{Picklers, ~}
+import com.google.xml.combinators.{Picklers, ~, XmlStore}
 
-import scala.xml.{NamespaceBinding, TopScope, NodeSeq}
+import scala.xml.NodeSeq
 
-import Atom._
 import Picklers._
 
 case class MalformedEntry(str: String) extends RuntimeException
@@ -33,11 +32,11 @@ case class XhtmlContent(var div: NodeSeq) extends Content("xhtml")
 case class OutOfLineContent(var src: String, var tpe: String) extends Content(tpe)
 
 object Content {
-  implicit val atomNs = new NamespaceBinding("atom", Uris.ATOM, TopScope)
+  implicit val atomNs = Uris.atomNs
   
-  lazy val pickler: Pickler[Content] = {
+  val pickler: Pickler[Content] = {
     val content = elem("content", 
-        opt(attr("type", text)) ~ opt(attr("src", text)) ~ collect)
+        opt(attr("type", text)) ~ opt(attr("src", text)) ~ xml)
         
     def toContent(parsed: Option[String] ~ Option[String] ~ NodeSeq): Content = 
       parsed match {

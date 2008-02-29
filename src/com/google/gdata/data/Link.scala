@@ -36,7 +36,7 @@ case class Link(href: String,
     
     
 object Link {
-  implicit val nsAtom = new NamespaceBinding("atom", Uris.ATOM, TopScope)
+  implicit val nsAtom = Uris.atomNs
   
   lazy val pickler: Pickler[Link] = wrap(
     elem("link", attr("href", text) 

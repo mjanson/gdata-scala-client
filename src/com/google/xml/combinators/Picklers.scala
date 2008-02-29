@@ -199,12 +199,13 @@ object Picklers extends AnyRef with ImplicitConversions {
       }
   }
 
-  def filter[A, B](pa: => Pickler[A], f: (A, St) => PicklerResult[B], g: B => A): Pickler[B] = new Pickler[B] {
-    def pickle(v: B, in: St): St =
-      pa.pickle(g(v), in)
-    def unpickle(in: St): PicklerResult[B] = 
-      pa.unpickle(in) andThen { (v, in1) => f(v, in) } 
-  }
+  def filter[A, B](pa: => Pickler[A], f: (A, St) => PicklerResult[B], g: B => A): Pickler[B] =
+    new Pickler[B] {
+      def pickle(v: B, in: St): St =
+        pa.pickle(g(v), in)
+      def unpickle(in: St): PicklerResult[B] = 
+        pa.unpickle(in) andThen { (v, in1) => f(v, in) } 
+    }
   
   /** A constant pickler: it always pickles 'v', and always unpickles 'v'. */
   def const[A](v: A, pickler: (A, St) => St): Pickler[A] = new Pickler[A] {
@@ -219,9 +220,15 @@ object Picklers extends AnyRef with ImplicitConversions {
       case None => v
   }) (v => Some(v))
 
+  def marker(pa: => Pickler[String]): Pickler[Boolean] = 
+    wrap (opt(pa)) { 
+      case Some(_) => true
+      case None => false
+    } (b => if (b) Some("") else None)
+  
   /** Convenience method for creating an attribute within a namepace. */
-  def attr[A](label: String, pa: => Pickler[A], ns: NamespaceBinding): Pickler[A] =
-    attr(ns.prefix, ns.uri, label, pa)
+  def attr[A](label: String, pa: => Pickler[A], ns: (String, String)): Pickler[A] =
+    attr(ns._1, ns._2, label, pa)
 
   /**
    * Wrap a parser into a prefixed attribute. The attribute will contain all the 
@@ -264,8 +271,8 @@ object Picklers extends AnyRef with ImplicitConversions {
    * this element are committed (this parser is not allowed to recover from failures in
    * parsing its content.
    */
-  def elem[A](label: String, pa: => Pickler[A])(implicit ns: NamespaceBinding): Pickler[A] =
-    elem(ns.prefix, ns.uri, label, commit(pa))
+  def elem[A](label: String, pa: => Pickler[A])(implicit ns: (String, String)): Pickler[A] =
+    elem(ns._1, ns._2, label, commit(pa))
   
   /** Wrap a pickler into an element. */
   def elem[A](pre: String, uri: String, label: String, pa: => Pickler[A]) = new Pickler[A] {
@@ -314,7 +321,7 @@ object Picklers extends AnyRef with ImplicitConversions {
    * will parse an element entry with two subelements, link and author, in any order, with
    * possibly other elements between them.
    */
-  def interleaved[A](label: String, pa: => Pickler[A])(implicit ns: NamespaceBinding): Pickler[A] =
+  def interleaved[A](label: String, pa: => Pickler[A])(implicit ns: (String, String)): Pickler[A] =
     elem(label, interleaved(pa))(ns)
 
   /**
@@ -413,33 +420,44 @@ object Picklers extends AnyRef with ImplicitConversions {
     wrap(pa) (f) { x => g(x).get }
 */
   
-  /** Collect all elements of the input into a NodeSeq. */
-  def collect: Pickler[NodeSeq] = new Pickler[NodeSeq] {
-    def pickle(v: NodeSeq, in: St) = 
-      v.foldLeft(in) (_.addNode(_))
-    def unpickle(in: St) =
-      Success(NodeSeq.fromSeq(in.nodes), LinearStore(in.attrs, Nil, in.ns))
+  /** Collect all unconsumed input into a XmlSotre. */
+  def collect: Pickler[XmlStore] = new Pickler[XmlStore] {
+    def pickle(v: XmlStore, in: St) = v.toLinear
+    def unpickle(in: St) = Success(in, LinearStore.empty)
+  }
+  
+  /** An xml pickler that collects all remaining XML nodes. */
+  def xml: Pickler[NodeSeq] = new Pickler[NodeSeq] {
+    def pickle(v: NodeSeq, in: St) = v.foldLeft(LinearStore.empty: XmlStore) (_.addNode(_))
+    def unpickle(in: St) = Success(in.nodes, LinearStore.empty)
   }
   
   def extend[A <: Extensible, B](pa: => Pickler[A], pb: => Pickler[B]) = new Pickler[A ~ B] {
     def pickle(v: A ~ B, in: St): St = {
       val in1 = pb.pickle(v._2, LinearStore.empty)
-      v._1.extension = NodeSeq.fromSeq(in1.nodes.reverse)
+      v._1.store = in1
       pa.pickle(v._1, in)
     }
  
     def unpickle(in: St): PicklerResult[A ~ B] = {
       pa.unpickle(in) andThen { (a, in1) => 
-        pb.unpickle(LinearStore(Null, a.extension.toList, in1.ns)) andThen { (b, in2) =>
+        pb.unpickle(a.store) andThen { (b, in2) =>
           Success(new ~(a, b), in1)
         }
       }
     }
   }
   
-  /** Make a given element handle raw XML elements.  */
+  /** 
+   * Make a given element handle raw XML elements. The given pickler should handle Extensible
+   * subtypes. This pickler will store unconsumed input in the Extensible instance. Later
+   * extensions could use picklers on that store to parse new elements.
+   * 
+   * <code>extensible(Person.pickler)</code> will make a Person pickler ready for future 
+   * extensions by keeping around all input left.
+   */
   def extensible[A <: Extensible](pa: => Pickler[A]): Pickler[A] = 
-    wrap (pa ~ collect) { case a ~ ext => a.extension = ext; a } { a => new ~ (a, a.extension) }
+    wrap (pa ~ collect) { case a ~ ext => a.store = ext; a } { a => new ~ (a, a.store) }
   
   /** A logging combinator */
   def log[A](name: String, pa: => Pickler[A]): Pickler[A] = new Pickler[A] {
@@ -522,9 +540,4 @@ trait ImplicitConversions {
     def tuple2Pair[A, B](p: (A, B)) = new ~(p._1, p._2)
     def tuple3Pair[A, B, C](p: (A, B, C)) = new ~(new ~(p._1, p._2), p._3)
     def tuple4Pair[A, B, C, D](p: (A, B, C, D)) = new ~(new ~(new ~(p._1, p._2), p._3), p._4)
-}
-
-/** A trait for extensible data. Unknown elements will be collected in 'extension'. */
-trait Extensible {
-  var extension: NodeSeq = NodeSeq.Empty
 }

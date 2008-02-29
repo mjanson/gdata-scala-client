@@ -14,10 +14,16 @@
  */
 
 
-package com.google.gdata.data.media;
+package com.google.xml.combinators
 
-import com.google.xml.combinators.{Picklers, Extensible, ~}
-import com.google.xml.combinators.Picklers._
-import com.google.gdata.data.Uris.mediaNs
-import com.google.util.Utility.printOptional
-
+/** 
+ * A trait for extensible data. Unknown elements will be collected in 'store'.
+ * 
+ * This can be used for 'after the fact' extension of picklers. A user-defined 
+ * type that mixes in Extensible must also use the 'extensible' combinator to 
+ * collect remaining input. An extension can then be be applied to the collected
+ * store: <code>extend(Person.pickler, extraElements)</code>
+ */
+trait Extensible {
+  var store: XmlStore = LinearStore.empty
+}

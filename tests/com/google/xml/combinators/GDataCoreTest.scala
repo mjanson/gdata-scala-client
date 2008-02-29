@@ -19,9 +19,8 @@ package com.google.xml.combinators;
 import com.google.gdata.data.{Atom, Uris, Person, Text}
 
 import org.junit._
-
+import Atom.{atomPerson, atomText}
 import Picklers._
-import Atom._
 
 /**
  * This class tests picklers for some GData core types.
@@ -60,7 +59,7 @@ class GDataCoreTest extends PicklerAsserts {
         <atom:im type="yahoo">kenny@yahoomessenger.com</atom:im>
       </atom:person>
       
-      val pPerson = extend(atomPerson("person"), elem("im", text))
+      val pPerson = extend(atomPerson("person"), elem("im", text)(Uris.atomNs))
       assertSucceedsWith("Failed unpickling person",
           new ~(Person("Kenny", None, Some("kenny@southpark.org")), 
               "kenny@yahoomessenger.com"),

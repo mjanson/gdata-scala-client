@@ -19,8 +19,6 @@ package com.google.gdata.data.media;
 import com.google.xml.combinators.~
 import com.google.xml.combinators.Picklers._
 
-import scala.xml.{NamespaceBinding, TopScope}
-
 /** 
  * A media:rating element, as defined by Media RSS.  @see http://search.yahoo.com/mrss
  *
@@ -29,10 +27,8 @@ import scala.xml.{NamespaceBinding, TopScope}
 case class Rating(scheme: String, value: String)
 
 object Rating {
-  val mediaNs = new NamespaceBinding("media", Uris.MEDIA, TopScope)
-
   val pickler: Pickler[Rating] =
-    (wrap (elem("rating", default(attr("scheme", text), "urn:simple") ~ text)(mediaNs))
+    (wrap (elem("rating", default(attr("scheme", text), "urn:simple") ~ text)(Uris.mediaNs))
           (Rating.apply)
           (r => new ~(r.scheme, r.value)))
 }

@@ -39,8 +39,7 @@ case class Person(name: String,
 object Atom {
   import Picklers._
 
-  val xmlNs = new NamespaceBinding("xml", Uris.XML, TopScope)
-  implicit val atomNs = new NamespaceBinding("atom", Uris.ATOM, xmlNs)
+  implicit private val atomNs = Uris.atomNs
 
   /**
    * Return a pickler for an element that is a text construct.

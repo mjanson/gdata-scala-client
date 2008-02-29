@@ -1,8 +1,9 @@
 package feeds;
 
 import com.google.xml.combinators._
-import com.google.gdata.youtube.MediaEntries
+import com.google.gdata.youtube.VideoEntries
 import com.google.gdata.data.{AtomFeeds, AtomEntries, Uris}
+import com.google.gdata.data.media.{MediaRss}
 
 import java.net.{URL, MalformedURLException, HttpURLConnection}
 import java.io.{InputStream, InputStreamReader}
@@ -13,25 +14,31 @@ import Picklers._
 
 
 object atomFeeds extends Object with AtomFeeds with AtomEntries {
-  val ns = new NamespaceBinding("atom", Uris.ATOM, TopScope)
   type Entry = AtomEntry
   type Feed = AtomFeed
-  def entryPickler = elem("entry", atomEntryPickler)(ns)
-  def feedPickler = elem("feed", atomFeedPickler)(ns)
+  def entryPickler = elem("entry", atomEntryPickler)(Uris.atomNs)
+  def feedPickler = elem("feed", atomFeedPickler)(Uris.atomNs)
 }
 
-object mediaFeeds extends AtomFeeds with MediaEntries {
-  val ns = new NamespaceBinding("atom", Uris.ATOM, TopScope)
-  type Entry = MediaEntry
+object mediaFeeds extends AtomFeeds with MediaRss with VideoEntries {
+  type Entry = VideoEntry
   type Feed = AtomFeed
-  def entryPickler = elem("entry", mediaEntryPickler)(ns)
-  def feedPickler = elem("feed", atomFeedPickler)(ns)
+  type Content = YouTubeContent
+  type Group = BaseGroup
+  
+  def groupContentsPickler = baseGroupPickler
+  def contentContentsPickler = ytContentContentsPickler
+  
+  def entryPickler = elem("entry", videoEntryPickler)(Uris.atomNs)
+  def feedPickler = elem("feed", atomFeedPickler)(Uris.atomNs)
 }
 
 object TestFeed {
   var url = "http://gdata.youtube.com"
   
   var query = ""
+  
+  var verbose = false
   
   private def log(str: String) = println(str)
     
@@ -53,8 +60,11 @@ object TestFeed {
       val reader = new InputStreamReader(connection.getContent.asInstanceOf[InputStream])
       //while (reader.ready()) print(reader.read().asInstanceOf[Char])
       log("Parsing XML..")
-      val elem = XML.load(reader)
-      //println(new xml.PrettyPrinter(80, 2).format(elem))
+        val elem = XML.load(reader)
+      
+      if (verbose) 
+        println(new scala.xml.PrettyPrinter(80, 2).format(elem))
+      
       log("Unpickling..")
       mediaFeeds.feedPickler.unpickle(LinearStore.fromElem(elem)) match {
         case Success(feed, rest) => 
@@ -80,11 +90,26 @@ object TestFeed {
       case "-q" :: q :: rest =>
         query = q
         args = rest
+      case "-v" :: rest =>
+        verbose = true
+        args = rest
+      case "-help" :: rest =>
+        printUsage()
+        System.exit(0)
         
       case a :: _ =>
         error("Don't know what to do with " + a)
         
       case Nil => ()
     }
+  }
+  
+  private def printUsage() {
+    println("""TestFeed [-url <url>] [-q <query>] [-v]
+
+    -url The service url (default: "http://gdata.youtube.com")
+    -q   Query string
+    -v   Verbose output (prints XML response before unpickling) 
+""")
   }
 }
