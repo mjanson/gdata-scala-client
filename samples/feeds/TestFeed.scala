@@ -24,9 +24,9 @@ object mediaFeeds extends AtomFeeds with MediaRss with VideoEntries {
   type Entry = VideoEntry
   type Feed = AtomFeed
   type Content = YouTubeContent
-  type Group = BaseGroup
+  type Group = YouTubeGroup
   
-  def groupContentsPickler = baseGroupPickler
+  def groupContentsPickler = youTubeGroupContents
   def contentContentsPickler = ytContentContentsPickler
   
   def entryPickler = elem("entry", videoEntryPickler)(Uris.atomNs)
@@ -39,6 +39,8 @@ object TestFeed {
   var query = ""
   
   var verbose = false
+  
+  var pickle = false
   
   private def log(str: String) = println(str)
     
@@ -63,22 +65,29 @@ object TestFeed {
         val elem = XML.load(reader)
       
       if (verbose) 
-        println(new scala.xml.PrettyPrinter(80, 2).format(elem))
+        prettyPrint(elem)
       
       log("Unpickling..")
       mediaFeeds.feedPickler.unpickle(LinearStore.fromElem(elem)) match {
         case Success(feed, rest) => 
           println("Success")
-          println(feed)
+          if (verbose)
+            println(feed)
+          if (pickle) {
+            log("Pickling..")
+            prettyPrint(mediaFeeds.feedPickler.pickle(feed, LinearStore.empty).rootNode)
+          }
         case f: NoSuccess => println(f)
       }
-        
     } catch {
       case e: MalformedURLException =>
         error(e.getMessage)
     }
 
   }
+  
+  private def prettyPrint(n: scala.xml.Node) = 
+    println(new scala.xml.PrettyPrinter(80, 2).format(n))
   
   private def parseCommandLine(as: List[String]) {
     var args = as
@@ -93,6 +102,10 @@ object TestFeed {
       case "-v" :: rest =>
         verbose = true
         args = rest
+      case "-p" :: rest =>
+        pickle = true
+        args = rest
+        
       case "-help" :: rest =>
         printUsage()
         System.exit(0)
@@ -109,6 +122,7 @@ object TestFeed {
 
     -url The service url (default: "http://gdata.youtube.com")
     -q   Query string
+    -p   Pickle back the feed (prints XML to stdout)
     -v   Verbose output (prints XML response before unpickling) 
 """)
   }

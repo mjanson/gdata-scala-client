@@ -98,7 +98,8 @@ trait AtomEntries extends Entries {
     
     override def toString = {
       val sb = new StringBuffer(256) // override the ridiculous default size of 16-chars
-      sb.append("Authors: ").append(authors.mkString("", ", ", ""))
+      sb.append("\n---- Entry -----\n")      
+        .append("Authors: ").append(authors.mkString("", ", ", ""))
         .append("\nCategories: ").append(categories.mkString("", ", ", ""))
         .append("\nContent: ").append(content)
         .append("\nContributors: ").append(contributors.mkString("", ", ", ""))

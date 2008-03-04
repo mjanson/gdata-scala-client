@@ -84,8 +84,8 @@ class ContentTest extends PicklerAsserts {
         scheme="http://dmoz.org" label="Ace Ventura - PetDetective">
         Arts/Movies/Titles/A/Ace_Ventura_Series/Ace_Ventura_-_Pet_Detective</media:category>)
     val exp1 = Category("http://search.yahoo.com/mrss/category_schema", None, "music/artist/album/song")
-    val exp2 = Category("http://dmoz.org", Some("Ace Ventura - PetDetective"), 
-        "Arts/Movies/Titles/A/Ace_Ventura_Series/Ace_Ventura_-_Pet_Detective")
+    val exp2 = Category("http://dmoz.org", Some("Ace Ventura - PetDetective"),"""
+        Arts/Movies/Titles/A/Ace_Ventura_Series/Ace_Ventura_-_Pet_Detective""")
     
     assertSucceedsWith("category-default", exp1, input1, Category.pickler)
     //assertPicklesTo("category pickling", input1, exp1, Category.pickler)
@@ -128,7 +128,7 @@ class ContentTest extends PicklerAsserts {
   
   @Test def testText {
     val input = (<media:text  xmlns:media="http://search.yahoo.com/mrss/"
-        type="plain" lang="en" start="0:00:03.0" end="0:00:10.0">Oh, say, can you see</media:text>)
+        type="plain" lang="en" start="00:00:03" end="00:00:10">Oh, say, can you see</media:text>)
     val exp = Text("plain", "Oh, say, can you see", Some("en"), 
         Some(SpecificTime(0, 0, 3, 0)), Some(SpecificTime(0, 0, 10, 0)))
     assertSucceedsWith("text", exp, input, Text.pickler)
@@ -169,7 +169,7 @@ class ContentTest extends PicklerAsserts {
     )
     
     /** A media group. */
-    object mediaGroup extends MediaGroup with MediaContent {
+    object mediaGroup extends MediaRss {
       import Picklers._
       
       type Group = BaseGroup

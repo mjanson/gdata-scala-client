@@ -60,9 +60,14 @@ case class SpecificTime(hour: Int, minute: Int, seconds: Int, millis: Int) exten
     
   override def toString = {
     val sb = new StringBuilder
-    sb.append(hour).append(':')
+    if (hour < 100)
+      padInt(sb, hour, 2)
+    else
+      sb.append(hour)
+    sb.append(':')
     padInt(sb, minute, 2).append(':')
-    padInt(sb, seconds, 2).append('.').append(millis)
+    padInt(sb, seconds, 2)
+    if (millis > 0) sb.append('.').append(millis)
     sb.toString
   }
 }

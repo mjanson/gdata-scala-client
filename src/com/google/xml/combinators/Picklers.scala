@@ -220,6 +220,7 @@ object Picklers extends AnyRef with ImplicitConversions {
       case None => v
   }) (v => Some(v))
 
+  /** A marker pickler: 'true' when the unpickler succeeds, false otherwise. */
   def marker(pa: => Pickler[String]): Pickler[Boolean] = 
     wrap (opt(pa)) { 
       case Some(_) => true
@@ -420,9 +421,9 @@ object Picklers extends AnyRef with ImplicitConversions {
     wrap(pa) (f) { x => g(x).get }
 */
   
-  /** Collect all unconsumed input into a XmlSotre. */
+  /** Collect all unconsumed input into a XmlStore. */
   def collect: Pickler[XmlStore] = new Pickler[XmlStore] {
-    def pickle(v: XmlStore, in: St) = v.toLinear
+    def pickle(v: XmlStore, in: St) = in.addStore(v)
     def unpickle(in: St) = Success(in, LinearStore.empty)
   }
   
@@ -462,7 +463,7 @@ object Picklers extends AnyRef with ImplicitConversions {
   /** A logging combinator */
   def log[A](name: String, pa: => Pickler[A]): Pickler[A] = new Pickler[A] {
     def pickle(v: A, in: St): St = {
-      println("pickling " + name + " at: " + in)
+      println("pickling [" + name + "] " + v + " at: " + in)
       val res = pa.pickle(v, in)
       println("got back: " + res)
       res

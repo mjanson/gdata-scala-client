@@ -88,6 +88,20 @@ trait XmlStore {
   def addNode(n: Node): XmlStore = 
     mkState(attrs, n :: nodes, ns)
 
+  /** Add an entire XmlStore to this store. */
+  def addStore(other: XmlStore): XmlStore = {
+    val newAttrs = attrs 
+    other.attrs.foreach(attrs.append(_))
+    var newNodes = nodes ::: other.nodes
+    var res = mkState(newAttrs, newNodes, ns)
+    var n = other.ns
+    while (n.parent != TopScope) {
+      res.addNamespace(n.prefix, n.uri)
+      n = n.parent
+    }
+    res
+  }
+  
   /**
    * Return the root element of the constructed XML fragment. 
    * It always returns the first node in the list of nodes. It
@@ -195,7 +209,7 @@ class LinearStore(ats: MetaData, nods: List[Node], bindings: NamespaceBinding) e
   
   /** Accept a text node. Fails if the head of the node list is not a text node. */
   def acceptText: (Option[Text], LinearStore) = {
-    if (nodes.isEmpty) (None, this)
+    if (nodes.isEmpty) (Some(Text("")), this)
     else nodes.head match {
       case t: Text => (Some(t), mkState(attrs, nodes.tail, ns))
       case _       => (None, this)
@@ -301,8 +315,9 @@ object LinearStore {
     new LinearStore(attrs, nodes, ns)
 
   /** Create a LinearStore from an element. */
-  def fromElem(e: Elem) = 
-    LinearStore(e.attributes, Utility.trimProper(e).toList, TopScope)
+  def fromElem(e: Elem) =
+      LinearStore(e.attributes, List(e), TopScope)
+//    LinearStore(e.attributes, Utility.trimProper(e).toList, TopScope)
     
   /** Create a LinearStore for the contents of the given element. */ 
   def enterElem(e: Elem) = 

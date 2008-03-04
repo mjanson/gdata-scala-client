@@ -16,12 +16,15 @@
 
 package com.google.gdata.youtube;
 
-import com.google.gdata.data.{AtomEntries, Entries, Uris}
-import com.google.gdata.data.media.{Text, Rating, MediaRss}
+import com.google.gdata.data.{AtomEntries, AtomFeeds, Entries, Uris}
+import com.google.gdata.data.media.{Text, MediaRss}
+import com.google.gdata.data.media
+import com.google.gdata.data.kinds.{Comments}
+import com.google.gdata.data.kinds
 import com.google.xml.combinators.{~}
 import com.google.xml.combinators.Picklers._
 
-trait VideoEntries extends AtomEntries {  this: VideoEntries with MediaRss =>
+trait VideoEntries extends AtomEntries {  this: VideoEntries with MediaRss with AtomFeeds =>
   type Entry <: VideoEntry
   type Content <: YouTubeContent
   
@@ -60,6 +63,7 @@ trait VideoEntries extends AtomEntries {  this: VideoEntries with MediaRss =>
     }
   }
   
+  /** A YouTubeGrop adds a duration field to the media:group element. */
   class YouTubeGroup extends BaseGroup {
     /** Video length in seconds. */
     var duration: Option[Int] = None
@@ -84,7 +88,12 @@ trait VideoEntries extends AtomEntries {  this: VideoEntries with MediaRss =>
   
   private def fromYtGroup(g: YouTubeGroup) = new ~(g, g.duration)
   
-  /** A Media entry adds MediaRss group elements. */
+  /**
+   * A Media entry adds MediaRss group elements. 
+   * 
+   * TODO: Embed the comments feed (currently an AtomFeed)
+   * @author Iulian Dragos
+   */
   class VideoEntry extends AtomEntry {
     /** Media Rss group. */
     var media: Group = _
@@ -98,41 +107,52 @@ trait VideoEntries extends AtomEntries {  this: VideoEntries with MediaRss =>
     /** The number of times this video has been viewed. */
     var viewCount: Int = 0
     
-    def fillOwnFields(media: Group, noembed: Boolean, 
-        restricted: Boolean, viewCount: Int): this.type = {
+    /** Video rating. */
+    var rating: Option[kinds.Rating] = None
+    
+    /** Comments feed for this entry. */
+    var comments: Option[Comments[AtomFeed]] = None 
+    
+    def fillOwnFields(media: Group, noembed: Boolean, restricted: Boolean,
+        viewCount: Int, rating: Option[kinds.Rating], comments: Option[Comments[AtomFeed]]): this.type = {
       this.media = media
       this.noembed = noembed
       this.restricted = restricted
       this.viewCount = viewCount
+      this.rating = rating
+      this.comments = comments
       this
     }
     
     def fromVideoEntry(me: VideoEntry) {
       this.fromAtomEntry(me)
-      fillOwnFields(me.media, me.noembed, me.restricted, me.viewCount)
+      fillOwnFields(me.media, me.noembed, me.restricted, me.viewCount, me.rating, me.comments)
     }
     
     override def toString = {
       super.toString + " media: " + media + " noembed: " + noembed + " restricted: " +
-          restricted + " viewCount: " + viewCount
+          restricted + " viewCount: " + viewCount + " rating: " + rating +
+          " comments: " + comments
     }
   }
   
-  lazy val videoEntryExtra = (groupPickler ~ marker(elem("noembed", text)(Uris.ytNs))
+  lazy val videoEntryExtra = interleaved((groupPickler ~ marker(elem("noembed", text)(Uris.ytNs))
       ~ marker(elem("racy", text)(Uris.ytNs))
-      ~ default(elem("statistics", attr("viewCount", intVal))(Uris.ytNs), 0))
+      ~ default(elem("statistics", attr("viewCount", intVal))(Uris.ytNs), 0)
+      ~ opt(kinds.Rating.pickler)
+      ~ opt(Comments.pickler(atomFeedPickler))))
     
   /**
    * A pickler for media entries. It pickles/unpickles just the contents of an entry. 
    */
   def videoEntryPickler: Pickler[VideoEntry] =
     wrap (atomEntryPickler ~ videoEntryExtra) ({
-      case ae ~ (media ~ noembed ~ racy ~ vc) => 
+      case ae ~ (media ~ noembed ~ racy ~ vc ~ rating ~ comments) => 
         val me = new VideoEntry
         me.fromAtomEntry(ae)
-        me.fillOwnFields(media, noembed, racy, vc)
+        me.fillOwnFields(media, noembed, racy, vc, rating, comments)
     }) (fromVideoEntry)
-    
+
   private def fromVideoEntry(me: VideoEntry) = 
-    new ~(me, new ~(me.media, me.noembed) ~ me.restricted ~ me.viewCount)
+    new ~(me, new ~(me.media, me.noembed) ~ me.restricted ~ me.viewCount ~ me.rating ~ me.comments)
 }

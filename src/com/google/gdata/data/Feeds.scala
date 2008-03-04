@@ -111,7 +111,7 @@ trait AtomFeeds extends Feeds { this: AtomFeeds with Entries =>
         .append("\nSubtitle: ").append(subtitle)
         .append("\nTitle: ").append(title)
         .append("\nUpdated: ").append(updated)
-        .append("\nEntries: ").append(entries.mkString("", "\n", ""))
+        .append("\nEntries: ").append(entries.mkString("", "\n\t", ""))
         .toString
     }
   }
@@ -153,5 +153,5 @@ trait AtomFeeds extends Feeds { this: AtomFeeds with Entries =>
       ~ e.subtitle
       ~ e.title
       ~ e.updated
-      ~ e.entries)     
+      ~ e.entries)
 }
