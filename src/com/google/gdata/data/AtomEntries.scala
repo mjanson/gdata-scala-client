@@ -35,7 +35,10 @@ trait Entries {
   type Entry
   
   /** A pickler for the abstract type Entry. */
-  def entryPickler: Pickler[Entry]
+  def entryPickler: Pickler[Entry] = elem("entry", entryContentsPickler)(Uris.atomNs)
+  
+  /** An abstract pickler for entries. Subclasses need to implement this. */
+  def entryContentsPickler: Pickler[Entry]
 }
 
 /**
@@ -46,8 +49,6 @@ trait Entries {
  */
 trait AtomEntries extends Entries {
   type Entry <: AtomEntry
-  
-  def entryPickler: Pickler[Entry]
   
   /** An Atom Entry. */
   class AtomEntry  {
@@ -115,7 +116,7 @@ trait AtomEntries extends Entries {
     }
   }
 
-  lazy val atomEntryContents = {
+  private lazy val atomEntryContents = {
     implicit val ns = Uris.atomNs
     interleaved(
         rep(atomPerson("author"))
@@ -132,7 +133,7 @@ trait AtomEntries extends Entries {
       ~ elem("updated", dateTime))
   }
         
-  lazy val atomEntryPickler: Pickler[AtomEntry] = wrap (atomEntryContents) ({
+  lazy val atomEntryContentsPickler: Pickler[AtomEntry] = wrap (atomEntryContents) ({
     case authors ~ cats ~ content ~ contribs ~ id ~ links
          ~ published ~ rights ~ src ~ summary ~ title ~ updated => 
       (new AtomEntry).fillOwnFields(authors, cats, content, contribs, id, links, published, 

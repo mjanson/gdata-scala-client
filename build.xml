@@ -10,19 +10,38 @@
 
   <!-- PROPERTIES -->
 
-  <property name="source.dir"  value="src"/>
-  <property name="tests.dir"   value="tests"/>
-  <property name="samples.dir" value="samples"/>
-  <property name="lib.dir"     value="lib"/>
-  <property name="junit.jar"   value="${lib.dir}/junit-4.4.jar"/>
+  <property name="source.dir"   value="src"/>
+  <property name="tests.dir"    value="tests"/>
+	<property name="testdata.dir" value="test-data"/>
+  <property name="samples.dir"  value="samples"/>
+  <property name="lib.dir"      value="lib"/>
+  <property name="junit.jar"    value="${lib.dir}/junit-4.4.jar"/>
+  <property name="xmldiff.jar"  value="${lib.dir}/xmldiff-0.2.jar"/>
   <property file="./build.properties"/>
 
   <!-- the following properties can be set in the above property file -->
   <property name="scala.dir" value="${env.SCALA_HOME}"/>
   <property name="build.dir" value="classes"/>
+	<property name="instr.dir" location="classes-instr"/>
   <property name="docs.dir" value="docs"/>
 
-  <!-- INITIALISATION -->
+  <property name="coverage.dir" value="coverage"/>
+  <!--  directory that contains emma.jar and emma_ant.jar: -->
+  <property name="emma.dir" value="/usr/local/google/home/iuliandragos/soft/emma-2.0.5312/lib"/>
+  <!-- path element used by EMMA taskdef below: -->
+  
+  <path id="emma.lib">
+    <pathelement location="${emma.dir}/emma.jar"/>
+    <pathelement location="${emma.dir}/emma_ant.jar"/>
+  </path>
+  <!-- this loads <emma> and <emmajava> custom tasks: -->
+  <taskdef resource="emma_ant.properties" classpathref="emma.lib"/>
+  
+  <!--
+  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+  -->
+  
+	<!-- INITIALISATION -->
 
   <target name="init">
     <available file="${scala.dir}" property="scala.present"/>
@@ -65,6 +84,9 @@
       <pathelement location="${scala-library.jar}"/>
       <pathelement location="${build.dir}"/>
       <pathelement location="${junit.jar}"/>
+    	<pathelement location="${xmldiff.jar}"/>
+      <pathelement location="${testdata.dir}"/>
+      <pathelement location="${emma.dir}/emma.jar"/>
     </path>
   </target>
 
@@ -74,17 +96,19 @@
     <mkdir dir="${build.dir}"/>
     <scalac
       target="jvm-1.5"
+    	debuginfo="line"
       srcdir="${source.dir}"
       includes="com/google/xml/**/*.scala"
       destdir="${build.dir}"
       classpathref="build.classpath"/>
   </target>
 
-  <target name="build.samples" depends="init,build.combinators">
+  <target name="build.samples" depends="init,build">
     <echo level="verbose" message="build.dir=${build.dir}"/>
     <mkdir dir="${build.dir}"/>
     <scalac
       target="jvm-1.5"
+      debuginfo="line"
       srcdir="${samples.dir}"
       includes="**/*.scala"
       destdir="${build.dir}"
@@ -97,6 +121,7 @@
     <mkdir dir="${build.dir}"/>
     <scalac
       target="jvm-1.5"
+      debuginfo="line"
       srcdir="${source.dir}"
       includes="**/*.scala"
       destdir="${build.dir}"
@@ -108,6 +133,7 @@
     <echo level="verbose" message="build.dir=${build.dir}"/>
     <scalac
         target="jvm-1.5"
+        debuginfo="line"
         srcdir="${tests.dir}"
         includes="**/*.scala"
         destdir="${build.dir}"
@@ -115,8 +141,18 @@
         />
   </target>
   
-  <target name="test" depends="init,build.test">
-    <junit>
+	<target name="instrument" depends="init, build.test">
+		<emma enabled="true">
+		  <instr destdir="${instr.dir}" metadatafile="${coverage.dir}/coverage.emma">
+		    <instrpath>
+			    <pathelement path="${build.dir}"/>
+		    </instrpath>
+		  </instr>
+		</emma>
+	</target>
+	
+  <target name="test" depends="instrument,test.feeds">
+    <junit fork="true">
       <test name="com.google.xml.combinators.PicklerTest"/>
       <test name="com.google.xml.combinators.PicklerPermuteTest"/>
       <test name="com.google.xml.combinators.GDataCoreTest"/>
@@ -126,12 +162,40 @@
       <test name="com.google.gdata.data.media.ContentTest"/>
       <formatter type="plain" usefile="false"/>
       <classpath>
+        <pathelement location="${instr.dir}"/>
         <path refid="test.classpath"/>
-        <pathelement location="${build.dir}"/>
       </classpath> 
+      <jvmarg value="-Demma.coverage.out.file=${coverage.dir}/coverage.emma"/>
+      <jvmarg value="-Demma.coverage.out.merge=true"/>
     </junit>
   </target>
+
+  <target name="test.feeds" depends="build.test, instrument">
+    <junit fork="true">
+      <test name="com.google.gdata.youtube.YouTubeFeedsTest"/>
+      <formatter type="plain" usefile="false"/>
+      <classpath>
+        <pathelement location="${instr.dir}"/>
+        <path refid="test.classpath"/>
+      </classpath> 
+    	<jvmarg value="-Demma.coverage.out.file=${coverage.dir}/coverage.emma"/>
+    	<jvmarg value="-Demma.coverage.out.merge=true"/>
+    </junit>
+  </target>
+	
+	<target name="coverage" depends="test">
+		<emma enabled="true">
+  		<report sourcepath="${source.dir}">
+        <fileset dir="${coverage.dir}" >
+          <include name="*.emma" />
+        </fileset>
   
+        <txt outfile="${coverage.dir}/coverage.txt" />
+        <html outfile="${coverage.dir}/coverage.html" />			
+  	  </report>
+		 </emma>
+  </target>
+	
   <!-- DOCS -->
   
   <target name="docs" depends="init">
@@ -159,7 +223,8 @@
   <target name="clean">
     <remove dir="${build.dir}"/>
     <remove dir="${docs.dir}"/>
+  	<remove dir="${coverage.dir}"/>
   </target>
-
+	
 </project>
 

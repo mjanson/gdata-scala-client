@@ -55,4 +55,10 @@ object Uris {
   
   /** A youtube namespace binding. */
   lazy val ytNs = ("yt", YOUTUBE)
+  
+  /** Open Search namespace. */
+  final val OPENSEARCH = "http://a9.com/-/spec/opensearchrss/1.0/"
+  
+  /** An open search namespace binding. */
+  lazy val openSearchNs = ("openSearch", OPENSEARCH)
 }

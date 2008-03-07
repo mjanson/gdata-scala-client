@@ -77,7 +77,7 @@ class EntryTest extends PicklerAsserts {
   
   object atomEntry extends Object with AtomEntries {
     type Entry = AtomEntry
-    def entryPickler = elem("entry", atomEntryPickler)(Uris.atomNs)
+    def entryContentsPickler = atomEntryContentsPickler
   }
     
   @Test def testEntry1 {

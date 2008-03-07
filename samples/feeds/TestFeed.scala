@@ -1,7 +1,8 @@
 package feeds;
 
 import com.google.xml.combinators._
-import com.google.gdata.youtube.VideoEntries
+import com.google.gdata.youtube.{StdVideoFeed, StdUserPlaylistsFeed, 
+    StdUserProfileEntry, StdPlaylistFeed, StdCommentsFeed, StdContactsFeed}
 import com.google.gdata.data.{AtomFeeds, AtomEntries, Uris}
 import com.google.gdata.data.media.{MediaRss}
 
@@ -12,27 +13,6 @@ import scala.xml.{XML, NamespaceBinding, TopScope}
 
 import Picklers._
 
-
-object atomFeeds extends Object with AtomFeeds with AtomEntries {
-  type Entry = AtomEntry
-  type Feed = AtomFeed
-  def entryPickler = elem("entry", atomEntryPickler)(Uris.atomNs)
-  def feedPickler = elem("feed", atomFeedPickler)(Uris.atomNs)
-}
-
-object mediaFeeds extends AtomFeeds with MediaRss with VideoEntries {
-  type Entry = VideoEntry
-  type Feed = AtomFeed
-  type Content = YouTubeContent
-  type Group = YouTubeGroup
-  
-  def groupContentsPickler = youTubeGroupContents
-  def contentContentsPickler = ytContentContentsPickler
-  
-  def entryPickler = elem("entry", videoEntryPickler)(Uris.atomNs)
-  def feedPickler = elem("feed", atomFeedPickler)(Uris.atomNs)
-}
-
 object TestFeed {
   var url = "http://gdata.youtube.com"
   
@@ -41,14 +21,34 @@ object TestFeed {
   var verbose = false
   
   var pickle = false
+
+  var feed: AtomFeeds = new StdVideoFeed 
   
-  private def log(str: String) = println(str)
+  private def log(str: String) = {
+    System.err.println(str)
+  }
     
   def main(args: Array[String]) {
     parseCommandLine(args.toList)
     
     log("Connecting to " + url + "/" + query)
     doQuery
+  }
+  
+  private def unpickle[A](elem: scala.xml.Elem, pa: Pickler[A]) {
+	log("Unpickling..")
+	pa.unpickle(LinearStore.fromElem(elem)) match {
+	  case Success(feed, rest) => 
+	    log("Success")
+	    if (verbose)
+	      println(feed)
+	    if (pickle) {
+	      log("Pickling..")
+	      println(pa.pickle(feed, LinearStore.empty).rootNode)
+	    }
+	  case f: NoSuccess =>
+	    println(f)
+	}
   }
   
   private def doQuery {
@@ -62,23 +62,12 @@ object TestFeed {
       val reader = new InputStreamReader(connection.getContent.asInstanceOf[InputStream])
       //while (reader.ready()) print(reader.read().asInstanceOf[Char])
       log("Parsing XML..")
-        val elem = XML.load(reader)
+      val elem = XML.load(reader)
       
       if (verbose) 
-        prettyPrint(elem)
-      
-      log("Unpickling..")
-      mediaFeeds.feedPickler.unpickle(LinearStore.fromElem(elem)) match {
-        case Success(feed, rest) => 
-          println("Success")
-          if (verbose)
-            println(feed)
-          if (pickle) {
-            log("Pickling..")
-            prettyPrint(mediaFeeds.feedPickler.pickle(feed, LinearStore.empty).rootNode)
-          }
-        case f: NoSuccess => println(f)
-      }
+        println(elem)
+
+      unpickle(elem, feed.feedPickler) 
     } catch {
       case e: MalformedURLException =>
         error(e.getMessage)
@@ -105,11 +94,20 @@ object TestFeed {
       case "-p" :: rest =>
         pickle = true
         args = rest
-        
+      case "-pk" :: pickler :: rest =>
+        pickler match {
+          case "video"    => feed = new StdVideoFeed
+          case "comments" => feed = new StdCommentsFeed
+          case "contacts" => feed = new StdContactsFeed
+          case "playlist" => feed = new StdPlaylistFeed
+          case "userpls"  => feed = new StdUserPlaylistsFeed
+          case f => error("unknown feed type")
+        }
+        args = rest
       case "-help" :: rest =>
         printUsage()
         System.exit(0)
-        
+
       case a :: _ =>
         error("Don't know what to do with " + a)
         
@@ -118,12 +116,14 @@ object TestFeed {
   }
   
   private def printUsage() {
-    println("""TestFeed [-url <url>] [-q <query>] [-v]
+    println("""TestFeed [-url <url>] [-q <query>] [-v] [-p] [-pk video|comments|playlist|userpls|contacts]
 
-    -url The service url (default: "http://gdata.youtube.com")
-    -q   Query string
-    -p   Pickle back the feed (prints XML to stdout)
-    -v   Verbose output (prints XML response before unpickling) 
+    -url    The service url (default: "http://gdata.youtube.com").
+    -q      Query string.
+    -p      Pickle back the feed (prints XML to stdout).
+    -v      Verbose output (prints XML response before unpickling).
+    -pk     Use the given pickler. Default is video.
+    -help   Print this screen.
 """)
   }
 }

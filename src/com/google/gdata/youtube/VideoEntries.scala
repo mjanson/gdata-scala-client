@@ -24,9 +24,11 @@ import com.google.gdata.data.kinds
 import com.google.xml.combinators.{~}
 import com.google.xml.combinators.Picklers._
 
-trait VideoEntries extends AtomEntries {  this: VideoEntries with MediaRss with AtomFeeds =>
+trait VideoEntries extends AtomEntries {  this: VideoEntries with MediaRss =>
   type Entry <: VideoEntry
   type Content <: YouTubeContent
+  
+  val commentsFeed: AtomFeeds
   
   /** A pickler for youtube content. */
   def ytContentContentsPickler: Pickler[YouTubeContent] =
@@ -78,7 +80,7 @@ trait VideoEntries extends AtomEntries {  this: VideoEntries with MediaRss with 
     }
   }
   
-  def youTubeGroupContents: Pickler[YouTubeGroup] =
+  def ytGroupContentsPickler: Pickler[YouTubeGroup] =
     (wrap (baseGroupPickler ~ opt(elem("duration", attr("seconds", intVal))(Uris.ytNs)))
         ({ case bg ~ d => 
              val ytg = new YouTubeGroup
@@ -111,10 +113,11 @@ trait VideoEntries extends AtomEntries {  this: VideoEntries with MediaRss with 
     var rating: Option[kinds.Rating] = None
     
     /** Comments feed for this entry. */
-    var comments: Option[Comments[AtomFeed]] = None 
+    var comments: Option[Comments[commentsFeed.Feed]] = None 
     
     def fillOwnFields(media: Group, noembed: Boolean, restricted: Boolean,
-        viewCount: Int, rating: Option[kinds.Rating], comments: Option[Comments[AtomFeed]]): this.type = {
+        viewCount: Int, rating: Option[kinds.Rating], 
+        comments: Option[Comments[commentsFeed.Feed]]): this.type = {
       this.media = media
       this.noembed = noembed
       this.restricted = restricted
@@ -136,17 +139,18 @@ trait VideoEntries extends AtomEntries {  this: VideoEntries with MediaRss with 
     }
   }
   
+  /** Additional elements defiend by video entries. */
   lazy val videoEntryExtra = interleaved((groupPickler ~ marker(elem("noembed", text)(Uris.ytNs))
       ~ marker(elem("racy", text)(Uris.ytNs))
       ~ default(elem("statistics", attr("viewCount", intVal))(Uris.ytNs), 0)
       ~ opt(kinds.Rating.pickler)
-      ~ opt(Comments.pickler(atomFeedPickler))))
+      ~ opt(Comments.pickler(commentsFeed.feedPickler))))
     
   /**
    * A pickler for media entries. It pickles/unpickles just the contents of an entry. 
    */
   def videoEntryPickler: Pickler[VideoEntry] =
-    wrap (atomEntryPickler ~ videoEntryExtra) ({
+    wrap (atomEntryContentsPickler ~ videoEntryExtra) ({
       case ae ~ (media ~ noembed ~ racy ~ vc ~ rating ~ comments) => 
         val me = new VideoEntry
         me.fromAtomEntry(ae)

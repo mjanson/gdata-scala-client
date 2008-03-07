@@ -187,4 +187,16 @@ class PicklerPermuteTest extends PicklerAsserts {
     assertSucceedsWith("Sequence and permutation with unknown elements failed unpickling",
         obj, input, pDPermuteE)
   }
+  
+  @Test def testNesting {
+    val p1 = interleaved("set3", interleaved(elem("a", text)) ~ elem("b", text) ~ elem("c", text))
+    val input = 
+      <p:set3 xmlns:p="testing-uri">
+        <p:a>alfa</p:a>
+        <p:c>gamma</p:c>
+        <p:b>beta</p:b>
+      </p:set3>
+
+    assertSucceedsWith("Nested interleaved", triple, input, p1)
+  }
 }

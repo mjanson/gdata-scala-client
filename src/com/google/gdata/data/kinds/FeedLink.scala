@@ -26,7 +26,7 @@ import com.google.xml.combinators.{Picklers, Extensible, ~}
  */
 class FeedLink[Feed] extends Extensible {
   /** Hints at the number of entries in the feed. May not be a precise count. */
-  var countHit: Option[Int] = None
+  var countHint: Option[Int] = None
   
   /** The feed URI. If the feed is embedded, this may be omitted. */
   var href: Option[String] = None
@@ -40,14 +40,27 @@ class FeedLink[Feed] extends Extensible {
   /** The embedded feed. */
   var feed: Option[Feed] = None
   
-  def fillOwnFields(countHit: Option[Int], href: Option[String], readOnly: Option[Boolean],
+  def fillOwnFields(countHint: Option[Int], href: Option[String], readOnly: Option[Boolean],
       rel: Option[String], feed: Option[Feed]): this.type = {
-    this.countHit = countHit
+    this.countHint = countHint
     this.href = href
     this.readOnly = readOnly
     this.rel = rel
     this.feed = feed
     this
+  }
+  
+  override def toString = {
+    import com.google.util.Utility.printOptional
+    
+    val sb = new StringBuilder
+    sb.append("FeedLink: ")
+    printOptional(sb, "countHint", countHint)
+    printOptional(sb, "href", href)
+    printOptional(sb, "rel", rel)
+    printOptional(sb, "readOnly", readOnly)
+    if (feed.isDefined) sb.append(" and has embedded feed.")
+    sb.toString
   }
 }
 
@@ -66,5 +79,5 @@ object FeedLink {
         ((new FeedLink[F]).fillOwnFields _) (fromFeedLink))
   
   private def fromFeedLink[F](fl: FeedLink[F]) = 
-    new ~(fl.countHit, fl.href) ~ fl.readOnly ~ fl.rel ~ fl.feed
+    new ~(fl.countHint, fl.href) ~ fl.readOnly ~ fl.rel ~ fl.feed
 }

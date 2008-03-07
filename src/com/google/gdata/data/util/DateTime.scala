@@ -68,11 +68,9 @@ class DateTime(private var value: Long, private var tzShift: Long) extends Order
     padInt(sb, calendar.get(HOUR_OF_DAY), 2).append(':')
     padInt(sb, calendar.get(MINUTE), 2).append(':')
     padInt(sb, calendar.get(SECOND), 2)
-    if (calendar.isSet(MILLISECOND)) {
-      val millis = calendar.get(MILLISECOND)
-      if (millis > 0)
-        sb.append('.').append(millis)
-    }
+    val millis = if (calendar.isSet(MILLISECOND)) calendar.get(MILLISECOND) else 0
+    sb.append('.')
+    padInt(sb, millis, 3)
     if (tzShift == 0)
       sb.append('Z')
     else {

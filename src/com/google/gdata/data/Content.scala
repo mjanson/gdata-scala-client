@@ -18,7 +18,7 @@ package com.google.gdata.data;
 
 import com.google.xml.combinators.{Picklers, ~, XmlStore}
 
-import scala.xml.NodeSeq
+import scala.xml.{NodeSeq, Utility}
 
 import Picklers._
 
@@ -49,10 +49,14 @@ object Content {
       }
     
     def fromContent(c: Content) = c match {
-      case TextContent(plainText)     => new ~(new ~(Some("text"), None), scala.xml.Text(plainText))
-      case HtmlContent(htmlText)      => new ~(new ~(Some("html"), None), scala.xml.Text(htmlText))
-      case XhtmlContent(xhtml)        => new ~(new ~(Some("xhtml"), None), xhtml)
-      case OutOfLineContent(src, tpe) => new ~(new ~(Some(tpe), Some(src)), NodeSeq.Empty)
+      case TextContent(plainText) =>
+        new ~(new ~(Some("text"), None), NodeSeq.fromSeq(Utility.parseAttributeValue(plainText)))
+      case HtmlContent(htmlText) => 
+        new ~(new ~(Some("html"), None), NodeSeq.fromSeq(Utility.parseAttributeValue(htmlText)))
+      case XhtmlContent(xhtml) => 
+        new ~(new ~(Some("xhtml"), None), xhtml)
+      case OutOfLineContent(src, tpe) =>
+        new ~(new ~(Some(tpe), Some(src)), NodeSeq.Empty)
     }
     wrap (content) (toContent) (fromContent)
   }

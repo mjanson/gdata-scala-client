@@ -33,7 +33,11 @@ import Atom._
 trait Feeds { this: Feeds with Entries =>
   type Feed
   
-  def feedPickler: Pickler[Feed]
+  /** A pickler for feeds. */
+  def feedPickler: Pickler[Feed] = elem("feed", feedContentsPickler)(Uris.atomNs)
+  
+  /** An abstract pickler for feed contents. Subclasses need to implement this method. */
+  def feedContentsPickler: Pickler[Feed]
 }
 
 /**
@@ -41,40 +45,63 @@ trait Feeds { this: Feeds with Entries =>
  */
 trait AtomFeeds extends Feeds { this: AtomFeeds with Entries =>
   type Feed <: AtomFeed
-  
-  /** A pickler for Feed objects. */
-  def feedPickler: Pickler[Feed]
-  
+
   /** An Atom Feed. */
   class AtomFeed extends AnyRef {
+    /** The authors of this feed. */
     var authors: List[Person] = Nil
+    
+    /** Categories associated to this feed. */
     var categories: List[Category] = Nil
+    
+    /** Contributors associated to this feed. */
     var contributors: List[Person] = Nil
+    
+    /** User agent used to generate this feed. */
     var generator: Option[Generator] = None
+    
+    /** IRI for an icon for this feed. */
     var icon: Option[String] = None
+    
+    /** Permanent, unique id for this feed. */
     var id: String = ""
+    
+    /** References to web resources. */
     var links: List[Link] = Nil
+    
+    /** IRI for a visual identification of this feed. */
     var logo: Option[String] = None
+    
+    /** Rights held over this feed. */
     var rights: Option[String] = None
+    
+    /** A subtitle of this feed. */
     var subtitle: Option[Text] = None
+    
+    /** This feed's title. */
     var title: Text = NoText
+    
+    /** The most recent instant in time this feed has been modified. */
     var updated: DateTime = new DateTime(new java.util.Date())
+    
+    /** A list of entries contained in this feed. */
     var entries: List[Entry] = Nil
     
+    /** The number of search results available for this query. */
+    var totalResults: Option[Int] = None
+    
+    /** The index of the first search result in the current set of search results. */
+    var startIndex: Option[Int] = None
+    
+    /** The number of search results returned per page. */
+    var itemsPerPage: Option[Int] = None
+    
     /** Initialization method to fill all known fields. */
-    def fillOwnFields(authors: List[Person],
-        categories: List[Category],
-        contributors: List[Person],
-        generator: Option[Generator],
-        icon: Option[String],
-        id: String,
-        links: List[Link],
-        logo: Option[String],
-        rights: Option[String],
-        subtitle: Option[Text],
-        title: Text,
-        updated: DateTime,
-        entries: List[Entry]): this.type = {
+    def fillOwnFields(authors: List[Person], categories: List[Category], contributors: List[Person],
+        generator: Option[Generator], icon: Option[String], id: String, links: List[Link],
+        logo: Option[String], rights: Option[String], subtitle: Option[Text], title: Text,
+        updated: DateTime, totalResults: Option[Int], startIndex: Option[Int],
+        itemsPerPage: Option[Int], entries: List[Entry]): this.type = {
       this.authors = authors
       this.categories = categories
       this.contributors = contributors
@@ -87,6 +114,9 @@ trait AtomFeeds extends Feeds { this: AtomFeeds with Entries =>
       this.subtitle = subtitle
       this.title = title
       this.updated = updated
+      this.totalResults = totalResults
+      this.startIndex = startIndex
+      this.itemsPerPage = itemsPerPage
       this.entries = entries
       this
     }
@@ -94,7 +124,8 @@ trait AtomFeeds extends Feeds { this: AtomFeeds with Entries =>
     /** Copy known fields from another AtomFeed. */
     def fromAtomFeed(af: AtomFeed) {
       fillOwnFields(af.authors, af.categories, af.contributors, af.generator, af.icon, af.id,
-          af.links, af.logo, af.rights, af.subtitle, af.title, af.updated, af.entries)
+          af.links, af.logo, af.rights, af.subtitle, af.title, af.updated, af.totalResults,
+          af.startIndex, af.itemsPerPage, af.entries)
     }
     
     override def toString = {
@@ -111,6 +142,9 @@ trait AtomFeeds extends Feeds { this: AtomFeeds with Entries =>
         .append("\nSubtitle: ").append(subtitle)
         .append("\nTitle: ").append(title)
         .append("\nUpdated: ").append(updated)
+        .append("\nTotal Results: ").append(totalResults)
+        .append("\nStart index: ").append(startIndex)
+        .append("\nItems per page: ").append(itemsPerPage)
         .append("\nEntries: ").append(entries.mkString("", "\n\t", ""))
         .toString
     }
@@ -132,26 +166,23 @@ trait AtomFeeds extends Feeds { this: AtomFeeds with Entries =>
       ~ opt(atomText("subtitle"))
       ~ atomText("title")
       ~ elem("updated", dateTime)
+      ~ opt(elem("totalResults", intVal)(Uris.openSearchNs))
+      ~ opt(elem("startIndex", intVal)(Uris.openSearchNs))
+      ~ opt(elem("itemsPerPage", intVal)(Uris.openSearchNs))
       ~ rep(entryPickler))
   }
 
-  lazy val atomFeedPickler: Pickler[AtomFeed] = wrap (atomFeedContents) ({
+  lazy val atomFeedContentsPickler: Pickler[AtomFeed] = wrap (atomFeedContents) ({
     case authors ~ cats ~ contribs ~ generator ~ icon ~ id
-         ~ links ~ logo ~ rights ~ subtitle ~ title ~ updated ~ entries => 
+         ~ links ~ logo ~ rights ~ subtitle ~ title ~ updated ~ totalResults
+         ~ startIndex ~ itemsPerPage ~ entries => 
       (new AtomFeed).fillOwnFields(authors, cats, contribs, generator, icon, id,
-          links, logo, rights, subtitle, title, updated, entries)
+          links, logo, rights, subtitle, title, updated, totalResults, startIndex, 
+          itemsPerPage, entries)
   }) (fromFeed)
 
   private def fromFeed(e: AtomFeed) = (new ~(e.authors, e.categories) 
-      ~ e.contributors
-      ~ e.generator
-      ~ e.icon
-      ~ e.id
-      ~ e.links
-      ~ e.logo
-      ~ e.rights
-      ~ e.subtitle
-      ~ e.title
-      ~ e.updated
-      ~ e.entries)
+      ~ e.contributors ~ e.generator ~ e.icon ~ e.id ~ e.links ~ e.logo ~ e.rights
+      ~ e.subtitle ~ e.title ~ e.updated ~ e.totalResults ~ e.startIndex 
+      ~ e.itemsPerPage ~ e.entries)
 }

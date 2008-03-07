@@ -118,7 +118,8 @@ class PicklerTest extends PicklerAsserts {
       
     val strings = List("one")
     val pickled = pStrings.pickle(strings, LinearStore.empty)
-    Assert.assertEquals("Repetition of 1 element, pickling", normalize(inputRep), normalize(pickled.rootNode))
+    Assert.assertEquals("Repetition of 1 element, pickling", 
+                        normalize(inputRep), normalize(pickled.rootNode))
   }
 
   @Test def testRepetition3Pickle {
@@ -131,7 +132,42 @@ class PicklerTest extends PicklerAsserts {
       
     val strings = List("one", "two", "three")
     val pickled = pStrings.pickle(strings, LinearStore.empty)
-    Assert.assertEquals("Repetition of 3 elements, pickling", normalize(inputRep), normalize(pickled.rootNode))
+    Assert.assertEquals("Repetition of 3 elements, pickling", 
+                        normalize(inputRep), normalize(pickled.rootNode))
+  }
+  
+  @Test def testWhen {
+    implicit val ns = ("p", "testing-uri")
+    val input =
+      (<p:strings xmlns:p="testing-uri">
+         <p:str>one</p:str>
+         <p:str kind="special">this is special</p:str>
+         <p:a>a</p:a>
+         <p:b>b</p:b>
+       </p:strings>)
+    val pickler = elem("strings", 
+      (when(elem("str", const(attr("kind", text), "special")), elem("str", text))
+       ~ elem("str", text) ~ elem("a", text) ~ elem("b", text)))
+      
+    val expected = new ~("this is special", "one") ~ "a" ~ "b"
+    assertSucceedsWith("Unpickling when", expected, input, pickler)
+  }
+  
+  @Test def testWhenInterleaved {
+    implicit val ns = ("p", "testing-uri")
+    val input =
+      (<p:strings xmlns:p="testing-uri">
+         <p:b>b</p:b>
+         <p:a>a</p:a>
+         <p:str>one</p:str>
+         <p:str kind="special">this is special</p:str>
+       </p:strings>)
+    val pickler = interleaved("strings", 
+      (when(elem("str", const(attr("kind", text), "special")), elem("str", text))
+       ~ elem("str", text) ~ elem("a", text) ~ elem("b", text)))
+      
+    val expected = new ~("this is special", "one") ~ "a" ~ "b"
+    assertSucceedsWith("Unpickling when", expected, input, pickler)
   }
 }
 

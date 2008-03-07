@@ -66,16 +66,26 @@ object Picklers extends AnyRef with ImplicitConversions {
     
     /** Apply 'f' when this result is failure. */
     def orElse[B >: A](f: => PicklerResult[B]): PicklerResult[B]
+    
+    /** Is this result a successful parse result? */
+    def isSuccessful: Boolean
+    
+    /** Retrieve the result in case of success. */
+    def get: A
   }
   
   case class Success[+A](v: A, in: St) extends PicklerResult[A] {
     def andThen[B](f: (A, St) => PicklerResult[B]): PicklerResult[B] = f(v, in)
     def orElse[B >: A](f: => PicklerResult[B]): PicklerResult[B] = this
+    def isSuccessful = true
+    def get = v
   }
 
-  abstract class NoSuccess(msg: String, in: St) extends PicklerResult[Nothing] {
+  abstract class NoSuccess(val msg: String, val in: St) extends PicklerResult[Nothing] {
     def andThen[B](f: (Nothing, St) => PicklerResult[B]) = this
     def orElse[B >: Nothing](f: => PicklerResult[B]): PicklerResult[B] = f
+    def isSuccessful = false
+    def get = throw new NoSuchElementException("Unpickling failed.")
 
     val prefix: String
 
@@ -207,12 +217,22 @@ object Picklers extends AnyRef with ImplicitConversions {
         pa.unpickle(in) andThen { (v, in1) => f(v, in) } 
     }
   
-  /** A constant pickler: it always pickles 'v', and always unpickles 'v'. */
-  def const[A](v: A, pickler: (A, St) => St): Pickler[A] = new Pickler[A] {
-    def pickle(ignored: A, in: St) = pickler(v, in)
-    def unpickle(in: St): PicklerResult[A] = Success(v, in)
+  /**
+   * A constant pickler: it always pickles 'v'. Unpickle fails when the value that is found 
+   * is not equal to 'v'. 
+   */
+  def const[A](pa: => Pickler[A], v: A): Pickler[A] = new Pickler[A] {
+    def pickle(ignored: A, in: St) = pa.pickle(v, in)
+    def unpickle(in: St): PicklerResult[A] = {
+      pa.unpickle(in) andThen {(v1, in1) => 
+        if (v == v1) 
+          Success(v1, in1) 
+        else 
+          Failure("Expected '" + v + "', but " + v1 + " found.", in1)
+      }
+    }
   }
-  
+
   /** A pickler for default values. If 'pa' fails, returns 'v' instead. */
   def default[A](pa: => Pickler[A], v: A): Pickler[A] =  
     wrap (opt(pa)) ({ 
@@ -267,6 +287,10 @@ object Picklers extends AnyRef with ImplicitConversions {
     }
   }
   
+  /** Convenience method for an optional text element. */
+  def ote(label: String)(implicit ns: (String, String)): Pickler[Option[String]] =
+    opt(elem(label, text))
+  
   /** 
    * Convenience method for creating an element with an implicit namepace. Contents of
    * this element are committed (this parser is not allowed to recover from failures in
@@ -274,7 +298,7 @@ object Picklers extends AnyRef with ImplicitConversions {
    */
   def elem[A](label: String, pa: => Pickler[A])(implicit ns: (String, String)): Pickler[A] =
     elem(ns._1, ns._2, label, commit(pa))
-  
+
   /** Wrap a pickler into an element. */
   def elem[A](pre: String, uri: String, label: String, pa: => Pickler[A]) = new Pickler[A] {
     def pickle(v: A, in: St): St = {
@@ -334,12 +358,10 @@ object Picklers extends AnyRef with ImplicitConversions {
   def interleaved[A](pa: => Pickler[A]): Pickler[A] = new Pickler[A] {
     def pickle(v: A, in: St): St = pa.pickle(v, in)
     
-    def unpickle(in: St): PicklerResult[A] = in match {
-      case _: RandomAccessStore => pa.unpickle(in)
-      case _ => pa.unpickle(new RandomAccessStore(in)) andThen { (v, in1) => 
-        Success(v, in1.toLinear) 
+    def unpickle(in: St): PicklerResult[A] = 
+      pa.unpickle(in.randomAccessMode) andThen { (v, in1) => 
+        Success(v, in1.linearAccessMode)
       }
-    }
   }
    
   /** 
@@ -403,6 +425,49 @@ object Picklers extends AnyRef with ImplicitConversions {
       }
     }
   }
+  
+  /**
+   * Runs 'pb' unpickler on the first element that 'pa' successfully parses. It
+   * is more general than 'interleaved', which uses only the element name to decide 
+   * the input on which to run a pickler. 'pa' can be arbitrarily complex.
+   * 
+   * Example:
+   *   when(elem("feedLink", const(attr("rel", "#kinds"), rel)), kindsPickler)
+   * 
+   * will look for the first 'feedLink' element with an attribute equal to '#kinds'
+   * and then run 'kindsPickler' on that element.
+   */
+  def when[A, B](pa: => Pickler[A], pb: => Pickler[B]): Pickler[B] = new Pickler[B] {
+    def pickle(v: B, in: St) = pb.pickle(v, in)
+    
+    def unpickle(in: St) = {
+      var lastFailed: Option[NoSuccess] = None
+      
+      val target = in.nodes find {
+        case e: Elem => 
+          pa.unpickle(LinearStore.fromElem(e)) match {
+            case _: Success[_] => true
+            case f: NoSuccess => lastFailed = Some(f); false 
+          }
+        case _ => false
+      }
+      
+      target match {
+        case Some(e: Elem) => 
+          pb.unpickle(LinearStore.fromElem(e)) match {
+            case Success(v1, in1) =>
+              Success(v1, in.mkState(in.attrs, in.nodes.remove(_ == e), in.ns))
+            case f: NoSuccess =>
+              Failure(f.msg, in)
+          }
+        case None => 
+          if (lastFailed.isDefined)
+            lastFailed.get
+          else
+            Failure("Expected at least one element", in)
+      }
+    }
+  }
 
   /** Wrap a pair of functions around a given pickler */
   def wrap[A, B](pb: => Pickler[B])(g: B => A)(f: A => B): Pickler[A] = new Pickler[A] {
@@ -429,7 +494,7 @@ object Picklers extends AnyRef with ImplicitConversions {
   
   /** An xml pickler that collects all remaining XML nodes. */
   def xml: Pickler[NodeSeq] = new Pickler[NodeSeq] {
-    def pickle(v: NodeSeq, in: St) = v.foldLeft(LinearStore.empty: XmlStore) (_.addNode(_))
+    def pickle(v: NodeSeq, in: St) = v.foldLeft(in) (_.addNode(_))
     def unpickle(in: St) = Success(in.nodes, LinearStore.empty)
   }
   
