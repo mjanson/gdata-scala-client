@@ -162,7 +162,7 @@ trait MediaRss {
   }
 
   /** A pickler for media:contents subelements and attributes. */
-  val baseContentPickler: Pickler[BaseContent] =
+  lazy val baseContentPickler: Pickler[BaseContent] =
     (wrap (opt(attr("url", text)) ~ opt(attr("fileSize", intVal)) ~ opt(attr("type", text))
         ~ opt(attr("medium", text)) ~ opt(attr("isDefault", boolVal))
         ~ default(attr("expression", text), "full") ~ opt(attr("bitrate", intVal))
@@ -275,7 +275,7 @@ trait MediaRss {
   private implicit val ns = mediaNs
   
   /** A pickler for the contents of a group. It has no enclosing 'media:group' element. */
-  val baseGroupPickler: Pickler[BaseGroup] = 
+  lazy val baseGroupPickler: Pickler[BaseGroup] = 
     (wrap (interleaved(opt(Rating.pickler) ~ opt(SimpleText.pickler("title"))
         ~ opt(SimpleText.pickler("description")) ~ default(Keywords.keywordsPickler, Nil) 
         ~ rep(Thumbnail.pickler) ~ opt(Category.pickler) ~ opt(Hash.pickler) ~ opt(Player.pickler)  

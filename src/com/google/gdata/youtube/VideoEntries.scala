@@ -93,7 +93,6 @@ trait VideoEntries extends AtomEntries {  this: VideoEntries with MediaRss =>
   /**
    * A Media entry adds MediaRss group elements. 
    * 
-   * TODO: Embed the comments feed (currently an AtomFeed)
    * @author Iulian Dragos
    */
   class VideoEntry extends AtomEntry {

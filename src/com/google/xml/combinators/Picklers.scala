@@ -17,7 +17,7 @@
 package com.google.xml.combinators
 import com.google.gdata.data.util.DateTime
 
-import scala.xml.{Node, Elem, NamespaceBinding, NodeSeq, Null, Text}
+import scala.xml.{Node, Elem, NamespaceBinding, NodeSeq, Null, Text, TopScope}
 import java.text.ParseException
 
 /** 
@@ -52,9 +52,9 @@ object Picklers extends AnyRef with ImplicitConversions {
    * The state of the pickler is a collection of attributes, a list of 
    * nodes (which might be Text nodes), and namespace bindings.
    */
-  type St = XmlStore
+  type St = XmlInputStore
 
-  val emptySt: St = LinearStore.empty
+  def emptyStore: XmlOutputStore = PlainOutputStore.empty
 
   /**
    * A class representing pickling results. It encapsulate the result and the state of 
@@ -104,7 +104,7 @@ object Picklers extends AnyRef with ImplicitConversions {
   
   /** Pickler for type A */
   abstract class Pickler[A] {
-    def pickle(v: A, in: St): St
+    def pickle(v: A, in: XmlOutputStore): XmlOutputStore
     def unpickle(in: St): PicklerResult[A]
     
     /** Sequential composition. This pickler will accept an A and then a B. */
@@ -114,7 +114,7 @@ object Picklers extends AnyRef with ImplicitConversions {
 
   /** A basic pickler that serializes a value to a string and back.  */
   def text: Pickler[String] = new Pickler[String] {
-    def pickle(v: String, in: St): St = 
+    def pickle(v: String, in: XmlOutputStore): XmlOutputStore = 
       in.addText(v)
 
     def unpickle(in: St): PicklerResult[String] = {
@@ -171,7 +171,7 @@ object Picklers extends AnyRef with ImplicitConversions {
       val elems = str.split(sep).toList.map(_.trim).reverse
       
       elems.foldLeft(Success(Nil, LinearStore.empty): PicklerResult[List[A]]) { (result, e) =>
-        result andThen { (es, in) => pa.unpickle(LinearStore.empty.addText(e)) match {
+        result andThen { (es, in) => pa.unpickle(LinearStore(Null, List(Text(e)), TopScope)) match {
           case Success(v, in1) => Success(v :: es, in1)
           case f: NoSuccess => f
         }}
@@ -179,7 +179,8 @@ object Picklers extends AnyRef with ImplicitConversions {
     }
     
     def pickleList(es: List[A]): String = {
-      val store = es.reverse.foldLeft(LinearStore.empty: XmlStore) { (in, e) => pa.pickle(e, in) }
+      val store = 
+        es.foldLeft(PlainOutputStore.empty: XmlOutputStore) { (in, e) => pa.pickle(e, in) }
       store.nodes.mkString("", sep.toString, "")
     }
     filter(text, parseList, pickleList)
@@ -193,7 +194,7 @@ object Picklers extends AnyRef with ImplicitConversions {
    * @see http://atomenabled.org/developers/syndication/atom-format-spec.php#date.constructs
    */
   def dateTime: Pickler[DateTime] = new Pickler[DateTime] {
-    def pickle(v: DateTime, in: St): St = 
+    def pickle(v: DateTime, in: XmlOutputStore): XmlOutputStore = 
       in.addText(v.toString)
       
     def unpickle(in:St): PicklerResult[DateTime] = 
@@ -211,7 +212,7 @@ object Picklers extends AnyRef with ImplicitConversions {
 
   def filter[A, B](pa: => Pickler[A], f: (A, St) => PicklerResult[B], g: B => A): Pickler[B] =
     new Pickler[B] {
-      def pickle(v: B, in: St): St =
+      def pickle(v: B, in: XmlOutputStore): XmlOutputStore =
         pa.pickle(g(v), in)
       def unpickle(in: St): PicklerResult[B] = 
         pa.unpickle(in) andThen { (v, in1) => f(v, in) } 
@@ -222,7 +223,7 @@ object Picklers extends AnyRef with ImplicitConversions {
    * is not equal to 'v'. 
    */
   def const[A](pa: => Pickler[A], v: A): Pickler[A] = new Pickler[A] {
-    def pickle(ignored: A, in: St) = pa.pickle(v, in)
+    def pickle(ignored: A, in: XmlOutputStore) = pa.pickle(v, in)
     def unpickle(in: St): PicklerResult[A] = {
       pa.unpickle(in) andThen {(v1, in1) => 
         if (v == v1) 
@@ -256,8 +257,8 @@ object Picklers extends AnyRef with ImplicitConversions {
    * content produced by 'pa' in the 'nodes' field.
    */
   def attr[A](pre: String, uri: String, key: String, pa: => Pickler[A]) = new Pickler[A] {
-    def pickle(v: A, in: St) = {
-      in.addNamespace(pre, uri).addAttribute(pre, key, pa.pickle(v, emptySt).nodes.text)
+    def pickle(v: A, in: XmlOutputStore) = {
+      in.addNamespace(pre, uri).addAttribute(pre, key, pa.pickle(v, emptyStore).nodes.text)
     }
 
     def unpickle(in: St): PicklerResult[A] = {
@@ -274,8 +275,8 @@ object Picklers extends AnyRef with ImplicitConversions {
    * A pickler for unprefixed attributes. Such attributes have no namespace.
    */
   def attr[A](label: String, pa: => Pickler[A]): Pickler[A] = new Pickler[A] {
-    def pickle(v: A, in: St) = 
-      in.addAttribute(label, pa.pickle(v, emptySt).nodes.text)
+    def pickle(v: A, in: XmlOutputStore) = 
+      in.addAttribute(label, pa.pickle(v, emptyStore).nodes.text)
       
     def unpickle(in: St): PicklerResult[A] = {
       in.acceptAttr(label) match {
@@ -301,10 +302,10 @@ object Picklers extends AnyRef with ImplicitConversions {
 
   /** Wrap a pickler into an element. */
   def elem[A](pre: String, uri: String, label: String, pa: => Pickler[A]) = new Pickler[A] {
-    def pickle(v: A, in: St): St = {
+    def pickle(v: A, in: XmlOutputStore): XmlOutputStore = {
       val ns1 = if (in.ns.getURI(pre) == uri) in.ns else new NamespaceBinding(pre, uri, in.ns)
-      val in1 = pa.pickle(v, LinearStore.empty(ns1))
-      in.addNode(Elem(pre, label, in1.attrs, in1.ns, in1.nodes.reverse:_*))
+      val in1 = pa.pickle(v, PlainOutputStore(ns1))
+      in.addNode(Elem(pre, label, in1.attrs, in1.ns, in1.nodes:_*))
     }
 
     def unpickle(in: St): PicklerResult[A] = {
@@ -322,7 +323,7 @@ object Picklers extends AnyRef with ImplicitConversions {
 
   /** Sequential composition of two picklers */
   def seq[A, B](pa: => Pickler[A], pb: => Pickler[B]): Pickler[~[A, B]] =  new Pickler[~[A, B]] {
-    def pickle(v: A ~ B, in: St): St = 
+    def pickle(v: A ~ B, in: XmlOutputStore): XmlOutputStore = 
       pb.pickle(v._2, pa.pickle(v._1, in))
     
     def unpickle(in: St): PicklerResult[~[A, B]] = {
@@ -356,7 +357,7 @@ object Picklers extends AnyRef with ImplicitConversions {
    * interleaved which wraps an element around the interleaved elements.  
    */
   def interleaved[A](pa: => Pickler[A]): Pickler[A] = new Pickler[A] {
-    def pickle(v: A, in: St): St = pa.pickle(v, in)
+    def pickle(v: A, in: XmlOutputStore): XmlOutputStore = pa.pickle(v, in)
     
     def unpickle(in: St): PicklerResult[A] = 
       pa.unpickle(in.randomAccessMode) andThen { (v, in1) => 
@@ -369,7 +370,7 @@ object Picklers extends AnyRef with ImplicitConversions {
    * other parsers) are not tried. 
    */
   def commit[A](pa: => Pickler[A]): Pickler[A] = new Pickler[A] {
-    def pickle(v: A, in: St): St = pa.pickle(v, in)
+    def pickle(v: A, in: XmlOutputStore): XmlOutputStore = pa.pickle(v, in)
     def unpickle(in: St): PicklerResult[A] = pa.unpickle(in) match {
       case s: Success[_] => s
       case Failure(msg, in1) => Error(msg, in1)
@@ -381,8 +382,8 @@ object Picklers extends AnyRef with ImplicitConversions {
    * Return a pickler that always pickles the first value, but unpickles using the second when the
    * first one fails.
    */
-  def or[A](pa: => Pickler[A], paa: Pickler[A]): Pickler[A] = new Pickler[A] {
-    def pickle(v: A, in: St): St = 
+  def or[A](pa: => Pickler[A], paa: => Pickler[A]): Pickler[A] = new Pickler[A] {
+    def pickle(v: A, in: XmlOutputStore): XmlOutputStore = 
       pa.pickle(v, in)
       
     def unpickle(in: St): PicklerResult[A] = 
@@ -398,7 +399,7 @@ object Picklers extends AnyRef with ImplicitConversions {
    * It unpickles the value when the underlying parser succeeds, and returns None otherwise.
    */
   def opt[A](pa: => Pickler[A]) = new Pickler[Option[A]] {
-    def pickle(v: Option[A], in: St) = v match {
+    def pickle(v: Option[A], in: XmlOutputStore) = v match {
       case Some(v) => pa.pickle(v, in)
       case None    => in
     }
@@ -408,7 +409,7 @@ object Picklers extends AnyRef with ImplicitConversions {
   }
   
   def rep[A](pa: => Pickler[A]): Pickler[List[A]] = new Pickler[List[A]] {
-    def pickle(vs: List[A], in: St): St = vs match {
+    def pickle(vs: List[A], in: XmlOutputStore): XmlOutputStore = vs match {
       case v :: vs => pickle(vs, pa.pickle(v, in))
       case Nil     => in
     }
@@ -438,7 +439,7 @@ object Picklers extends AnyRef with ImplicitConversions {
    * and then run 'kindsPickler' on that element.
    */
   def when[A, B](pa: => Pickler[A], pb: => Pickler[B]): Pickler[B] = new Pickler[B] {
-    def pickle(v: B, in: St) = pb.pickle(v, in)
+    def pickle(v: B, in: XmlOutputStore) = pb.pickle(v, in)
     
     def unpickle(in: St) = {
       var lastFailed: Option[NoSuccess] = None
@@ -456,7 +457,7 @@ object Picklers extends AnyRef with ImplicitConversions {
         case Some(e: Elem) => 
           pb.unpickle(LinearStore.fromElem(e)) match {
             case Success(v1, in1) =>
-              Success(v1, in.mkState(in.attrs, in.nodes.remove(_ == e), in.ns))
+              Success(v1, in.mkState(in.attrs, in.nodes.toList.remove(_ == e), in.ns))
             case f: NoSuccess =>
               Failure(f.msg, in)
           }
@@ -471,7 +472,7 @@ object Picklers extends AnyRef with ImplicitConversions {
 
   /** Wrap a pair of functions around a given pickler */
   def wrap[A, B](pb: => Pickler[B])(g: B => A)(f: A => B): Pickler[A] = new Pickler[A] {
-    def pickle(v: A, in: St): St = 
+    def pickle(v: A, in: XmlOutputStore): XmlOutputStore = 
       pb.pickle(f(v), in)
 
     def unpickle(in: St): PicklerResult[A] = 
@@ -488,26 +489,26 @@ object Picklers extends AnyRef with ImplicitConversions {
   
   /** Collect all unconsumed input into a XmlStore. */
   def collect: Pickler[XmlStore] = new Pickler[XmlStore] {
-    def pickle(v: XmlStore, in: St) = in.addStore(v)
+    def pickle(v: XmlStore, in: XmlOutputStore) = in.addStore(v)
     def unpickle(in: St) = Success(in, LinearStore.empty)
   }
   
   /** An xml pickler that collects all remaining XML nodes. */
   def xml: Pickler[NodeSeq] = new Pickler[NodeSeq] {
-    def pickle(v: NodeSeq, in: St) = v.foldLeft(in) (_.addNode(_))
+    def pickle(v: NodeSeq, in: XmlOutputStore) = v.foldLeft(in) (_.addNode(_))
     def unpickle(in: St) = Success(in.nodes, LinearStore.empty)
   }
   
   def extend[A <: Extensible, B](pa: => Pickler[A], pb: => Pickler[B]) = new Pickler[A ~ B] {
-    def pickle(v: A ~ B, in: St): St = {
-      val in1 = pb.pickle(v._2, LinearStore.empty)
+    def pickle(v: A ~ B, in: XmlOutputStore): XmlOutputStore = {
+      val in1 = pb.pickle(v._2, PlainOutputStore.empty)
       v._1.store = in1
       pa.pickle(v._1, in)
     }
  
     def unpickle(in: St): PicklerResult[A ~ B] = {
       pa.unpickle(in) andThen { (a, in1) => 
-        pb.unpickle(a.store) andThen { (b, in2) =>
+        pb.unpickle(LinearStore(a.store)) andThen { (b, in2) =>
           Success(new ~(a, b), in1)
         }
       }
@@ -527,7 +528,7 @@ object Picklers extends AnyRef with ImplicitConversions {
   
   /** A logging combinator */
   def log[A](name: String, pa: => Pickler[A]): Pickler[A] = new Pickler[A] {
-    def pickle(v: A, in: St): St = {
+    def pickle(v: A, in: XmlOutputStore): XmlOutputStore = {
       println("pickling [" + name + "] " + v + " at: " + in)
       val res = pa.pickle(v, in)
       println("got back: " + res)

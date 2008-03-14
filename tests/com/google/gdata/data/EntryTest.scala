@@ -16,7 +16,7 @@
 
 package com.google.gdata.data;
 
-import com.google.xml.combinators.{Picklers, PicklerAsserts, LinearStore}
+import com.google.xml.combinators.{Picklers, PicklerAsserts, LinearStore, PlainOutputStore}
 import scala.xml.NamespaceBinding
 import scala.xml.Utility
 
@@ -86,7 +86,8 @@ class EntryTest extends PicklerAsserts {
       case Success(v, in1) => 
         println(v.length) 
         
-        println((new scala.xml.PrettyPrinter(80, 2)).format(rep(atomEntry.entryPickler).pickle(v, LinearStore.empty).rootNode))
+        println((new scala.xml.PrettyPrinter(80, 2))
+            .format(rep(atomEntry.entryPickler).pickle(v, PlainOutputStore.empty).rootNode))
       case f  => println(f)
     }
   }

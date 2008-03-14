@@ -17,27 +17,31 @@
 package com.google.xml.combinators
 
 import scala.xml._
-import scala.collection.mutable.ListBuffer
+import scala.collection.mutable.{Buffer, ListBuffer}
 
 /**
- * This class represents the input/output of picklers. It keeps around XML attributes,
- * nodes and current namespace bindings. When unpickling, it hides the actual strategy
- * for reaching a certain node or attribute inside the 'accept*' methods. Implementors
- * can either use a sequential approach or a more evolved.
- *
- * @see LinearStore, RandomAccessStore
- * @author Iulian Dragos
+ * An interface for XML stores. It keeps around a collection of attributes, elements and 
+ * namespace bindings.
  */
 trait XmlStore {
   /** The current XML attributes. */
   def attrs: MetaData
 
   /** The current XML nodes. */
-  def nodes: List[Node]
+  def nodes: Seq[Node]
    
   /** The current namespace bindings. */
   def ns:    NamespaceBinding
-   
+}
+
+/**
+ * This class represents the input of picklers. It keeps around XML attributes,
+ * nodes and current namespace bindings.
+ *
+ * @see LinearStore, RandomAccessStore
+ * @author Iulian Dragos
+ */
+trait XmlInputStore extends XmlStore {
   /**
    * If 'true' (default), comments, spaces and processing instructions are skipped when
    * accepting nodes. 
@@ -45,77 +49,42 @@ trait XmlStore {
   def skipsWhitespace: Boolean
 
   /** The nesting level of randomAccessMode calls (1:1 to 'interleaved' combinators). */
-  protected var randomAccessLevel = 0
+  protected[combinators] var randomAccessLevel = 0
 
   /**
    * Accept the given element, or fail. Succeeds when the given element is the head of the node
    * list. Comments, processing instructions and entity references count (they are not skipped). 
    */
-  def acceptElem(Label: String, uri: String): (Option[Node], XmlStore)
+  def acceptElem(Label: String, uri: String): (Option[Node], XmlInputStore)
 
   /**
    * Accept the given prefixed attribute, or fail. Succeeds when the given attribute exists
    * (order does not matter). Returns a Seq[Node], since attributes may contain text nodes 
    * interspersed with entity references.
    */
-  def acceptAttr(label: String, uri: String): (Option[Seq[Node]], XmlStore)
+  def acceptAttr(label: String, uri: String): (Option[Seq[Node]], XmlInputStore)
 
   /**
    * Accept the given unprefixed attribute, or fail. Succeeds when the given attribute exists
    * (order does not matter). Returns a Seq[Node], since attributes may contain text nodes 
    * interspersed with entity references.
    */
-  def acceptAttr(label: String): (Option[Seq[Node]], XmlStore)
+  def acceptAttr(label: String): (Option[Seq[Node]], XmlInputStore)
   
   /** Accept a text node. Fails if the head of the node list is not a text node. */
-  def acceptText: (Option[Text], XmlStore)
+  def acceptText: (Option[Text], XmlInputStore)
 
-  /** Return a new XmlStore with a new attribute prepended to the list of attrs */
-  def addAttribute(pre: String, key: String, value: String): XmlStore
-  
-  /** Return a new XmlStore with an unprefixed attribute appended to the list of attrs. */
-  def addAttribute(key: String, value: String): XmlStore
-   
-  /**
-   * Return a new LinearStore with a new namespace binding. If the 
-   * prefix is already defined to the given URI, it returns the 
-   * current object.
-   */
-  def addNamespace(pre: String, uri: String): XmlStore
-
-  /** Add a text node */
-  def addText(s: String): XmlStore =
-    addNode(Text(s))
-
-  /** Add a node. */
-  def addNode(n: Node): XmlStore = 
-    mkState(attrs, n :: nodes, ns)
-
-  /** Add an entire XmlStore to this store. */
-  def addStore(other: XmlStore): XmlStore = {
-    val newAttrs = attrs 
-    other.attrs.foreach(attrs.append(_))
-    var newNodes = nodes ::: other.nodes
-    var res = mkState(newAttrs, newNodes, ns)
-    var n = other.ns
-    while (n.parent != TopScope) {
-      res.addNamespace(n.prefix, n.uri)
-      n = n.parent
-    }
-    res
-  }
-  
   /**
    * Enter random access mode.
    */
-  def randomAccessMode: XmlStore = {
+  def randomAccessMode: XmlInputStore = {
     if (randomAccessLevel > 0)
       mkState(attrs, nodes, ns, randomAccessLevel + 1)
     else
-      ListRandomAccessStore(attrs, nodes, ns, 1)
+      new RandomAccessStore(attrs, nodes, ns, 1)
   }
   
-  def linearAccessMode: XmlStore = {
+  def linearAccessMode: XmlInputStore = {
     if (randomAccessLevel == 0) 
       this
     else if (randomAccessLevel == 1)
@@ -125,27 +94,14 @@ trait XmlStore {
     }
   }
   
-  /**
-   * Return the root element of the constructed XML fragment. 
-   * It always returns the first node in the list of nodes. It
-   * throws an error if there are top-level attributes.
-   */
-  def rootNode: Elem = {
-    val root = nodes.head
-    if (attrs.isEmpty && root.isInstanceOf[Elem]) {
-      root.asInstanceOf[Elem]
-    } else
-      throw new MalformedXmlStore("Top-level attributes found hanging: " + attrs, this)
-  }
+  protected[combinators] def toLinear: XmlInputStore
    
-  protected[combinators] def toLinear: XmlStore
-   
-  protected[combinators] def mkState(attrs: MetaData, nodes: List[Node],
-      ns: NamespaceBinding): XmlStore =
+  protected[combinators] def mkState(attrs: MetaData, nodes: Seq[Node],
+      ns: NamespaceBinding): XmlInputStore =
     mkState(attrs, nodes, ns, randomAccessLevel)
   
-  protected def mkState(attrs: MetaData, nodes: List[Node], 
-       ns: NamespaceBinding, level: Int): XmlStore
+  protected def mkState(attrs: MetaData, nodes: Seq[Node], 
+       ns: NamespaceBinding, level: Int): XmlInputStore
 }
 
 /**
@@ -157,7 +113,8 @@ trait XmlStore {
  *
  * @author Iulian Dragos (iuliandragos@google.com)
  */
-class LinearStore(ats: MetaData, nods: List[Node], bindings: NamespaceBinding) extends XmlStore {
+class LinearStore(ats: MetaData, nods: List[Node], bindings: NamespaceBinding) 
+    extends XmlInputStore {
   def attrs = ats
   def nodes = nods
   def ns    = bindings
@@ -196,7 +153,7 @@ class LinearStore(ats: MetaData, nods: List[Node], bindings: NamespaceBinding) e
    * list. Comments, processing instructions and white space are skipped if 'skipsWhitespace' is
    * set (default). 
    */
-  def acceptElem(Label: String, uri: String): (Option[Node], XmlStore) = {
+  def acceptElem(Label: String, uri: String): (Option[Node], XmlInputStore) = {
     val n = skipWhitespace
     if (n.isEmpty) (None, this)
     else n.head match {
@@ -211,7 +168,7 @@ class LinearStore(ats: MetaData, nods: List[Node], bindings: NamespaceBinding) e
    * (order does not matter). Returns a Seq[Node], since attributes may contain text nodes 
    * interspersed with entity references.
    */
-  def acceptAttr(label: String, uri: String): (Option[Seq[Node]], XmlStore) = {
+  def acceptAttr(label: String, uri: String): (Option[Seq[Node]], XmlInputStore) = {
     if (attrs.isEmpty) (None, this)
     else attrs(uri, ns, label) match {
       case null  => (None, this)
@@ -225,7 +182,7 @@ class LinearStore(ats: MetaData, nods: List[Node], bindings: NamespaceBinding) e
    * (order does not matter). Returns a Seq[Node], since attributes may contain text nodes 
    * interspersed with entity references.
    */
-  def acceptAttr(label: String): (Option[Seq[Node]], XmlStore) = {
+  def acceptAttr(label: String): (Option[Seq[Node]], XmlInputStore) = {
     if (attrs.isEmpty) (None, this)
     else attrs(label) match {
       case null  => (None, this)
@@ -235,7 +192,7 @@ class LinearStore(ats: MetaData, nods: List[Node], bindings: NamespaceBinding) e
   }
   
   /** Accept a text node. Fails if the head of the node list is not a text node. */
-  def acceptText: (Option[Text], XmlStore) = {
+  def acceptText: (Option[Text], XmlInputStore) = {
     if (nodes.isEmpty) (Some(Text("")), this)
     else nodes.head match {
       case t: Text => (Some(t), mkState(attrs, nodes.tail, ns))
@@ -243,46 +200,26 @@ class LinearStore(ats: MetaData, nods: List[Node], bindings: NamespaceBinding) e
     }
   }
 
-  /** Return a new LinearStore with a prefixed attribute prepended to the list of attrs */
-  def addAttribute(pre: String, key: String, value: String): XmlStore =
-    mkState(new PrefixedAttribute(pre, key, value, attrs), nodes, ns)
-
-  /** Return a new LinearStore with an unprefixed attribute prepended to the list of attrs */
-  def addAttribute(key: String, value: String): XmlStore =
-    mkState(new UnprefixedAttribute(key, value, attrs), nodes, ns)
-
-  /**
-   * Return a new LinearStore with a new namespace binding. If the 
-   * prefix is already defined to the given URI, it returns the 
-   * current object.
-   */
-  def addNamespace(pre: String, uri: String): XmlStore = 
-    if (ns.getURI(pre) == uri) 
-      this 
-    else {
-      mkState(attrs, nodes, new NamespaceBinding(pre, uri, ns))  
-    }
-
   protected[combinators] def toLinear: LinearStore = this
   
-  protected def mkState(attrs: MetaData, nodes: List[Node], ns: NamespaceBinding, level: Int) = 
+  protected def mkState(attrs: MetaData, nodes: Seq[Node], ns: NamespaceBinding, level: Int) = 
     LinearStore(attrs, nodes, ns).setSkipsWhitespace(true)
   
   override def toString = "LinearStore(" + attrs + ", " + nodes.mkString("", ",", "") + ", " + ns + ")"
 }
-
-case class MalformedXmlStore(msg: String, state: XmlStore) extends RuntimeException(msg)
 
 /**
  * This class matches elements at any position in the sequence of nodes. This allows
  * unpicklers to accept any permutation of a defined sequence. For efficiency 
  * reasons, this class uses a mutable representation for elements.
  */
-class RandomAccessStore(myAttrs: MetaData, myNodes: List[Node], myNs: NamespaceBinding) extends 
-           LinearStore(myAttrs, myNodes, myNs) {
+class RandomAccessStore(myAttrs: MetaData, myNodes: Seq[Node], 
+    myNs: NamespaceBinding, level: Int) extends LinearStore(myAttrs, myNodes.toList, myNs) {
   import collection.mutable.{Set, MultiMap}
-//  import com.google.util.{ListSet, MultiMap}
   import collection.jcl.LinkedHashMap
+  
+  randomAccessLevel = level
+
   
   private val nodeMap = 
     new LinkedHashMap[String, Set[Entry]] with MultiMap[String, Entry]
@@ -293,8 +230,8 @@ class RandomAccessStore(myAttrs: MetaData, myNodes: List[Node], myNs: NamespaceB
   for (val n <- myNodes) 
     nodeMap.add(n.label, new Entry(n))
   
-  def this(underlying: XmlStore) = 
-    this(underlying.attrs, underlying.nodes, underlying.ns)
+  def this(underlying: XmlInputStore) = 
+    this(underlying.attrs, underlying.nodes, underlying.ns, underlying.randomAccessLevel)
   
   /**
    * Lookup the given element, based on label and URI. It uses the node map to efficiently 
@@ -318,9 +255,9 @@ class RandomAccessStore(myAttrs: MetaData, myNodes: List[Node], myNs: NamespaceB
   override protected[combinators] def toLinear = 
     LinearStore(attrs, nodes, ns)
   
-  override protected[combinators] def mkState(attrs: MetaData, nodes: List[Node],
-      ns: NamespaceBinding) =
-    new RandomAccessStore(attrs, nodes, ns)
+  override protected[combinators] def mkState(attrs: MetaData, nodes: Seq[Node],
+      ns: NamespaceBinding, level: Int) =
+    new RandomAccessStore(attrs, nodes, ns, level)
     
   override def toString = "RandomAccessStore(" + attrs + ", " + 
     nodes.mkString("", ",", "") + ", " + ns + ")"
@@ -332,10 +269,6 @@ case class ListRandomAccessStore(ats: MetaData, nods: List[Node], bindings: Name
 
   randomAccessLevel = level
   
-/*  def this(underlying: XmlStore) = 
-    this(underlying.attrs, underlying.nodes, underlying.ns, underlying.randomAccessLevel)
-*/
-  
   override def acceptElem(label: String, uri: String): (Option[Node], ListRandomAccessStore) = {
     val elem = nodes find { n => n.isInstanceOf[Elem] && n.label == label && n.namespace == uri }
     (elem, if (elem.isEmpty) this 
@@ -344,8 +277,8 @@ case class ListRandomAccessStore(ats: MetaData, nods: List[Node], bindings: Name
   
   override def toLinear = LinearStore(attrs, nodes, bindings)
   
-  override protected def mkState(attrs: MetaData, nodes: List[Node], 
-      ns: NamespaceBinding, level: Int) = ListRandomAccessStore(attrs, nodes, ns, level)
+  override protected def mkState(attrs: MetaData, nodes: Seq[Node], 
+      ns: NamespaceBinding, level: Int) = ListRandomAccessStore(attrs, nodes.toList, ns, level)
     
   override def toString = "ListRandomAccessStore(" + attrs + ", " + 
     nodes.mkString("", ",", "") + ", " + ns + ")"
@@ -364,8 +297,11 @@ object LinearStore {
   def empty(ns: NamespaceBinding) = LinearStore(Null, Nil, ns)
 
   /** Create a LinearStore with the given state.*/
-  def apply(attrs: MetaData, nodes: List[Node], ns: NamespaceBinding) = 
-    new LinearStore(attrs, nodes, ns)
+  def apply(attrs: MetaData, nodes: Seq[Node], ns: NamespaceBinding) = 
+    new LinearStore(attrs, nodes.toList, ns)
+  
+  def apply(store: XmlStore): XmlInputStore =
+    apply(store.attrs, store.nodes, store.ns)
 
   /** Create a LinearStore from an element. */
   def fromElem(e: Elem) =

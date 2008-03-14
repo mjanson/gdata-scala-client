@@ -13,6 +13,20 @@ import scala.xml.{XML, NamespaceBinding, TopScope}
 
 import Picklers._
 
+object StopWatch {
+  var startTime: Long = 0
+  var endTime: Long = 0
+  
+  def start {
+    startTime = System.currentTimeMillis
+  }
+  
+  def stop: Long = {
+    endTime = System.currentTimeMillis
+    endTime - startTime
+  }
+}
+
 object TestFeed {
   var url = "http://gdata.youtube.com"
   
@@ -37,14 +51,17 @@ object TestFeed {
   
   private def unpickle[A](elem: scala.xml.Elem, pa: Pickler[A]) {
 	log("Unpickling..")
-	pa.unpickle(LinearStore.fromElem(elem)) match {
+    StopWatch.start
+	val res = pa.unpickle(LinearStore.fromElem(elem))
+    log("Unpickling took: " + StopWatch.stop + " ms.")
+    res match {
 	  case Success(feed, rest) => 
 	    log("Success")
 	    if (verbose)
 	      println(feed)
 	    if (pickle) {
 	      log("Pickling..")
-	      println(pa.pickle(feed, LinearStore.empty).rootNode)
+	      println(pa.pickle(feed, PlainOutputStore.empty).rootNode)
 	    }
 	  case f: NoSuccess =>
 	    println(f)

@@ -43,7 +43,7 @@ class PicklerTest extends PicklerAsserts {
   val pair = new ~("alfa", "omega")
 
   @Test def testSequencePickle {
-      val pickled = pSeq2.pickle(pair, LinearStore.empty)
+      val pickled = pSeq2.pickle(pair, PlainOutputStore.empty)
       Assert.assertEquals("Sequence pickling failed", normalize(input), normalize(pickled.rootNode))
   }
   
@@ -106,7 +106,7 @@ class PicklerTest extends PicklerAsserts {
     val inputRep = (<p:strings xmlns:p="testing-uri"></p:strings>)
       
     val strings = List()
-    val pickled = pStrings.pickle(strings, LinearStore.empty)
+    val pickled = pStrings.pickle(strings, PlainOutputStore.empty)
     Assert.assertEquals("Empty repetition pickling", normalize(inputRep), normalize(pickled.rootNode))
   }
 
@@ -117,7 +117,7 @@ class PicklerTest extends PicklerAsserts {
        </p:strings>)
       
     val strings = List("one")
-    val pickled = pStrings.pickle(strings, LinearStore.empty)
+    val pickled = pStrings.pickle(strings, PlainOutputStore.empty)
     Assert.assertEquals("Repetition of 1 element, pickling", 
                         normalize(inputRep), normalize(pickled.rootNode))
   }
@@ -131,7 +131,7 @@ class PicklerTest extends PicklerAsserts {
        </p:strings>)
       
     val strings = List("one", "two", "three")
-    val pickled = pStrings.pickle(strings, LinearStore.empty)
+    val pickled = pStrings.pickle(strings, PlainOutputStore.empty)
     Assert.assertEquals("Repetition of 3 elements, pickling", 
                         normalize(inputRep), normalize(pickled.rootNode))
   }

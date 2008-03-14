@@ -57,7 +57,7 @@ object PersonParser extends Application {
 
   val pp = new PrettyPrinter(80, 4)
 
-  val pickled = person.pickle(Person("Kenny", "Southpark, 90211", "home"), emptySt)
+  val pickled = person.pickle(Person("Kenny", "Southpark, 90211", "home"), emptyStore)
   println(pp.format(pickled.rootNode, pickled.ns))
 
   person.unpickle(LinearStore.fromElem(input)) match {

@@ -37,7 +37,8 @@ trait PicklerAsserts {
   
   /** Test that the value 'v' pickles to the expected xml node. */
   def assertPicklesTo[A](name: String, expected: Node, v: A, pa: Pickler[A]) {
-    Assert.assertEquals(name, Utility.trim(expected), Utility.trim(pa.pickle(v, LinearStore.empty).rootNode))
+    Assert.assertEquals(name, Utility.trim(expected), 
+        Utility.trim(pa.pickle(v, PlainOutputStore.empty).rootNode))
   }
   
   /**

@@ -149,7 +149,7 @@ class PicklerPermuteTest extends PicklerAsserts {
         <p:e>e</p:e>
       </p:elems>
       
-    val pickled = pDPermuteE.pickle(obj, LinearStore.empty).rootNode
+    val pickled = pDPermuteE.pickle(obj, PlainOutputStore.empty).rootNode
     Assert.assertEquals("Sequence and permutation failed pickling.", normalize(input), normalize(pickled))
     assertSucceedsWith("Sequence and permutation failed unpickling",
         obj, input, pDPermuteE)

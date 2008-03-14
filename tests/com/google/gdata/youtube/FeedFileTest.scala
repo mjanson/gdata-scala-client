@@ -1,6 +1,6 @@
 package com.google.gdata.youtube
 
-import com.google.xml.combinators.{LinearStore, Picklers}
+import com.google.xml.combinators.{LinearStore, PlainOutputStore, Picklers}
 import com.google.xml.combinators.PicklerAsserts
 import com.google.gdata.data.util.{SpecificTime, Now}
 import com.google.xmldiff.{Comparison, SimplePath, NoDiff}
@@ -27,8 +27,8 @@ trait FeedFileTest {
     val elem = XML.load(inStream)
     val feed = pickler.unpickle(LinearStore.fromElem(elem))
     comparison.ignorePaths = ignores.toList map (new SimplePath(_))
-    Assert.assertTrue("Unpickling failed", feed.isSuccessful)
+    Assert.assertTrue("Unpickling failed: " + feed, feed.isSuccessful)
     Assert.assertEquals("Pickling failed", NoDiff, 
-        comparison(elem, pickler.pickle(feed.get, LinearStore.empty).rootNode))
+        comparison(elem, pickler.pickle(feed.get, PlainOutputStore.empty).rootNode))
   }
 }

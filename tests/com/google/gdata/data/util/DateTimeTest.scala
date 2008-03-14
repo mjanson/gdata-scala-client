@@ -27,26 +27,30 @@ class DateTimeTest {
    
    @Test def testValidTz1 {
      val str = "2008-02-15T16:16:02+01:00"
+     val out = "2008-02-15T16:16:02.000+01:00"
      val dt = DateTime.parse(str)
-     assertEquals(str, dt.toString)
+     assertEquals(out, dt.toString)
    }
 
    @Test def testValidNegativeTz {
      val str = "2008-02-15T16:16:02-01:00"
+     val out = "2008-02-15T16:16:02.000-01:00"
      val dt = DateTime.parse(str)
-     assertEquals(str, dt.toString)
+     assertEquals(out, dt.toString)
    }
 
    @Test def testValidZulu {
      val str = "2008-02-15T16:16:02Z"
+     val out = "2008-02-15T16:16:02.000Z"
      val dt = DateTime.parse(str)
-     assertEquals(str, dt.toString)
+     assertEquals(out, dt.toString)
    }
 
    @Test def testValidZulu1 {
      val str = "2008-01-15T23:59:02Z"
+     val out = "2008-01-15T23:59:02.000Z"
      val dt = DateTime.parse(str)
-     assertEquals(str, dt.toString)
+     assertEquals(out, dt.toString)
    }
    
    @Test def testValidFractional {
