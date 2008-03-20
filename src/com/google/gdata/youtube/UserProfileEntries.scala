@@ -155,7 +155,11 @@ trait UserProfileEntries extends AtomEntries {
       elem("feedLink", const(attr("rel", text), rel))(Uris.gdNs)
     }
     
-    val extraContents =  
+    val extraContents = {
+      /** Convenience method for an optional text element. */
+      def ote(label: String)(implicit ns: (String, String)): Pickler[Option[String]] =
+        opt(elem(label, text))
+  
       interleaved(elem("username", text) ~ ote("firstName") ~ ote("lastName")
         ~ opt(elem("age", intVal)) ~ ote("books") ~ ote("gender") ~ ote("company")
         ~ ote("description") ~ ote("hobbies") ~ ote("hometown") ~ ote("location")
@@ -168,7 +172,8 @@ trait UserProfileEntries extends AtomEntries {
               FeedLink.pickler(videoFeeds.atomFeedContentsPickler)) // TODO: switch to contacts pickler
         ~ when(feedLinkRel(Schemas.USER_SUBSCRIPTIONS), 
               FeedLink.pickler(videoFeeds.atomFeedContentsPickler)))// TODO: switch to subscriptions 
-
+    }
+    
     def fromUserProfileEntry(pe: UserProfileEntry) = new ~(pe, new ~(pe.username, pe.firstName)
         ~ pe.lastName ~ pe.age ~ pe.books ~ pe.gender ~ pe.company ~ pe.description ~ pe.hobbies
         ~ pe.hometown ~ pe.location ~ pe.movies ~ pe.music ~ pe.occupation ~ pe.school

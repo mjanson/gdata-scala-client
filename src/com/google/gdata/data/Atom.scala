@@ -17,7 +17,7 @@
 package com.google.gdata.data;
 
 import scala.xml.{NamespaceBinding, TopScope}
-import com.google.xml.combinators.{Picklers, Extensible}
+import com.google.xml.combinators.{Picklers, HasStore}
 import com.google.gdata.data.util.DateTime
 
 /** A text construct, according to the Atom specification. The content is uninterpreted. */
@@ -30,7 +30,7 @@ object NoText extends Text(None, "")
 /** A person construct, according to the Atom specification. */
 case class Person(name: String,
                   uri: Option[String],
-                  email: Option[String]) extends Tuple3(name, uri, email) with Extensible
+                  email: Option[String]) extends Tuple3(name, uri, email) with HasStore
 
 /**
  * This object defines common Atom constructs. 
@@ -50,7 +50,7 @@ object Atom {
           
   /** Return a pickler for an element that is a person construct. */
   def atomPerson(elemName: String): Pickler[Person] = elem(elemName,
-    extensible(wrap (interleaved(elem("name", text)
+    makeExtensible(wrap (interleaved(elem("name", text)
         ~ opt(elem("uri", text))
         ~ opt(elem("email", text)))) (Person) (tuple3Pair)))
 

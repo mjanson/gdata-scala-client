@@ -16,7 +16,7 @@
 
 package com.google.gdata.data.kinds
 
-import com.google.xml.combinators.{Picklers, Extensible, ~}
+import com.google.xml.combinators.{Picklers, HasStore, ~}
 
 /**
  * A gd:feedLink element. It represents a logically nested feed of abstract
@@ -24,7 +24,7 @@ import com.google.xml.combinators.{Picklers, Extensible, ~}
  * 
  * @author Iulian Dragos
  */
-class FeedLink[Feed] extends Extensible {
+class FeedLink[Feed] extends HasStore {
   /** Hints at the number of entries in the feed. May not be a precise count. */
   var countHint: Option[Int] = None
   
@@ -69,7 +69,7 @@ object FeedLink {
   
   /** A pickler for FeedLinks with feeds of type F */
   def pickler[F](p: Pickler[F]): Pickler[FeedLink[F]] = {
-    elem("feedLink", extensible(contentsPickler(p)))(Uris.gdNs) 
+    elem("feedLink", makeExtensible(contentsPickler(p)))(Uris.gdNs) 
   }
   
   /** A pickler for FeedLinks contents. It has no enclosing 'gd:feedLink' element. */

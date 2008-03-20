@@ -15,14 +15,14 @@
 
 
 package com.google.xml.combinators
+
 import com.google.gdata.data.util.DateTime
 
 import scala.xml.{Node, Elem, NamespaceBinding, NodeSeq, Null, Text, TopScope}
 import java.text.ParseException
 
 /** 
- * A class for XML Pickling combinators. Influenced by the <a href="http://www.fh-wedel.de/~si/HXmlToolbox/">
- * Haskell XML Toolbox</a>, Andrew Kennedy's Pickling Combinators, and Scala combinator parsers
+ * A class for XML Pickling combinators.
  * <p>
  * A pickler for some type A is a class that can save objects of type A to XML (pickle)
  * and read XML back to objects of type A (unpickle). This class provides some basic 
@@ -44,9 +44,15 @@ import java.text.ParseException
  * picklePair will be able to pickle and unpickle pairs of Strings that look like the
  * input.
  *
- * @author Iulian Dragos (iuliandragos@google.com) 
+ * @author Iulian Dragos (iuliandragos@google.com)
+ * @see <a href="http://www.fh-wedel.de/~si/HXmlToolbox/">Haskell XML Toolbox</a>, 
+ * @see Andrew Kennedy's
+ *      <a href="http://research.microsoft.com/%7Eakenn/fun/">Pickler Combinators</a>, 
+ * @see <a 
+ *   href="http://www.scala-lang.org/docu/files/api/scala/util/parsing/combinator/Parsers.html">
+ * Scala combinator parsers</a>
  */
-object Picklers extends AnyRef with ImplicitConversions {
+object Picklers extends AnyRef with TupleToPairFunctions {
 
   /**
    * The state of the pickler is a collection of attributes, a list of 
@@ -74,6 +80,7 @@ object Picklers extends AnyRef with ImplicitConversions {
     def get: A
   }
   
+  /** A successful parse.  */
   case class Success[+A](v: A, in: St) extends PicklerResult[A] {
     def andThen[B](f: (A, St) => PicklerResult[B]): PicklerResult[B] = f(v, in)
     def orElse[B >: A](f: => PicklerResult[B]): PicklerResult[B] = this
@@ -81,6 +88,13 @@ object Picklers extends AnyRef with ImplicitConversions {
     def get = v
   }
 
+  /**
+   * Parsing failed. There are two possible subclasses, Failure and Error. Failure is
+   * recoverable, while Error makes the whole parsing fail. To make a pickler return 
+   * errors, apply 'commit' to it. All 'elem' picklers will commit on their contents,
+   * so that an error parsing the contents of an element will stop everything. This
+   * is almost always the best thing to do (and yields the best error messages).
+   */
   abstract class NoSuccess(val msg: String, val in: St) extends PicklerResult[Nothing] {
     def andThen[B](f: (Nothing, St) => PicklerResult[B]) = this
     def orElse[B >: Nothing](f: => PicklerResult[B]): PicklerResult[B] = f
@@ -160,11 +174,11 @@ object Picklers extends AnyRef with ImplicitConversions {
   }
   
   /**
-   * Pickler for a list of elements. It unpickles a list of elements separated by 'sep'. It
-   * works best for text nodes. For instance, Media RSS defines a comma-separated list of categories
-   * as the contents of an element.
+   * Pickler for a list of elements. It unpickles a list of elements separated by 'sep'.
+   * It makes little sense to use this pickler on elem or attr picklers (use '~' and 'rep' 
+   * instead.) For an example how this is used, see MediaRss which defines a comma-separated 
+   * list of categories as the contents of an element.
    * <p/>
-   * It makes little sense to use this pickler on elem or attr picklers. Use '~' and 'rep' instead.
    */
   def list[A](sep: Char, pa: => Pickler[A]): Pickler[List[A]] = {
     def parseList(str: String, unused: St): PicklerResult[List[A]] = {
@@ -209,7 +223,13 @@ object Picklers extends AnyRef with ImplicitConversions {
           Failure("Expected date in textual format", in1) 
       }
   }
-
+  
+  /** 
+   * Apply a pair of functions on the result of pa. Unlike 'wrap', 'f' may cause the 
+   * pickler to fail. 
+   * 
+   * For an example, see the implementation of intVal. 
+   */
   def filter[A, B](pa: => Pickler[A], f: (A, St) => PicklerResult[B], g: B => A): Pickler[B] =
     new Pickler[B] {
       def pickle(v: B, in: XmlOutputStore): XmlOutputStore =
@@ -287,10 +307,6 @@ object Picklers extends AnyRef with ImplicitConversions {
       }
     }
   }
-  
-  /** Convenience method for an optional text element. */
-  def ote(label: String)(implicit ns: (String, String)): Pickler[Option[String]] =
-    opt(elem(label, text))
   
   /** 
    * Convenience method for creating an element with an implicit namepace. Contents of
@@ -382,14 +398,14 @@ object Picklers extends AnyRef with ImplicitConversions {
    * Return a pickler that always pickles the first value, but unpickles using the second when the
    * first one fails.
    */
-  def or[A](pa: => Pickler[A], paa: => Pickler[A]): Pickler[A] = new Pickler[A] {
+  def or[A](pa: => Pickler[A], qa: => Pickler[A]): Pickler[A] = new Pickler[A] {
     def pickle(v: A, in: XmlOutputStore): XmlOutputStore = 
       pa.pickle(v, in)
       
     def unpickle(in: St): PicklerResult[A] = 
       pa.unpickle(in) match {
         case s: Success[_] => s
-        case f: Failure => paa.unpickle(in)
+        case f: Failure => qa.unpickle(in)
         case e: Error => e
       }
   }
@@ -408,6 +424,7 @@ object Picklers extends AnyRef with ImplicitConversions {
       pa.unpickle(in) andThen {(v, in1) => Success(Some(v), in1) } orElse Success(None, in)
   }
   
+  /** A repetition pickler. It applies 'pa' until there it fails. */
   def rep[A](pa: => Pickler[A]): Pickler[List[A]] = new Pickler[List[A]] {
     def pickle(vs: List[A], in: XmlOutputStore): XmlOutputStore = vs match {
       case v :: vs => pickle(vs, pa.pickle(v, in))
@@ -499,7 +516,15 @@ object Picklers extends AnyRef with ImplicitConversions {
     def unpickle(in: St) = Success(in.nodes, LinearStore.empty)
   }
   
-  def extend[A <: Extensible, B](pa: => Pickler[A], pb: => Pickler[B]) = new Pickler[A ~ B] {
+  /** 
+   * Apply 'pb' on the state stored in the value unpickled by 'pa'.
+   * It is used for after-the-fact extension. The type 'A' has to be an instance of HasStore.
+   * The pickler will apply 'pb' on HasStore.store. The assumption is that 'pa' stores in there
+   * the unconsumed input.
+   * 
+   * @see makeExtensible
+   */
+  def extend[A <: HasStore, B](pa: => Pickler[A], pb: => Pickler[B]) = new Pickler[A ~ B] {
     def pickle(v: A ~ B, in: XmlOutputStore): XmlOutputStore = {
       val in1 = pb.pickle(v._2, PlainOutputStore.empty)
       v._1.store = in1
@@ -516,18 +541,20 @@ object Picklers extends AnyRef with ImplicitConversions {
   }
   
   /** 
-   * Make a given element handle raw XML elements. The given pickler should handle Extensible
-   * subtypes. This pickler will store unconsumed input in the Extensible instance. Later
-   * extensions could use picklers on that store to parse new elements.
+   * Make a given pickler store unconsumed input for later use. The given type should 
+   * mix in HasStore. This pickler will store unconsumed input in the HasStore instance. Use
+   * 'extend' to apply another pickler on the stored input.
    * 
-   * <code>extensible(Person.pickler)</code> will make a Person pickler ready for future 
+   * <code>makeExtensible(Person.pickler)</code> will make a Person pickler ready for future 
    * extensions by keeping around all input left.
+   * 
+   * @see 'exted'.
    */
-  def extensible[A <: Extensible](pa: => Pickler[A]): Pickler[A] = 
+  def makeExtensible[A <: HasStore](pa: => Pickler[A]): Pickler[A] = 
     wrap (pa ~ collect) { case a ~ ext => a.store = ext; a } { a => new ~ (a, a.store) }
   
   /** A logging combinator */
-  def log[A](name: String, pa: => Pickler[A]): Pickler[A] = new Pickler[A] {
+  def logged[A](name: String, pa: => Pickler[A]): Pickler[A] = new Pickler[A] {
     def pickle(v: A, in: XmlOutputStore): XmlOutputStore = {
       println("pickling [" + name + "] " + v + " at: " + in)
       val res = pa.pickle(v, in)
@@ -542,13 +569,6 @@ object Picklers extends AnyRef with ImplicitConversions {
       res
     }
   }
-
-  def withNamespace[A](pre: String, uri: String, parent: NamespaceBinding)
-    (body: NamespaceBinding => Pickler[A]): Pickler[A] =
-      if (parent.getURI(pre) == uri) 
-        body(parent) 
-      else 
-        body(new NamespaceBinding(pre, uri, parent))
 }
 
 /** Convenience class to hold two values (it has lighter syntax than pairs). */
@@ -557,54 +577,4 @@ final case class ~[+A, +B](_1: A, _2: B) {
   
   /** Append another value to this pair. */
   def ~[C](c: C) = new ~(this, c)
-}
-
-trait ImplicitConversions {
-  /** Convert a binary function to a function of a pair. */
-    implicit def fun2ToPair[A, B, C](fun: (A, B) => C): (~[A, B]) => C = { 
-      case a ~ b => fun(a, b)
-    }
-    
-    /** Convert a function of 3 arguments to one that takes a pair of a pair. */
-    implicit def fun3ToPpairL[A, B, C, D]
-        (fun: (A, B, C) => D): (~[~[A, B], C]) => D = { 
-      case a ~ b ~ c =>  fun(a, b, c)
-    }
-    
-    /** Convert a function of 4 arguments to one that takes a pair of a pair. */
-    implicit def fun4ToPpairL[A, B, C, D, E]
-        (fun: (A, B, C, D) => E): A ~ B ~ C ~ D => E = { 
-      case a ~ b ~ c ~ d =>  fun(a, b, c, d)
-    }
-
-    /** Convert a function of 4 arguments to one that takes a pair of a pair. */
-    implicit def fun5ToPpairL[A, B, C, D, E, F]
-        (fun: (A, B, C, D, E) => F): (A ~ B ~ C ~ D ~ E) => F = { 
-      case a ~ b ~ c ~ d ~ e =>  fun(a, b, c, d, e)
-    }
-
-    /** Convert a function of 4 arguments to one that takes a pair of a pair. */
-    implicit def fun6ToPpairL[A, B, C, D, E, F, G]
-        (fun: (A, B, C, D, E, F) => G): (A ~ B ~ C ~ D ~ E ~ F) => G = { 
-      case a ~ b ~ c ~ d ~ e ~ f =>  fun(a, b, c, d, e, f)
-    }
-
-    /** Convert a function of 4 arguments to one that takes a pair of a pair. */
-    implicit def fun7ToPpairL[A, B, C, D, E, F, G, H]
-        (fun: (A, B, C, D, E, F, G) => H): (A ~ B ~ C ~ D ~ E ~ F ~ G) => H = { 
-      case a ~ b ~ c ~ d ~ e ~ f ~ g =>  fun(a, b, c, d, e, f, g)
-    }
-
-    /** Convert a function of 3 arguments to one that takes a pair of a pair, 
-     *  right associative. */
-    implicit def fun3ToPpairR[A, B, C, D](f: (A, B, C) => D): (~[A, ~[B, C]]) => D = { 
-      case a ~ (b ~ c) =>  f(a, b, c)
-    } 
-    
-    implicit def funTuple2ToPair[A, B, C](f: A => (B, C)) = { x: A => tuple2Pair(f(x)) }
-    implicit def funTuple3ToPair[A, B, C, D](f: A => (B, C, D)) = { x: A => tuple3Pair(f(x)) }
-    
-    def tuple2Pair[A, B](p: (A, B)) = new ~(p._1, p._2)
-    def tuple3Pair[A, B, C](p: (A, B, C)) = new ~(new ~(p._1, p._2), p._3)
-    def tuple4Pair[A, B, C, D](p: (A, B, C, D)) = new ~(new ~(new ~(p._1, p._2), p._3), p._4)
 }

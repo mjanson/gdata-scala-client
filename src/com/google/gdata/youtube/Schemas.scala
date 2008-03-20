@@ -23,4 +23,10 @@ object Schemas {
   
   /** User uploads feed. */
   final val USER_UPLOADS = "http://gdata.youtube.com/schemas/2007#user.uploads"
+  
+  /** Related videos feed. */
+  final val RELATED_VIDEOS = "http://gdata.youtube.com/schemas/2007#video.related"
+
+  /** Responses videos feed. */
+  final val RESPONSES_VIDEOS = "http://gdata.youtube.com/schemas/2007#video.responses"
 }

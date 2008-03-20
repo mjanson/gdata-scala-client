@@ -14,16 +14,17 @@
  */
 
 
-package com.google.xml.combinators
+package com.google.gdata
 
-/** 
- * A trait for extensible data. Unknown elements will be collected in 'store'.
- * 
- * This can be used for 'after the fact' extension of picklers. A user-defined 
- * type that mixes in Extensible must also use the 'extensible' combinator to 
- * collect remaining input. An extension can then be be applied to the collected
- * store: <code>extend(Person.pickler, extraElements)</code>
+import com.google.xml.combinators.Picklers.NoSuccess
+
+/**
+ * Base class for GData Service exceptions.
  */
-trait Extensible {
-  var store: XmlStore = LinearStore.empty
+class ServiceException(msg: String) extends Exception(msg)
+
+
+case class UnknownDocumentException(msg: String, err: NoSuccess) extends ServiceException(msg) {
+  override def toString = 
+    msg + ": " + err
 }

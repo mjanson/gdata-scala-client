@@ -68,7 +68,8 @@ trait SubscriptionEntries extends AtomEntries {
     import Picklers._
     
     val contents = interleaved(atomEntryContentsPickler
-        ~ FeedLink.pickler(videoFeeds.feedPickler) ~ ote("username") ~ ote("queryString"))
+        ~ FeedLink.pickler(videoFeeds.feedPickler) ~ opt(elem("username", text))
+        ~ opt(elem("queryString", text)))
     
     def fromSubscriptionEntry(se: SubscriptionEntry) =
       new ~(se, se.feedLink) ~ se.username ~ se.queryString

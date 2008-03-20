@@ -159,6 +159,7 @@
       <test name="com.google.gdata.data.util.DateTimeTest"/>
       <test name="com.google.gdata.data.util.NormalPlayTimeTest"/>
       <test name="com.google.gdata.data.EntryTest"/>
+      <test name="com.google.gdata.QueryTest"/>
       <test name="com.google.gdata.data.media.ContentTest"/>
       <formatter type="plain" usefile="false"/>
       <classpath>

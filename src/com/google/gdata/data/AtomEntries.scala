@@ -51,7 +51,7 @@ trait AtomEntries extends Entries {
   type Entry <: AtomEntry
   
   /** An Atom Entry. */
-  class AtomEntry  {
+  class AtomEntry extends AnyRef with LinkNavigation  {
     var authors: List[Person] = Nil
     var categories: List[Category] = Nil
     var content: Option[Content] = None
@@ -99,19 +99,11 @@ trait AtomEntries extends Entries {
     
     override def toString = {
       val sb = new StringBuffer(256) // override the ridiculous default size of 16-chars
-      sb.append("\n---- Entry -----\n")      
-        .append("Authors: ").append(authors.mkString("", ", ", ""))
-        .append("\nCategories: ").append(categories.mkString("", ", ", ""))
-        .append("\nContent: ").append(content)
-        .append("\nContributors: ").append(contributors.mkString("", ", ", ""))
-        .append("\nId: ").append(id)
-        .append("\nLinks: ").append(links.mkString("", ", ", ""))
-        .append("\nPublished: ").append(published)
-        .append("\nRights: ").append(rights)
-        .append("\nSource: ").append(source)
-        .append("\nSummary: ").append(summary)
-        .append("\nTitle: ").append(title)
-        .append("\nUpdated: ").append(updated)
+      sb.append("Entry:")      
+        .append("\n\tAuthors: ").append(authors.mkString("", ", ", ""))
+        .append("\n\tId: ").append(id)
+        .append("\n\tTitle: ").append(title)
+        .append("\n\tUpdated: ").append(updated)
         .toString
     }
   }

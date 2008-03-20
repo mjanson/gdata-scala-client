@@ -53,7 +53,8 @@ trait PlaylistVideoEntries extends VideoEntries { this: PlaylistVideoEntries wit
     import Picklers._
     
     val contents = interleaved(
-      videoEntryPickler ~ ote("description")(Uris.ytNs) ~ elem("position", intVal)(Uris.ytNs))
+      videoEntryPickler ~ opt(elem("description", text)(Uris.ytNs))
+          ~ elem("position", intVal)(Uris.ytNs))
     
     def fromPlaylistVideoEntry(pve: PlaylistVideoEntry) =
       new ~(pve, pve.description) ~ pve. position

@@ -31,7 +31,7 @@ import Atom._
  * @author Iulian Dragos
  */
 trait Feeds { this: Feeds with Entries =>
-  type Feed
+  type Feed <: Seq[Entry]
   
   /** A pickler for feeds. */
   def feedPickler: Pickler[Feed] = elem("feed", feedContentsPickler)(Uris.atomNs)
@@ -47,7 +47,7 @@ trait AtomFeeds extends Feeds { this: AtomFeeds with Entries =>
   type Feed <: AtomFeed
 
   /** An Atom Feed. */
-  class AtomFeed extends AnyRef {
+  class AtomFeed extends AnyRef with Seq[Entry] {
     /** The authors of this feed. */
     var authors: List[Person] = Nil
     
@@ -96,6 +96,15 @@ trait AtomFeeds extends Feeds { this: AtomFeeds with Entries =>
     /** The number of search results returned per page. */
     var itemsPerPage: Option[Int] = None
     
+    /** The length of the entry sequence. */
+    def length = entries.length
+    
+    /** Return an iterator over the entries contained by this feed. */
+    def elements: Iterator[Entry] = entries.elements
+    
+    /** Return the n'th entry. */
+    def apply(n: Int): Entry = entries(n)
+    
     /** Initialization method to fill all known fields. */
     def fillOwnFields(authors: List[Person], categories: List[Category], contributors: List[Person],
         generator: Option[Generator], icon: Option[String], id: String, links: List[Link],
@@ -131,21 +140,10 @@ trait AtomFeeds extends Feeds { this: AtomFeeds with Entries =>
     override def toString = {
       val sb = new StringBuffer(256) // override the ridiculous 16-chars default size
       sb.append("Authors: ").append(authors.mkString("", ", ", ""))
-        .append("\nCategories: ").append(categories.mkString("", ", ", ""))
-        .append("\nContributors: ").append(contributors.mkString("", ", ", ""))
-        .append("\nGenerator: ").append(generator)
-        .append("\nIcon: ").append(icon)
         .append("\nId: ").append(id)
-        .append("\nLinks: ").append(links.mkString("", ", ", ""))
-        .append("\nLogo: ").append(logo)
-        .append("\nRights: ").append(rights)
-        .append("\nSubtitle: ").append(subtitle)
         .append("\nTitle: ").append(title)
         .append("\nUpdated: ").append(updated)
-        .append("\nTotal Results: ").append(totalResults)
-        .append("\nStart index: ").append(startIndex)
-        .append("\nItems per page: ").append(itemsPerPage)
-        .append("\nEntries: ").append(entries.mkString("", "\n\t", ""))
+        .append("\nEntries: ").append(entries.mkString("", "\n", ""))
         .toString
     }
   }
