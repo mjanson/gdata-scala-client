@@ -14,19 +14,20 @@
  */
 
 
-package com.google.gdata.data
+package com.google.gdata.client
 
 /**
- * Mix in this trait in any container of links. It allows retrieving links based on the
- * 'rel' attribute
+ * An authentication token used by GData services. It encapsulate the logic necessary
+ * to fill the 'Auth' HTTP header in GData requests. Such tokens are obtained using
+ * an AuthFactory.
  * 
- * @author Iulian Dragos
- * @see AtomEntries, AtomFeeds
+ * @see http://code.google.com/apis/gdata/auth.html for information on Google 
+ *      authentication.
  */
-trait LinkNavigation {
-  def links: List[Link]
-  
-  def link(rel: String): Option[Link] = {
-    links.find(_.rel == Some(rel))
-  }
+trait AuthToken {
+  /** 
+   * Return the contents of the Auth: header field to be passed in GData requests that
+   * are using this authentication token.
+   */
+  def getAuthHeader: String
 }

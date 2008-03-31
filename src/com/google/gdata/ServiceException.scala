@@ -23,7 +23,10 @@ import com.google.xml.combinators.Picklers.NoSuccess
  */
 class ServiceException(msg: String) extends Exception(msg)
 
-
+/**
+ * This exception is thrown when the retrieved XML document cannot be parsed by the provided
+ * pickler.
+ */
 case class UnknownDocumentException(msg: String, err: NoSuccess) extends ServiceException(msg) {
   override def toString = 
     msg + ": " + err

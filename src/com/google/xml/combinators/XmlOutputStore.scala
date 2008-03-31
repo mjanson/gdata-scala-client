@@ -29,6 +29,9 @@ trait XmlOutputStore extends XmlStore {
   def addText(s: String): XmlOutputStore =
     addNode(Text(s))
 
+  def addNodes(ns: Seq[Node]): XmlOutputStore =
+    ns.foldLeft(this) (_.addNode(_))
+  
   /** Add a node. */
   def addNode(n: Node): XmlOutputStore
 

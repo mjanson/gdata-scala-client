@@ -44,4 +44,7 @@ object Utility {
     }
     sb.append(str)
   }
+  
+  def option[A <: AnyRef](a: A): Option[A] =
+    if (a eq null) None else Some(a)
 }

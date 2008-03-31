@@ -14,7 +14,7 @@
  */
 
 
-package com.google.gdata
+package com.google.gdata.client
 
 /** Base class for GData request exceptions. */
 class GDataRequestException(msg: String) extends Exception(msg)

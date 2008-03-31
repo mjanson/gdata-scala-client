@@ -35,7 +35,7 @@ import java.net.URL
  * 
  * @author Iulian Dragos
  */
-class YouTubeService(appName: String) extends Service(appName) {
+class YouTubeService(appName: String) extends Service(appName, "youtube") {
 
   val videos = new StdVideoFeed {
     override lazy val commentsFeed: YouTubeService.this.comments.type = comments

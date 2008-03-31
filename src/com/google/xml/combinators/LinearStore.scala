@@ -19,7 +19,7 @@ package com.google.xml.combinators
 import java.io.{InputStream, InputStreamReader, FileInputStream}
 
 import scala.xml.{Node, Elem, MetaData, NamespaceBinding, Text, ProcInstr, 
-                  Comment, TopScope, Null, XML, parsing}
+                  Comment, TopScope, Null, XML, parsing, EntityRef, Utility, Atom}
 import scala.io.Source
 
 /**
@@ -123,6 +123,7 @@ class LinearStore(ats: MetaData, nods: List[Node], bindings: NamespaceBinding)
       (Some(Text("")), this)
     else 
       nodes.head match {
+//        case t: Text => (Some(Text(unescapeText(nodes))), mkState(attrs, nodes.tail, ns))
         case t: Text => (Some(t), mkState(attrs, nodes.tail, ns))
         case _       => (None, this)
       }
@@ -133,6 +134,27 @@ class LinearStore(ats: MetaData, nods: List[Node], bindings: NamespaceBinding)
   
   override def toString = 
     "LinearStore(" + attrs + ", " + nodes.mkString("", ",", "") + ", " + ns + ")"
+  
+  /** Return a text node out of the sequence of nodes (which might contain entity references). */
+  private def unescapeText(ns: Seq[Node]) = {
+    def unescape(sb: StringBuilder, ns: Seq[Node]): StringBuilder = ns match {
+      case Seq(Text(txt), nss @ _*) =>
+        sb.append(txt)
+        unescape(sb, nss)
+
+      case Seq(EntityRef(entName), nss @ _*) =>
+        Utility.unescape(entName, sb)
+        unescape(sb, nss)
+
+      case Seq(a: Atom[_], nss @ _*) =>
+        sb.append(a.text)
+        unescape(sb, nss)
+
+      case _ =>
+        sb
+    }
+    unescape(new StringBuilder, ns).toString
+  }
 }
 
 /**
@@ -162,13 +184,8 @@ object LinearStore {
   
   /** Create a LinearStore from the given InputStream. */
   def fromInputStream(in: InputStream) = {
-    //val e = XML.load(new InputStreamReader(in))
-    fromSource(Source.fromInputStream(in))
-  }
-  
-  def fromSource(in: Source) = {
-    val doc = parsing.ConstructingParser.fromSource(in, true).document()
-    fromElem(doc.docElem.asInstanceOf[Elem])
+    val e = XML.load(in)
+    fromElem(e)
   }
   
   /** Create a LinearStore from the given filename. */

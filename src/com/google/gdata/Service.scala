@@ -16,14 +16,40 @@
 
 package com.google.gdata
 
+import com.google.gdata.client.{GDataRequest, RequestMethod, AuthTokenFactory, ClientLoginFactory}
 import com.google.xml.combinators.Picklers.{Pickler, Success, NoSuccess}
 import com.google.gdata.data.kinds.FeedLink
 
 import java.net.URL
 
-abstract class Service(appName: String) {
-  private val userAgent = appName + "-" + Service.SERVICE_NAME + "-" + Service.SERVICE_VERSION
+/**
+ * A base class for Google services. It provides the basic querying mechanism.
+ * 
+ * @author Iulian Dragos
+ */
+abstract class Service(appName: String, service: String) {
+  private val userAgent = appName + " " + Service.SERVICE_NAME + "-" + Service.SERVICE_VERSION
+  
+  /** A factory for GData requests. */
+  protected var requestFactory = new GDataRequest.Factory
+  
+  /** A facotry for authentication tokens. */
+  protected var authTokenFactory: AuthTokenFactory = new ClientLoginFactory(appName, service)
+  
+  requestFactory += ("User-Agent", userAgent)
 
+  /** Set user credentials. */
+  def setUserCredentials(username: String, passwd: String) {
+    authTokenFactory.setUserCredentials(username, passwd)
+    requestFactory.token = authTokenFactory.token
+  }
+
+  /** Set user credentials and captcha challenge. */
+  def setUserCredentials(username: String, passwd: String, cToken: String, cAnswer: String) {
+    authTokenFactory.setUserCredentials(username, passwd, cToken, cAnswer)
+    requestFactory.token = authTokenFactory.token
+  }
+  
   /**
    * Make the given query and parse the XML result using the given pickler.
    * 
@@ -68,10 +94,7 @@ abstract class Service(appName: String) {
   }
   
   protected def mkRequest(method: RequestMethod.Value, url: String) = {
-    val request = new GDataRequest(RequestMethod.GET, url)
-    request += ("User-Agent", userAgent)
-    
-    request
+    requestFactory.mkRequest(RequestMethod.GET, new URL(url))
   }
 }
 

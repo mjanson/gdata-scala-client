@@ -14,7 +14,7 @@
  */
 
 
-package com.google.gdata
+package com.google.gdata.client
 
 import com.google.xml.combinators.Picklers.{Pickler, PicklerResult}
 import com.google.xml.combinators.LinearStore
@@ -33,17 +33,25 @@ import scala.collection._
  * @see java.net.HttpURLConnection for details regarding state errors.
  * @author Iulian Dragos
  */
-class GDataRequest(method: RequestMethod.Value, url: String) {
+class GDataRequest(method: RequestMethod.Value, url: URL) {
   /** The underlying HTTP connection. */
-  private var connection: HttpURLConnection = 
-    new URL(url).openConnection.asInstanceOf[HttpURLConnection]
+  private val connection: HttpConnection = 
+    new HttpConnection(url.openConnection.asInstanceOf[HttpURLConnection])
   
   /** Is this connection connected? */
   private var connected: Boolean = false
   
+  private var response: connection.HttpResponse = _
+  
+  /** Create a new request using a string URL. */
+  def this(method: RequestMethod.Value, url: String) = {
+    this(method, new URL(url))
+  }
+  
   /** Add a request property. */
   def +=(field: String, value: String) = {
-    connection.addRequestProperty(field, value)
+    connection(field) = value
+    GDataRequest.logger.fine("Added request property: " + field + ": " + value)
     this
   }
   
@@ -60,27 +68,27 @@ class GDataRequest(method: RequestMethod.Value, url: String) {
     if (connected) return
     
     GDataRequest.logger.fine("Connecting to " + url)
-    connection.setRequestMethod(method.toString)
+    connection.requestMethod = method.toString
     
     method match {
       case GET => 
-        connection.setDoInput(true); connection.setDoOutput(false)
+        connection.doInput = true; connection.doOutput = false
       case PUT => 
-        connection.setDoInput(true); connection.setDoOutput(true)
+        connection.doInput =true; connection.doOutput = true
       case POST => 
         if (!slug.isEmpty)
-          connection.addRequestProperty("Slug", URLEncoder.encode(slug, "UTF-8"))
-        connection.setDoInput(true); connection.setDoOutput(true)
+          connection("Slug") = URLEncoder.encode(slug, "UTF-8")
+        connection.doInput = true; connection.doOutput = true
       case DELETE => 
-        connection.setDoInput(false); connection.setDoOutput(false)
+        connection.doInput = false; connection.doOutput = false
     }
-    connection.connect()
+    response = connection.connect
     connected = true
     
-    GDataRequest.logger.fine("Got back: " + responseCode + " " + responseMessage)
+    GDataRequest.logger.fine("Got back: " + response.responseCode + " " + response.responseMessage)
     
-    if (responseCode > 300)
-      handleErrorCode(responseCode)
+    if (response.responseCode >= 300)
+      handleErrorCode(response.responseCode)
   }
   
   /** 
@@ -102,45 +110,23 @@ class GDataRequest(method: RequestMethod.Value, url: String) {
   } 
   
   /** Return an output stream for writing in this connection. */
-  def outputStream: OutputStream = connection.getOutputStream
+  def outputStream: OutputStream = connection.outputStream
   
   /** Get the content of this request (what the server returned). */
-  def content: InputStream = connection.getContent.asInstanceOf[InputStream]
+  def content: InputStream = {
+    if (!connected)
+      connect
+    response.inputStream
+  } 
   
   /** Unpickle the result of this request. */
   def unpickle[A](pa: Pickler[A]): PicklerResult[A] = {
     connect
     try {
-      val source = io.Source.fromInputStream(content)
-      // TODO: fix the 'reset' method in the scala library, before we can use logging
-      //GDataRequest.logger.fine("Got back content: " + source.getLines.mkString("", "\n", ""))
-      //source.reset
-      pa.unpickle(LinearStore.fromSource(source))
+      pa.unpickle(LinearStore.fromInputStream(content))
     } finally {
       content.close
     }
-  }
-  
-  /** Return a map of all headers in the server's respones. */
-  lazy val headers: Map[String, List[String]] = {
-    def toScalaList[A](l: java.util.List[A]): List[A] = {
-      val ab = new mutable.ListBuffer[A]
-      val iter = l.iterator
-      while (iter.hasNext) ab += iter.next
-      ab.toList
-    }
-    (for ((keys, headers) <- new mutable.JavaMapAdaptor(connection.getHeaderFields))
-      yield (keys, toScalaList(headers))).asInstanceOf[Map[String, List[String]]]
-  }
-  
-  /** Get the response code of this request. */
-  def responseCode: Int = 
-    connection.getResponseCode
-  
-  /** Get the response message, if it was provided. */
-  def responseMessage: Option[String] = {
-    val tmp = connection.getResponseMessage
-    if (tmp eq null) None else Some(tmp)
   }
 }
 
@@ -154,4 +140,42 @@ object RequestMethod extends Enumeration {
 
 object GDataRequest {
   private val logger = Logger.getLogger("com.google.gdata.GDataRequest") 
+  
+  /**
+   * A factory for GDataRequests.
+   */
+  class Factory extends RequestFactory {
+    /** Additional request parameters. */
+    private var params: List[(String, String)] = Nil
+    
+    /** An optional authentication token. */
+    private var authToken: Option[AuthToken] = None
+    
+    /** 
+     * Create a new GData request. Additional request parameters, and authentication token are
+     * set before returning the request.
+     */
+    def mkRequest(method: RequestMethod.Value, url: URL): GDataRequest = {
+      val request = new GDataRequest(method, url)
+      for ((n, v) <- params)
+        request += (n, v)
+      if (authToken.isDefined)
+        request += ("Authorization", token.get.getAuthHeader)
+      request
+    }
+    
+    /** Get the current authentication token. */
+    def token = authToken
+      
+    /** Set the current authentication token. */
+    def token_=(tok: AuthToken) = {
+      authToken = Some(tok)
+    }
+    
+    /** Add a request parameter that will be added to all created requests. */
+    def +=(name: String, value: String): this.type = {
+      params = (name, value) :: params
+      this
+    }
+  }
 }
