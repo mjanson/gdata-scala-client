@@ -58,7 +58,7 @@ class Query(var searchQuery: SearchQuery) {
   }
   
   /** Set the default text query. This is usually the 'q' parameter. */
-  def suchThat(q: SearchQuery): this.type = {
+  def matching(q: SearchQuery): this.type = {
     searchQuery = q
     this
   }

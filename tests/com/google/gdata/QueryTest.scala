@@ -8,7 +8,7 @@ class QueryTest {
   @Test def testQuery {
      
     val q = (Query.empty / "Comedy" / (cat("animals") | !cat("fun"))
-             suchThat Text("carlin") & !Text("george")).startIndex(25).alt("atom")
+             matching Text("carlin") & !Text("george")).startIndex(25).alt("atom")
     
     Assert.assertEquals(q.mkUrl("http://gdata.youtube.com/feeds/api/videos"),
         "http://gdata.youtube.com/feeds/api/videos/-/Comedy/animals%7C-fun?start-index=25&alt=atom&q=carlin+-george")
@@ -24,7 +24,7 @@ class QueryTest {
   }
   
   @Test def testSearchQ {
-    val q = Query.empty suchThat (Text("football") & !Text("soccer"))
+    val q = Query.empty matching (Text("football") & !Text("soccer"))
     Assert.assertEquals(q.mkUrl("http://gdata.youtube.com/feeds/api/videos"),
     "http://gdata.youtube.com/feeds/api/videos?q=football+-soccer")
   } 
