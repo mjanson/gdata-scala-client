@@ -14,24 +14,21 @@
  */
 
 
-package com.google.gdata.data
+package com.google.gdata.calendar
+
+import com.google.gdata.FeedFileTest
+import com.google.gdata.calendar.StdCalendarsFeed
+
+import org.junit._
 
 /**
- * Mix in this trait in any container of links. It allows retrieving links based on the
- * 'rel' attribute
- * 
- * @author Iulian Dragos
- * @see AtomEntries, AtomFeeds
+ * Test a various feeds by unpickling a real (saved) feed and pickling back to XML.
+ * The two documents are then compared for similarity.
  */
-trait LinkNavigation {
-  def links: List[Link]
+class CalendarFeedsTest extends AnyRef with FeedFileTest {
   
-  /** Return the link element that has the given 'rel' attribute. */
-  def link(rel: String): Option[Link] = {
-    links.find(_.rel == Some(rel))
+  @Test def testCalendarsFeed {
+    testRoundtrip("feeds/calendars-feed-in.xml", (new StdCalendarsFeed).feedPickler)
   }
   
-  /** Return the 'href' field of the link that matches the required 'rel' attribute. */
-  def linkHref(rel: String): Option[String] =
-    link(rel) map (_.href)
 }

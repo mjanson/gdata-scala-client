@@ -16,14 +16,19 @@
 
 package com.google.gdata
 
-import com.google.gdata.client.{GDataRequest, RequestMethod, AuthTokenFactory, ClientLoginFactory}
+import com.google.gdata.client.{GDataRequest, RequestMethod, AuthTokenFactory, 
+    ClientLoginFactory, MovedTemporarily}
 import com.google.xml.combinators.Picklers.{Pickler, Success, NoSuccess}
-import com.google.gdata.data.kinds.FeedLink
+import com.google.xml.combinators.{PlainOutputStore, LinearStore}
+import com.google.gdata.data.kinds.{FeedLink, EntryLink}
 
 import java.net.URL
 
+import scala.xml.XML
+
 /**
- * A base class for Google services. It provides the basic querying mechanism.
+ * A base class for Google services. It provides the basic querying mechanism. It caches
+ * 'gsessionid' parameters when redirected, and ships them with every future query.
  * 
  * @author Iulian Dragos
  */
@@ -38,14 +43,21 @@ abstract class Service(appName: String, service: String) {
   
   requestFactory += ("User-Agent", userAgent)
 
+  protected var user: Option[String] = None
+  
+  /** Retrieve the current username. */
+  def username: Option[String] = user
+  
   /** Set user credentials. */
   def setUserCredentials(username: String, passwd: String) {
+    user = Some(username)
     authTokenFactory.setUserCredentials(username, passwd)
     requestFactory.token = authTokenFactory.token
   }
 
   /** Set user credentials and captcha challenge. */
   def setUserCredentials(username: String, passwd: String, cToken: String, cAnswer: String) {
+    user = Some(username)
     authTokenFactory.setUserCredentials(username, passwd, cToken, cAnswer)
     requestFactory.token = authTokenFactory.token
   }
@@ -53,24 +65,146 @@ abstract class Service(appName: String, service: String) {
   /**
    * Make the given query and parse the XML result using the given pickler.
    * 
-   * @throws UnknownDocumentException of the pickler is unsuccessful.
+   * @throws UnknownDocumentException if the pickler is unsuccessful.
+   * @throws AuthenticationException (one of its subclasses) if the operation fails because
+   *         of insufficient rights.
+   * @throws IOException if there are connection issues.
+   * @throws GDataRequestException if there are HTTP errors.
    */
-  def query[A](base: URL, q: Query, p: Pickler[A]): A = {
+  def query[A](base: String, q: Query, p: Pickler[A]): A = {
     query(q.mkUrl(base.toString), p)
   }
   
   /**
    * Make the given query and parse the XML result using the given pickler.
    * 
-   * @throws UnknownDocumentException of the pickler is unsuccessful.
+   * @throws UnknownDocumentException if the pickler is unsuccessful.
+   * @throws AuthenticationException (one of its subclasses) if the operation fails because
+   *         of insufficient rights.
+   * @throws IOException if there are connection issues.
+   * @throws GDataRequestException if there are HTTP errors.
    */
-  def query[A](url: String, p: Pickler[A]): A = {
-    val request = mkRequest(RequestMethod.GET, url)
+  def query[A](url: String, p: Pickler[A]): A =
+    query(new URL(url), p)
+  
+  /**
+   * Make the given query and parse the XML result using the given pickler.
+   * 
+   * @throws UnknownDocumentException if the pickler is unsuccessful.
+   * @throws AuthenticationException (one of its subclasses) if the operation fails because
+   *         of insufficient rights.
+   * @throws IOException if there are connection issues.
+   * @throws GDataRequestException if there are HTTP errors.
+   */
+  def query[A](url: URL, p: Pickler[A]): A = try {
+    val request = requestFactory.mkRequest(RequestMethod.GET, url)
     request.unpickle(p) match {
       case Success(res, _) => 
         res
       case e: NoSuccess => 
         throw new UnknownDocumentException("The XML response could not be parsed.", e)
+    }
+  } catch {
+    case m @ MovedTemporarily(headers) => query(handleRedirection(m), p)
+  }
+  
+  /**
+   * POST the given value to the given URL.
+   * 
+   * @throws UnknownDocumentException if the pickler is unsuccessful.
+   * @throws AuthenticationException (one of its subclasses) if the operation fails because
+   *         of insufficient rights.
+   * @throws IOException if there are connection issues.
+   * @throws GDataRequestException if there are HTTP errors.
+   */
+  final def insert[A](url: URL, v: A, pa: Pickler[A]): A = try {
+    val request = requestFactory.mkRequest(RequestMethod.POST, url)
+    pickle(request, v, pa)
+  } catch {
+    case m @ MovedTemporarily(headers) => insert(handleRedirection(m), v, pa)
+  }
+  
+  /**
+   * PUT the given value to the given URL. The given url should exactly match the
+   * it of the entry that is updated.
+   * 
+   * @throws UnknownDocumentException if the pickler is unsuccessful.
+   * @throws AuthenticationException (one of its subclasses) if the operation fails because
+   *         of insufficient rights.
+   * @throws IOException if there are connection issues.
+   * @throws GDataRequestException if there are HTTP errors.
+   */  
+  final def update[A](url: URL, v: A, pa: Pickler[A]): A = try {
+    val request = requestFactory.mkRequest(RequestMethod.PUT, url)
+    pickle(request, v, pa)
+  } catch {
+    case m @ MovedTemporarily(headers) => update(handleRedirection(m), v, pa)
+  }
+  
+  /**
+   * DELETE the resource identified by the given URL.
+   * 
+   * @throws AuthenticationException (one of its subclasses) if the operation fails because
+   *         of insufficient rights.
+   * @throws IOException if there are connection issues.
+   * @throws GDataRequestException if there are HTTP errors.
+   */
+  final def delete(url: URL) {
+    val request = requestFactory.mkRequest(RequestMethod.DELETE, url)
+    request.connect
+  }
+  
+  /**
+   * Pickle the given value on the request object and unpickle the result. The
+   * request should allow both input and output, and should be in a state
+   * that allows writing (no reading had yet been performed).
+   * 
+   * @throws UnknownDocumentException if the pickler is unsuccessful.
+   * @throws AuthenticationException (one of its subclasses) if the operation fails because
+   *         of insufficient rights.
+   * @throws IOException if there are connection issues.
+   * @throws GDataRequestException if there are HTTP errors.
+   */
+  protected def pickle[A](request: GDataRequest, v: A, pa: Pickler[A]): A = {
+    val pickles = pa.pickle(v, PlainOutputStore.empty).rootNode
+    request("Content-Type") = "application/atom+xml"
+    val w = new java.io.OutputStreamWriter(request.outputStream)
+    XML.write(w, pickles, "UTF-8", true, null)
+    w.close
+    request.connect
+    try {
+      pa.unpickle(LinearStore.fromInputStream(request.content)) match {
+        case Success(res, _) =>
+          res
+        case e: NoSuccess =>
+          throw new UnknownDocumentException("The XML response could not be parsed.", e)
+      } 
+    } finally {
+      request.content.close
+    }
+  }
+
+  /**
+   * Return the redirection URL from the given exception. If the redirection URL
+   * has a 'gsessionid' parameter, store it in the request factory for future
+   * requests.
+   */
+  private def handleRedirection(m: MovedTemporarily): URL = {
+    import java.util.regex.{Pattern, Matcher}
+    
+    m.headers.get("Location") match {
+      case Some(redirectionUrl) =>
+        val url = redirectionUrl.mkString("", "", "")
+        Service.logger.fine("Redirecting to " + url)
+        if (url.contains("gsessionid")) {
+          val p = Pattern.compile(".*gsessionid=(\\w*).*")
+          val m = p.matcher(url)
+          if (m.matches)
+            requestFactory.sessionId = m.group(1)
+        }
+        new URL(url)
+      case None => 
+        throw m
     }
   }
   
@@ -93,12 +227,25 @@ abstract class Service(appName: String, service: String) {
     }
   }
   
+  /** 
+   * Return the entry embedded in the given entry link, or make a query to retrieve
+   * it from the given URL. If the url is not given, it assumes the entry is embedded.
+   */
+  def fromFeedLink[A](f: EntryLink[A], pa: Pickler[A]): A = {
+    f.href match {
+      case Some(href) => query(href, pa)
+      case None => f.entry.get
+    }
+  }
+  
   protected def mkRequest(method: RequestMethod.Value, url: String) = {
     requestFactory.mkRequest(RequestMethod.GET, new URL(url))
   }
 }
 
 object Service {
+  val logger = java.util.logging.Logger.getLogger("com.google.gdata.Service")
+
   final val SERVICE_NAME = "GData/Scala"
   final val SERVICE_VERSION = "0.1"
 }

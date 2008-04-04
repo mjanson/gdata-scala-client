@@ -14,24 +14,23 @@
  */
 
 
-package com.google.gdata.data
+package com.google.gdata.calendar
+
+import com.google.gdata.data.AtomFeeds
+import com.google.gdata.data.kinds.{EventEntries, StdContactEntries}
 
 /**
- * Mix in this trait in any container of links. It allows retrieving links based on the
- * 'rel' attribute
+ * A standard event feed.
  * 
  * @author Iulian Dragos
- * @see AtomEntries, AtomFeeds
  */
-trait LinkNavigation {
-  def links: List[Link]
+class StdEventsFeed extends AtomFeeds with EventEntries {
+  type Entry = EventEntry
+  type Feed = AtomFeed
   
-  /** Return the link element that has the given 'rel' attribute. */
-  def link(rel: String): Option[Link] = {
-    links.find(_.rel == Some(rel))
-  }
+  val contactEntries = new StdContactEntries
+  val commentsFeed = new data.StdAtomFeed
   
-  /** Return the 'href' field of the link that matches the required 'rel' attribute. */
-  def linkHref(rel: String): Option[String] =
-    link(rel) map (_.href)
+  def entryContentsPickler = eventEntryContentsPickler
+  def feedContentsPickler = atomFeedContentsPickler
 }

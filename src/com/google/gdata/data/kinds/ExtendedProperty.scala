@@ -14,24 +14,21 @@
  */
 
 
-package com.google.gdata.data
+package com.google.gdata.data.kinds
+
+import com.google.xml.combinators.{Picklers, ~}
 
 /**
- * Mix in this trait in any container of links. It allows retrieving links based on the
- * 'rel' attribute
- * 
- * @author Iulian Dragos
- * @see AtomEntries, AtomFeeds
+ * A GData extended property is a name-value pair of Strings.
  */
-trait LinkNavigation {
-  def links: List[Link]
+case class ExtendedProperty(name: String, value: String)
+
+object ExtendedProperty {
+  import Picklers._
   
-  /** Return the link element that has the given 'rel' attribute. */
-  def link(rel: String): Option[Link] = {
-    links.find(_.rel == Some(rel))
+  lazy val pickler: Pickler[ExtendedProperty] = {
+    val contents = elem("extendedProperty", attr("name", text) ~ attr("value", text))(Uris.gdNs)
+    
+    wrap (contents) (ExtendedProperty.apply) (funTuple2ToPairUnapply(ExtendedProperty.unapply))
   }
-  
-  /** Return the 'href' field of the link that matches the required 'rel' attribute. */
-  def linkHref(rel: String): Option[String] =
-    link(rel) map (_.href)
 }

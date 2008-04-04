@@ -18,7 +18,7 @@ package com.google.gdata.client
 
 import java.net.{URL, HttpURLConnection, URLEncoder}
 import java.util.logging.Logger
-import java.io.{BufferedWriter, OutputStreamWriter}
+import java.io.{BufferedWriter, OutputStreamWriter, IOException}
 
 /**
  * Concrete factory class for ClientLogin authentication tokens.
@@ -35,6 +35,12 @@ class ClientLoginFactory(appName: String, service: String) extends AuthTokenFact
   
   private var authToken: Option[AuthToken] = None
   
+  /** 
+   * Return the token held by this factory.
+   * 
+   * @throws IllegalStateException if the token was not set (either explicitly, or by
+   *         calling <code>setUserCredentials</code>.
+   */
   def token = {
     if (authToken.isDefined) 
       authToken.get
@@ -60,42 +66,49 @@ class ClientLoginFactory(appName: String, service: String) extends AuthTokenFact
     authToken = Some(getToken(username, password, Some(captchaToken), Some(captchaAnswer)))
   }
   
-  /** Make a CliengLogin request for the given user credentials. */
+  /** Make a ClientLogin request for the given user credentials.
+   * 
+   * @throws May throw a subclass of AuthenticationException, if authentication fails.
+   * @throws IOException if an error occurs while opening the connection.
+   * @throws SocketTimeoutException if timeout occurs before the connection is established.
+   */
   private def getToken(username: String, 
                        password: String, 
                        captchaToken: Option[String], 
                        captchaAnswer: Option[String]): ClientLoginToken = {
-    try {
-      val url = new URL(ClientLoginFactory.ACCOUNT_URL)
-      val connection = new HttpConnection(url.openConnection.asInstanceOf[HttpURLConnection])
-      connection.doInput = true
-      connection.doOutput =true
-      connection.requestMethod = "POST"
-      connection("Content-Type") = "application/x-www-form-urlencoded"
-      val writer = new BufferedWriter(new OutputStreamWriter(connection.outputStream))
-      var params = List(("Email", username),
-                        ("Passwd", password), 
-                        ("source", appName), 
-                        ("accountType", "HOSTED_OR_GOOGLE"))
-      if (captchaToken.isDefined)
-        params = ("logintoken", captchaToken.get) :: params
-      if (captchaAnswer.isDefined)
-        params = ("logincaptcha", captchaAnswer.get) :: params
+    val url = new URL(ClientLoginFactory.ACCOUNT_URL)
+    val connection = new HttpConnection(url.openConnection.asInstanceOf[HttpURLConnection])
+    connection.doInput = true
+    connection.doOutput = true
+	connection.requestMethod = "POST"
+	connection("Content-Type") = "application/x-www-form-urlencoded"
+ 
+    val response = connection.connect
+
+	val writer = new BufferedWriter(new OutputStreamWriter(connection.outputStream))
+    var params = List(("Email", username),
+                      ("Passwd", password), 
+                      ("source", appName), 
+                      ("service", service),
+                      ("accountType", "HOSTED_OR_GOOGLE"))
+    if (captchaToken.isDefined)
+      params = ("logintoken", captchaToken.get) :: params
+    if (captchaAnswer.isDefined)
+      params = ("logincaptcha", captchaAnswer.get) :: params
       
-      logger.fine("Sending ClientLogin request with " + params)
-      writer.write(makeFormRequest(params))
-      writer.close
+    logger.fine("Sending ClientLogin request with " + params)
+    writer.write(makeFormRequest(params))
+    writer.close
+
+    logger.fine("Got back headers: " + response.headers.mkString("\n", "\n", ""))
+    val body = response.body
+    logger.fine("Got back: " + body)
+    if (response.responseCode != HttpURLConnection.HTTP_OK)
+      throw AuthenticationException.fromServerReply(body)
       
-      val response = connection.connect
-      val body = response.body
-      logger.fine("Got back: " + body)
-      if (response.responseCode != HttpURLConnection.HTTP_OK)
-        throw AuthenticationException.fromServerReply(body)
-      
-      val t = parseToken(body)
-      logger.fine("Got back token: " + t)
-      new ClientLoginToken(t)
-    }
+    val t = parseToken(body)
+    logger.fine("Got back token: " + t)
+    new ClientLoginToken(t)
   }
   
   /** Return the token found in the response body. It looks for a line like 'Auth=<token>'. */
@@ -108,6 +121,7 @@ class ClientLoginFactory(appName: String, service: String) extends AuthTokenFact
     ""
   }
   
+  /* Encode the given parameters using form encoding. */
   private def makeFormRequest(params: List[(String, String)]): String = {
     val sb = new StringBuilder
     for ((n, v) <- params)
@@ -125,6 +139,9 @@ object ClientLoginFactory {
   
   def logger = Logger.getLogger("com.google.gdata.client.ClientLoginFactory")
   
+  /**
+   * An authentication token for ClientLogin.
+   */
   class ClientLoginToken(token: String) extends AuthToken {
     def getAuthHeader: String = {
       "GoogleLogin auth=" + token

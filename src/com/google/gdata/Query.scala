@@ -46,24 +46,24 @@ class Query(var searchQuery: SearchQuery) {
   def |(q: SearchQuery) = searchQuery |= q
   
   /** Add a category to this query. */
-  def /(q: CategoryQuery) = {
+  def /(q: CategoryQuery): this.type = {
     categories = URLEncoder.encode(q.toString) :: categories
     this
   }
   
   /** Add a category to this query. */
-  def /(cat: String) = {
+  def /(cat: String): this.type = {
     categories = URLEncoder.encode(cat) :: categories
     this
   }
   
   /** Set the default text query. This is usually the 'q' parameter. */
-  def suchThat(q: SearchQuery) = {
+  def suchThat(q: SearchQuery): this.type = {
     searchQuery = q
     this
   }
   
-  /** Return the URL query given the base URL. */
+  /** Return the URL query given the base URL. The URL should not have a trailing '/'. */
   def mkUrl(base: String): String = {
     val buf = new StringBuilder
     buf.append(base)
@@ -151,7 +151,10 @@ class Query(var searchQuery: SearchQuery) {
     if (!params.isEmpty) {
       params.reverse.foldLeft(buf.append('?')) { 
         case (buf, (n, v)) => 
-          buf.append(n).append('=').append(v).append('&')
+          buf.append(n)
+          if (v.length > 0)
+            buf.append('=').append(v).append('&')
+          buf
       }
       buf.deleteCharAt(buf.length - 1) // remove the last '&'
     } else

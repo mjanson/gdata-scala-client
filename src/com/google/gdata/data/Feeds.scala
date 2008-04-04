@@ -16,7 +16,7 @@
 
 package com.google.gdata.data;
 
-import com.google.xml.combinators.{Picklers, ~}
+import com.google.xml.combinators.{Picklers, ~, HasStore}
 import com.google.gdata.data.util.DateTime
 
 import Picklers._
@@ -31,10 +31,10 @@ import Atom._
  * @author Iulian Dragos
  */
 trait Feeds { this: Feeds with Entries =>
-  type Feed <: Seq[Entry]
+  type Feed <: Seq[Entry] with HasStore
   
   /** A pickler for feeds. */
-  def feedPickler: Pickler[Feed] = elem("feed", feedContentsPickler)(Uris.atomNs)
+  def feedPickler: Pickler[Feed] = elem("feed", makeExtensible(feedContentsPickler))(Uris.atomNs)
   
   /** An abstract pickler for feed contents. Subclasses need to implement this method. */
   def feedContentsPickler: Pickler[Feed]
@@ -44,10 +44,10 @@ trait Feeds { this: Feeds with Entries =>
  * Atom feeds refines Feeds with Atom-like feeds.
  */
 trait AtomFeeds extends Feeds { this: AtomFeeds with Entries =>
-  type Feed <: AtomFeed
+  type Feed <: AtomFeed with HasStore
 
   /** An Atom Feed. */
-  class AtomFeed extends AnyRef with Seq[Entry] {
+  class AtomFeed extends AnyRef with Seq[Entry] with HasStore {
     /** The authors of this feed. */
     var authors: List[Person] = Nil
     

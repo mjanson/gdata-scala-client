@@ -1,4 +1,4 @@
-package com.google.gdata.youtube
+package com.google.gdata
 
 import com.google.xml.combinators.{LinearStore, PlainOutputStore, Picklers}
 import com.google.xml.combinators.PicklerAsserts

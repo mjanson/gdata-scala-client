@@ -38,3 +38,7 @@ case class ConflictException extends GDataRequestException(
 
 case class InternalServerErrorException extends GDataRequestException(
     "Internal error.")
+
+/** Redirection. The header collection should contain a 'Location' field. */
+case class MovedTemporarily(headers: collection.Map[String, List[String]]) 
+    extends GDataRequestException("Moved temporarily")

@@ -17,21 +17,15 @@
 package com.google.gdata.data
 
 /**
- * Mix in this trait in any container of links. It allows retrieving links based on the
- * 'rel' attribute
+ * A standard Atom feed, with only the elements defined by Atom Syndication Format
  * 
  * @author Iulian Dragos
- * @see AtomEntries, AtomFeeds
+ * @see http://atomenabled.org/developers/syndication/atom-format-spec.php
  */
-trait LinkNavigation {
-  def links: List[Link]
+class StdAtomFeed extends AtomFeeds with AtomEntries {
+  type Feed = AtomFeed
+  type Entry = AtomEntry
   
-  /** Return the link element that has the given 'rel' attribute. */
-  def link(rel: String): Option[Link] = {
-    links.find(_.rel == Some(rel))
-  }
-  
-  /** Return the 'href' field of the link that matches the required 'rel' attribute. */
-  def linkHref(rel: String): Option[String] =
-    link(rel) map (_.href)
+  def feedContentsPickler = atomFeedContentsPickler
+  def entryContentsPickler = atomEntryContentsPickler
 }

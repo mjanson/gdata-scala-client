@@ -14,24 +14,19 @@
  */
 
 
-package com.google.gdata.data
+package com.google.gdata.data.kinds
+
+import com.google.xml.combinators.{Picklers, ~}
 
 /**
- * Mix in this trait in any container of links. It allows retrieving links based on the
- * 'rel' attribute
+ * Helper for parsing gdEnum elements.
  * 
  * @author Iulian Dragos
- * @see AtomEntries, AtomFeeds
+ * @see http://code.google.com/apis/gdata/elements.html#gdEnums
  */
-trait LinkNavigation {
-  def links: List[Link]
+object Enum {
+  import Picklers.{elem, attr, text, Pickler}
   
-  /** Return the link element that has the given 'rel' attribute. */
-  def link(rel: String): Option[Link] = {
-    links.find(_.rel == Some(rel))
-  }
-  
-  /** Return the 'href' field of the link that matches the required 'rel' attribute. */
-  def linkHref(rel: String): Option[String] =
-    link(rel) map (_.href)
+  def pickler(name: String): Pickler[String] = 
+    elem(name, attr("value", text))(Uris.gdNs)
 }

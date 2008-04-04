@@ -40,7 +40,7 @@ class RandomAccessStore(myAttrs: MetaData, myNodes: Seq[Node],
   private class Entry(val n: Node)
     
   {
-    // initialize store by ... TODO
+    // initialize store by mapping names to elements.
     for (val n <- myNodes) 
       nodeMap.add(n.label, new Entry(n))
   }

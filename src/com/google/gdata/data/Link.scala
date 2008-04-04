@@ -16,7 +16,7 @@
 
 package com.google.gdata.data
 
-import com.google.xml.combinators.{Picklers, ~}
+import com.google.xml.combinators.{Picklers, ~, HasStore}
 
 import scala.xml.{NamespaceBinding, TopScope}
 
@@ -32,19 +32,20 @@ case class Link(href: String,
     tpe: Option[String],
     hrefLang: Option[String],
     title: Option[String],
-    length: Option[String]) 
+    length: Option[String]) extends HasStore
     
     
 object Link {
   implicit val nsAtom = Uris.atomNs
   
-  lazy val pickler: Pickler[Link] = wrap(
-    elem("link", attr("href", text) 
+  private lazy val contentsPickler: Pickler[Link] = wrap(attr("href", text) 
         ~ opt(attr("rel", text))
         ~ opt(attr("type", text))
         ~ opt(attr("hrefLang", text))
         ~ opt(attr("title", text))
-        ~ opt(attr("length", text)))) (Link.apply) (toPair)
+        ~ opt(attr("length", text))) (Link.apply) (toPair)
+  
+  lazy val pickler: Pickler[Link] = elem("link", makeExtensible(contentsPickler))
         
   private def toPair(v: Link) = 
     new ~(v.href, v.rel) ~ v.tpe ~ v.hrefLang ~ v.title ~ v.length

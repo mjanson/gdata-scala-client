@@ -63,9 +63,9 @@
     <fail message="Scala library '${scala-compiler.jar}' is not available">
       <condition><not><and>
         <available classname="scala.tools.ant.Scalac"
-                   classpath="${scala-compiler.jar}"/>
+                   classpath="${scala-compiler.jar}:${scala-library.jar}"/>
         <available classname="scala.tools.nsc.Main"
-                   classpath="${scala-compiler.jar}"/>
+                   classpath="${scala-compiler.jar}:${scala-library.jar}"/>
       </and></not></condition>
     </fail>
     <path id="scala.classpath">
@@ -175,6 +175,7 @@
   <target name="test.feeds" depends="build.test, instrument">
     <junit fork="true">
       <test name="com.google.gdata.youtube.YouTubeFeedsTest"/>
+      <test name="com.google.gdata.calendar.CalendarFeedsTest"/>
       <formatter type="plain" usefile="false"/>
       <classpath>
         <pathelement location="${instr.dir}"/>

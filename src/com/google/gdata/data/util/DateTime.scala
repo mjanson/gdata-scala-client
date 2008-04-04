@@ -51,6 +51,9 @@ class DateTime(private var value: Long, private var tzShift: Long) extends Order
     this(date.getTime(), tz.getOffset(date.getTime()))
   }
   
+  /** Is this date time a date only? */
+  var dateOnly: Boolean = false 
+  
   def toDate: java.util.Date =
     new java.util.Date(value)
   
@@ -64,28 +67,32 @@ class DateTime(private var value: Long, private var tzShift: Long) extends Order
     
     padInt(sb, calendar.get(YEAR), 4).append('-')
     padInt(sb, calendar.get(MONTH) + 1, 2).append('-')  // Calendar month is 0-based
-    padInt(sb, calendar.get(DAY_OF_MONTH), 2).append('T')
-    padInt(sb, calendar.get(HOUR_OF_DAY), 2).append(':')
-    padInt(sb, calendar.get(MINUTE), 2).append(':')
-    padInt(sb, calendar.get(SECOND), 2)
-    val millis = if (calendar.isSet(MILLISECOND)) calendar.get(MILLISECOND) else 0
-    sb.append('.')
-    padInt(sb, millis, 3)
-    if (tzShift == 0)
-      sb.append('Z')
+    padInt(sb, calendar.get(DAY_OF_MONTH), 2)
+    if (dateOnly)
+      sb.toString
     else {
-      var absoluteShift = tzShift
-      if (absoluteShift > 0) 
-        sb.append('+') 
+      sb.append('T')
+      padInt(sb, calendar.get(HOUR_OF_DAY), 2).append(':')
+      padInt(sb, calendar.get(MINUTE), 2).append(':')
+      padInt(sb, calendar.get(SECOND), 2)
+      val millis = if (calendar.isSet(MILLISECOND)) calendar.get(MILLISECOND) else 0
+      sb.append('.')
+      padInt(sb, millis, 3)
+      if (tzShift == 0)
+        sb.append('Z')
       else {
-        sb.append('-')
-        absoluteShift = -absoluteShift
+        var absoluteShift = tzShift
+        if (absoluteShift > 0) 
+          sb.append('+') 
+        else {
+          sb.append('-')
+          absoluteShift = -absoluteShift
+        }
+        padInt(sb, absoluteShift / (60 * 60 * 1000), 2).append(':')
+        padInt(sb, (absoluteShift % (60 * 60 * 1000)) / (60 * 1000), 2)
       }
-      padInt(sb, absoluteShift / (60 * 60 * 1000), 2).append(':')
-      padInt(sb, (absoluteShift % (60 * 60 * 1000)) / (60 * 1000), 2)
+      sb.toString
     }
-    
-    sb.toString
   }
   
   private lazy val calendar = new GregorianCalendar(TimeZone.getTimeZone("GMT"))
@@ -107,11 +114,30 @@ object DateTime {
    * 
    * @throws ParseException when the string is not properly parsed. 
    */
-  def parse(str: String) =
-    DateParser.parse(str)
+  def parseDateTime(str: String) =
+    DateParser.parseDateTime(str)
+  
+  /**
+   * Parse a date only, in RFC 3339 format. It returns a DateTime instance with the
+   * 'dateOnly' flag set.
+   * 
+   * @throws ParseException when the string is not a proper date/time.
+   */
+  def parseDate(str: String) =
+    DateParser.parseDate(str)
+  
+  /**
+   * Parse a date or a date time, in RFC 3339 format. If the given string has a time
+   * component, the returned DateTime will have the 'dateOnly' flag set to false and
+   * the time part taken into account.
+   * 
+   * @throws ParseException when the string fails parsing.
+   */
+  def parseDateOrDateTime(str: String) =
+    DateParser.parseDateOrDateTime(str)
     
   /**
-   * Create a date object with the given coordinates. The date is considered to be shifted 
+   * Create a date time object with the given coordinates. The date is considered to be shifted 
    * from UTC with the amount of milliseconds given in 'offset'. 
    * <p/>
    * It checks that the month is between
@@ -135,5 +161,15 @@ object DateTime {
       case None => ()
     }
     new DateTime(calendar.getTimeInMillis() - offset, offset) 
+  }
+  
+  /**
+   * Create a date object with the given coordinates. The resulting date has the
+   * 'dateOnly' flag set.
+   */
+  def apply(year: Int, month: Int, day: Int): DateTime = {
+    val dt = apply(year, month, day, 0, 0, 0, None, 0)
+    dt.dateOnly = true
+    dt
   }
 }

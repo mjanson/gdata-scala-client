@@ -18,6 +18,7 @@ package com.google.gdata.youtube
 
 import com.google.xml.combinators.PicklerAsserts
 import com.google.xmldiff.{SimplePath}
+import com.google.gdata.FeedFileTest
 
 import org.junit._
 

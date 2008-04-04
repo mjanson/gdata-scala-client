@@ -28,44 +28,63 @@ class DateTimeTest {
    @Test def testValidTz1 {
      val str = "2008-02-15T16:16:02+01:00"
      val out = "2008-02-15T16:16:02.000+01:00"
-     val dt = DateTime.parse(str)
+     val dt = DateTime.parseDateTime(str)
      assertEquals(out, dt.toString)
    }
 
    @Test def testValidNegativeTz {
      val str = "2008-02-15T16:16:02-01:00"
      val out = "2008-02-15T16:16:02.000-01:00"
-     val dt = DateTime.parse(str)
+     val dt = DateTime.parseDateTime(str)
      assertEquals(out, dt.toString)
    }
 
    @Test def testValidZulu {
      val str = "2008-02-15T16:16:02Z"
      val out = "2008-02-15T16:16:02.000Z"
-     val dt = DateTime.parse(str)
+     val dt = DateTime.parseDateTime(str)
      assertEquals(out, dt.toString)
    }
 
    @Test def testValidZulu1 {
      val str = "2008-01-15T23:59:02Z"
      val out = "2008-01-15T23:59:02.000Z"
-     val dt = DateTime.parse(str)
+     val dt = DateTime.parseDateTime(str)
      assertEquals(out, dt.toString)
    }
    
    @Test def testValidFractional {
      val str = "2003-12-13T18:30:02.250+01:00"
-     val dt = DateTime.parse(str)
+     val dt = DateTime.parseDateTime(str)
      assertEquals(str, dt.toString)
    }
    
    def testInvalidDate(date: String) {
      try {
-       val dt = DateTime.parse(date)
+       val dt = DateTime.parseDateTime(date)
        fail("Parsed invalid date")
      } catch {
        case e: ParseException => ()
      }     
+   }
+   
+   @Test def testValidDateOnly {
+     val str = "2008-12-25"
+     val dt = DateTime.parseDate(str)
+     assertTrue("dateOnly flag not set.", dt.dateOnly)
+     assertEquals(str, dt.toString)
+   }
+
+   @Test def testValidDateOrDateTime {
+     val str = "2008-12-25"
+     val str1 = "2008-12-25T14:12:55.000Z"
+     val dt = DateTime.parseDateOrDateTime(str)
+     assertTrue("dateOnly flag not set when parsing " + str, dt.dateOnly)
+     assertEquals(str, dt.toString)
+     
+     val dt1 = DateTime.parseDateOrDateTime(str1)
+     assertFalse("dateOnly flag set when parsing " + str1, dt1.dateOnly)
+     assertEquals(str1, dt1.toString)
    }
    
    @Test def testInvalidDates {

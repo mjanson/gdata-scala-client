@@ -14,24 +14,14 @@
  */
 
 
-package com.google.gdata.data
+package com.google.gdata.data.kinds
 
 /**
- * Mix in this trait in any container of links. It allows retrieving links based on the
- * 'rel' attribute
- * 
- * @author Iulian Dragos
- * @see AtomEntries, AtomFeeds
+ * A concrete class for contact entries. Useful when contacts are not part of 
+ * a feed.
  */
-trait LinkNavigation {
-  def links: List[Link]
+class StdContactEntries extends ContactEntries {
+  type Entry = ContactEntry
   
-  /** Return the link element that has the given 'rel' attribute. */
-  def link(rel: String): Option[Link] = {
-    links.find(_.rel == Some(rel))
-  }
-  
-  /** Return the 'href' field of the link that matches the required 'rel' attribute. */
-  def linkHref(rel: String): Option[String] =
-    link(rel) map (_.href)
+  def entryContentsPickler = contactEntryContentsPickler
 }

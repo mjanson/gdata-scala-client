@@ -20,14 +20,20 @@ import com.google.util.Utility.option
 
 import java.net.{HttpURLConnection, URL}
 import java.io.{InputStream, OutputStream, InputStreamReader, BufferedReader}
+import java.nio.charset.Charset
 import java.security.Permission
 
 import scala.collection.{mutable, immutable, jcl}
 
 /**
- * Scala wrapper over HttpURLConnection.
+ * Scala wrapper over HttpURLConnection. Turns getter/setters into properties and implements
+ * a mutable map interface for request headers. Like the underlying Java connection, it
+ * supports only one request/response. The 'connect' method returns an <code>HttpResponse</code>
+ * that gives access to the response headers and streams.
+ * 
+ * @author Iulian Dragos
  */
-class HttpConnection(val underlying: HttpURLConnection) extends mutable.HashMap[String, String] {
+class HttpConnection(val underlying: HttpURLConnection) {
   /** Get the error stream of this connection. */
   def errorStream: InputStream = underlying.getErrorStream
   
@@ -88,6 +94,9 @@ class HttpConnection(val underlying: HttpURLConnection) extends mutable.HashMap[
   
   override def toString = underlying.toString
   
+  def update(name: String, value: String) = 
+    underlying.addRequestProperty(name, value)
+  
   /** Connect and return an response object. */
   def connect: HttpResponse = {
     underlying.connect
@@ -132,8 +141,27 @@ class HttpConnection(val underlying: HttpURLConnection) extends mutable.HashMap[
     /** Get the value of 'last-modified' header field. */
     def lastModified: Long = underlying.getLastModified
     
-    /** Return the body of this response, as String. */
-    def body: String = { 
+    /** 
+     * Return the body of this response, using the content encoding header, if any. If
+     * there is none, it assumes 'UTF-8' encoding.
+     * 
+     * @throws IllegalCharsetNameException if the encoding name is illegal.
+     * @throws UnsupportedCharsetException if the encoding is not available.
+     */
+    def body: String = {
+      contentEncoding match {
+        case Some(enc) => body(enc)
+        case None => body("UTF-8")
+      }
+    }
+    
+    /** 
+     * Return the body of this response, as String, using the given encoding.
+     * 
+     * @throws IllegalCharsetNameException if the encoding name is illegal.
+     * @throws UnsupportedCharsetException if the encoding is not available.
+     */
+    def body(encoding: String): String = { 
       val inStream =
         if (responseCode == HttpURLConnection.HTTP_OK) 
           inputStream
@@ -142,7 +170,8 @@ class HttpConnection(val underlying: HttpURLConnection) extends mutable.HashMap[
       
       try {
         val output = new StringBuilder    
-        val reader = new BufferedReader(new InputStreamReader(inStream))
+        val reader = new BufferedReader(
+            new InputStreamReader(inStream, Charset.forName(encoding)))
         var line = reader.readLine 
    
         while (line ne null) {
@@ -155,7 +184,12 @@ class HttpConnection(val underlying: HttpURLConnection) extends mutable.HashMap[
       }
     }
     
-    /** Return a map of all headers in the server's respones. */
+    /** 
+     * Return a map of all headers in the server's respones. It does not return the
+     * HTTP response code and message (which are mapped to the 'null' key by the Java
+     * underlying method). They are accessible through the <code>responseCode</code> and
+     * <code>responseMessage</code> methods.
+     */
     lazy val headers: collection.Map[String, List[String]] = {
       def toScalaList[A](l: java.util.List[A]): List[A] = {
         val ab = new mutable.ListBuffer[A]
@@ -166,9 +200,13 @@ class HttpConnection(val underlying: HttpURLConnection) extends mutable.HashMap[
       
       val wrapper = new jcl.MapWrapper[String, java.util.List[String]] { 
         val underlying = HttpConnection.this.underlying.getHeaderFields 
-      } 
-      (for ((keys, headers) <- wrapper) yield (keys, toScalaList(headers)))
-          .asInstanceOf[Map[String, List[String]]]
+      }
+      val res: mutable.Map[String, List[String]] = new mutable.HashMap
+
+      for ((key, headers) <- wrapper if key ne null)
+        res(key) = toScalaList(headers)
+
+      res
     }
     
     /** Return the header field name 'name', if it exists. */

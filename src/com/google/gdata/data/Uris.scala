@@ -61,4 +61,10 @@ object Uris {
   
   /** An open search namespace binding. */
   lazy val openSearchNs = ("openSearch", OPENSEARCH)
+  
+  /** Google calendar namespace. */
+  final val CALENDAR = "http://schemas.google.com/gCal/2005"
+  
+  /** A Google calendar namespace binding. */
+  lazy val gCalNs = ("gCal", CALENDAR)
 }

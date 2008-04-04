@@ -41,23 +41,41 @@ class GDataRequest(method: RequestMethod.Value, url: URL) {
   /** Is this connection connected? */
   private var connected: Boolean = false
   
+  /** Http response object. */
   private var response: connection.HttpResponse = _
   
   /** Create a new request using a string URL. */
   def this(method: RequestMethod.Value, url: String) = {
     this(method, new URL(url))
   }
+
+  { // constructor
+    import RequestMethod._
+    
+    // this is because redirects are always followed using 'GET', while
+    // they should use the original request method 
+    connection.instanceFollowRedirects = false
+    connection.requestMethod = method.toString
+    
+    method match {
+      case GET => 
+        connection.doInput = true; connection.doOutput = false
+      case PUT => 
+        connection.doInput = true; connection.doOutput = true
+      case POST => 
+        connection.doInput = true; connection.doOutput = true
+      case DELETE => 
+        connection.doInput = false; connection.doOutput = false
+    }
+  }
   
   /** Add a request property. */
-  def +=(field: String, value: String) = {
+  def update(field: String, value: String) = {
     connection(field) = value
     GDataRequest.logger.fine("Added request property: " + field + ": " + value)
     this
   }
-  
-  /** The slug header  */
-  var slug: String = ""
-  
+
   /** 
    * Connect to the given URL. If already connected, this call is ignored.
    * The server response code is turned into an exception if it is an error response.
@@ -65,27 +83,13 @@ class GDataRequest(method: RequestMethod.Value, url: URL) {
   def connect {
     import RequestMethod._
     
-    if (connected) return
-    
     GDataRequest.logger.fine("Connecting to " + url)
-    connection.requestMethod = method.toString
-    
-    method match {
-      case GET => 
-        connection.doInput = true; connection.doOutput = false
-      case PUT => 
-        connection.doInput =true; connection.doOutput = true
-      case POST => 
-        if (!slug.isEmpty)
-          connection("Slug") = URLEncoder.encode(slug, "UTF-8")
-        connection.doInput = true; connection.doOutput = true
-      case DELETE => 
-        connection.doInput = false; connection.doOutput = false
-    }
     response = connection.connect
     connected = true
-    
-    GDataRequest.logger.fine("Got back: " + response.responseCode + " " + response.responseMessage)
+
+    GDataRequest.logger.fine("Got back: " + response.responseCode
+        + " " + response.responseMessage
+        + response.headers.mkString("\n", "\n", ""))
     
     if (response.responseCode >= 300)
       handleErrorCode(response.responseCode)
@@ -105,6 +109,7 @@ class GDataRequest(method: RequestMethod.Value, url: URL) {
       case HTTP_NOT_FOUND => throw NotFoundException()
       case HTTP_CONFLICT => throw ConflictException()
       case HTTP_INTERNAL_ERROR => throw InternalServerErrorException()
+      case HTTP_MOVED_TEMP => throw MovedTemporarily(response.headers)
       case _ => ()
     }
   } 
@@ -151,16 +156,24 @@ object GDataRequest {
     /** An optional authentication token. */
     private var authToken: Option[AuthToken] = None
     
+    /** If set, this string is appended to all URLs as 'gsessionid=<sessionid>'. */
+    def sessionId: Option[String] = sid
+    
+    private var sid: Option[String] = None
+    def sessionId_=(sid: String) {
+      this.sid = Some(sid)
+    }
+    
     /** 
      * Create a new GData request. Additional request parameters, and authentication token are
      * set before returning the request.
      */
     def mkRequest(method: RequestMethod.Value, url: URL): GDataRequest = {
-      val request = new GDataRequest(method, url)
+      val request = new GDataRequest(method, addSessionId(url.toString))
       for ((n, v) <- params)
-        request += (n, v)
+        request(n) = v
       if (authToken.isDefined)
-        request += ("Authorization", token.get.getAuthHeader)
+        request("Authorization") = token.get.getAuthHeader
       request
     }
     
@@ -176,6 +189,15 @@ object GDataRequest {
     def +=(name: String, value: String): this.type = {
       params = (name, value) :: params
       this
+    }
+    
+    /** If sessionId is set, append it to this url. */
+    private def addSessionId(url: String): String = {
+      if (sessionId.isDefined && !url.contains("gsessionid")) {
+        val connector = if (url.contains("?")) "&" else "?"
+        url + connector + "gsessionid=" + sessionId.get
+      } else
+        url
     }
   }
 }

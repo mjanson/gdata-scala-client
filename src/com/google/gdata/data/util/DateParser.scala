@@ -81,14 +81,48 @@ object DateParser extends Parsers with ImplicitConversions {
       DateTime(y, m, d, h, min, sec, frac, offset.toMillis)
   }
 
+  lazy val dateOnly: Parser[DateTime] = date ^^ {
+    case y ~ m ~ d =>
+      DateTime(y, m, d)
+  }
+  
   /** 
    * Parse a date/time in RFC 3339 format.
    *
    * @throws ParseException when the string is not a proper date/time. 
    */
-  def parse(str: String): DateTime = {
+  def parseDateTime(str: String): DateTime = {
     val input = new CharArrayReader(str.toArray)
-    dateTime(input) match {
+    phrase(dateTime)(input) match {
+      case Success(dt, _) => dt
+      case f => throw new ParseException(f.toString, 0)
+    }
+  }
+  
+  /**
+   * Parse a date only, in RFC 3339 format. It returns a DateTime instance with the
+   * 'dateOnly' flag set.
+   * 
+   * @throws ParseException when the string is not a proper date/time.
+   */
+  def parseDate(str: String): DateTime = {
+    val input = new CharArrayReader(str.toArray)
+    phrase(dateOnly)(input) match {
+      case Success(dt, _) => dt
+      case f => throw new ParseException(f.toString, 0)
+    }
+  }
+  
+  /**
+   * Parse a date or a date time, in RFC 3339 format. If the given string has a time
+   * component, the returned DateTime will have the 'dateOnly' flag set to false and
+   * the time part taken into account.
+   * 
+   * @throws ParseException when the string fails parsing.
+   */
+  def parseDateOrDateTime(str: String): DateTime = {
+    val input = new CharArrayReader(str.toArray)
+    (phrase(dateTime) | phrase(dateOnly))(input) match {
       case Success(dt, _) => dt
       case f => throw new ParseException(f.toString, 0)
     }

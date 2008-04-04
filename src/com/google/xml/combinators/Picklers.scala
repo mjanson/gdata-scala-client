@@ -205,9 +205,10 @@ object Picklers extends AnyRef with TupleToPairFunctions {
    * <code>2008-02-15T16:16:02+01:00</code>. The time offset can be replaced by Z 
    * (zulu time) when it is zero (UTC time).
    * 
+   * @param allowDateOnly When true, accepts date component alone.
    * @see http://atomenabled.org/developers/syndication/atom-format-spec.php#date.constructs
    */
-  def dateTime: Pickler[DateTime] = new Pickler[DateTime] {
+  def dateTime(allowDateOnly: Boolean): Pickler[DateTime] = new Pickler[DateTime] {
     def pickle(v: DateTime, in: XmlOutputStore): XmlOutputStore = 
       in.addText(v.toString)
       
@@ -215,7 +216,10 @@ object Picklers extends AnyRef with TupleToPairFunctions {
       in.acceptText match {
         case (Some(Text(str)), in1) =>
           try {
-            Success(DateTime.parse(str), in1)
+            if (allowDateOnly)
+              Success(DateTime.parseDateOrDateTime(str), in1)
+            else
+              Success(DateTime.parseDateTime(str), in1)
           } catch {
             case e: ParseException => Failure("Invalid date: " + e.getMessage, in1)
           }
@@ -223,6 +227,15 @@ object Picklers extends AnyRef with TupleToPairFunctions {
           Failure("Expected date in textual format", in1) 
       }
   }
+  
+  /**
+   * A pickler for date/time in RFC 3339 format. It handles dates that look like
+   * <code>2008-02-15T16:16:02+01:00</code>. The time offset can be replaced by Z 
+   * (zulu time) when it is zero (UTC time). The time component is required.
+   * 
+   * @see http://atomenabled.org/developers/syndication/atom-format-spec.php#date.constructs
+   */
+  def dateTime: Pickler[DateTime] = dateTime(false)
   
   /** 
    * Apply a pair of functions on the result of pa. Unlike 'wrap', 'f' may cause the 

@@ -16,7 +16,7 @@
 
 package com.google.gdata.data;
 
-import com.google.xml.combinators.{Picklers, ~}
+import com.google.xml.combinators.{Picklers, ~, HasStore}
 import com.google.gdata.data.util.DateTime
 
 import scala.xml.{NamespaceBinding, TopScope}
@@ -32,10 +32,10 @@ import Atom._
  */
 trait Entries {
   /** The abstract type for entries. */
-  type Entry
+  type Entry <: HasStore
   
   /** A pickler for the abstract type Entry. */
-  def entryPickler: Pickler[Entry] = elem("entry", entryContentsPickler)(Uris.atomNs)
+  def entryPickler: Pickler[Entry] = elem("entry", makeExtensible(entryContentsPickler))(Uris.atomNs)
   
   /** An abstract pickler for entries. Subclasses need to implement this. */
   def entryContentsPickler: Pickler[Entry]
@@ -51,12 +51,12 @@ trait AtomEntries extends Entries {
   type Entry <: AtomEntry
   
   /** An Atom Entry. */
-  class AtomEntry extends AnyRef with LinkNavigation  {
+  class AtomEntry extends AnyRef with LinkNavigation with HasStore {
     var authors: List[Person] = Nil
     var categories: List[Category] = Nil
     var content: Option[Content] = None
     var contributors: List[Person] = Nil
-    var id: String = ""
+    var id: Option[String] = None
     var links: List[Link] = Nil
     var published: Option[DateTime] = None
     var rights: Option[String] = None
@@ -65,18 +65,16 @@ trait AtomEntries extends Entries {
     var title: Text = NoText
     var updated: DateTime = new DateTime(new java.util.Date())
     
-    def fillOwnFields(authors: List[Person],
-        cats: List[Category],
-        content: Option[Content],
-        contributors: List[Person],
-        id: String,
-        links: List[Link],
-        published: Option[DateTime],
-        rights: Option[String],
-        source: Option[Source],
-        summary: Option[Text],
-        title: Text,
-        updated: DateTime): this.type = {
+    /**
+     * Fill fields declared by this class, from the given parameters. Subclasses should
+     * implement a similar method, along with the right 'fromX' method. This way 
+     * subclasses and picklers only have to care about fields introduced by the
+     * current class.
+     */
+    def fillOwnFields(authors: List[Person], cats: List[Category], content: Option[Content],
+        contributors: List[Person], id: Option[String], links: List[Link],
+        published: Option[DateTime], rights: Option[String], source: Option[Source], 
+        summary: Option[Text], title: Text, updated: DateTime): this.type = {
       this.authors = authors
       this.categories = cats
       this.content = content
@@ -92,7 +90,12 @@ trait AtomEntries extends Entries {
       this
     }
   
-    def fromAtomEntry(e: AtomEntry) {
+    /**
+     * Copy known data from the given AtomEntry. Useful when subclassing AtomEntry to add
+     * new data. Subclasses can call this method to fill standard entry fields. They should
+     * also provide a similar 'fromSubclass' method, to anticipate further subclassing. 
+     */
+    def fromAtomEntry(e: AtomEntry): this.type = {
       fillOwnFields(e.authors, e.categories, e.content, e.contributors, e.id, e.links, e.published,
           e.rights, e.source, e.summary, e.title, e.updated)
     }
@@ -115,7 +118,7 @@ trait AtomEntries extends Entries {
       ~ rep(Category.pickler)
       ~ opt(Content.pickler)
       ~ rep(atomPerson("contributor"))
-      ~ elem("id", text)
+      ~ opt(elem("id", text))
       ~ rep(Link.pickler)
       ~ opt(elem("published", dateTime))
       ~ opt(elem("rights", text))
