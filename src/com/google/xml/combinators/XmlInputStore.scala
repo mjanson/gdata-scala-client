@@ -32,7 +32,8 @@ import scala.xml.{Node, Elem, MetaData, NamespaceBinding, Text, ProcInstr,
  * the accepted element was consumed. Implementers may choose whether to implement 
  * it using mutable state (and return 'this') or use an immutable representation.
  *
- * @see LinearStore, RandomAccessStore
+ * @see LinearStore
+ * @see RandomAccessStore
  * @author Iulian Dragos
  */
 trait XmlInputStore extends XmlStore {
