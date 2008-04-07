@@ -41,7 +41,12 @@ case class PhoneNumber(
      * Human-readable phone number; may be in any telephone number format. 
      * Leading and trailing whitespace is insignificant.
      */
-    var phone: String)
+    var phone: String) {
+  /** Convenience constructor for a simple, non-primary phone number. */
+  def this(phone: String, rel: String) {
+    this(None, Some(rel), None, false, phone)
+  }
+}
 
 object PhoneNumber {
   import Picklers._
@@ -49,5 +54,8 @@ object PhoneNumber {
   def pickler = (wrap (elem("phoneNumber", opt(attr("label", text))
       ~ opt(attr("rel", text)) ~ opt(attr("uri", text))
       ~ default(attr("primary", boolVal), false) ~ text)(Uris.gdNs))
-      (PhoneNumber.apply) (funTuple5ToPairUnapply(PhoneNumber.unapply)))
+      (PhoneNumber.apply) (fromPhoneNumber))
+  
+  private def fromPhoneNumber(pn: PhoneNumber) =
+    new ~(pn.label, pn.rel) ~ pn.uri ~ pn.primary ~ pn.phone
 }

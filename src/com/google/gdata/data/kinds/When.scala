@@ -43,6 +43,13 @@ class When {
   
   /** Reminders for this time. */
   var reminders: List[Reminder] = Nil
+  
+  /** Convenience factory method for common cases.  */
+  def this(startTime: DateTime, endTime: DateTime) {
+    this()
+    this.startTime = Some(startTime)
+    this.endTime = Some(endTime)
+  }
 }
 
 object When {
@@ -69,11 +76,4 @@ object When {
   
   private def fromWhen(when: When) = 
     (new ~(when.startTime, when.endTime) ~ when.valueString ~ when.reminders)
-  
-  /** Convenience factory method for common cases.  */
-  def apply(startTime: DateTime, endTime: DateTime) = {
-    val w = new When
-    w.startTime = Some(startTime)
-    w.endTime = Some(endTime)
-  }
 }

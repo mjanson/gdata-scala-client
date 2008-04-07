@@ -45,6 +45,13 @@ class Where[CEntry <: ContactEntries#ContactEntry] {
   /** Entry representing location details. This entry should implement the Contact kind. */
   var entry: Option[EntryLink[ContactEntry]] = None
   
+  /** Convenience method for creating locations. */
+  def this(valueString: String, rel: String) {
+    this()
+    this.valueString = Some(valueString)
+    this.rel = Some(rel)
+  }
+  
   def fillOwnFields(label: Option[String], rel: Option[String], valueString: Option[String],
       entry: Option[EntryLink[ContactEntry]]) = {
     this.label = label
@@ -70,12 +77,4 @@ object Where {
   private def fromWhere[CEntry <: ContactEntries#ContactEntry](where: Where[CEntry])
         : Option[String] ~ Option[String] ~ Option[String] ~ Option[EntryLink[CEntry]]= 
     new ~(where.label, where.rel) ~ where.valueString ~ where.entry
-        
-  /** Convenience factory method for common case. */
-  def apply[C <: ContactEntries#ContactEntry](valueString: String, rel: String) = {
-    val w = new Where[C]
-    w.valueString = Some(valueString)
-    w.rel = Some(rel)
-    w
-  }
 }

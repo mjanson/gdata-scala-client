@@ -17,7 +17,6 @@
 package com.google.gdata.calendar
 
 import com.google.gdata.FeedFileTest
-import com.google.gdata.calendar.StdCalendarsFeed
 
 import org.junit._
 

@@ -19,8 +19,8 @@ package com.google.gdata.data.kinds
 import com.google.xml.combinators.{Picklers, ~}
 
 /**
- * A contact entry kind. It represents contact infromation for an entity, including
- * emails, phone numbers, addresses etc.
+ * Refine Entry to the contact kind. It represents contact infromation for an
+ * entity, including emails, phone numbers, addresses etc.
  * 
  * @author Iulian Dragos
  * @see http://code.google.com/apis/gdata/elements.html
@@ -28,6 +28,13 @@ import com.google.xml.combinators.{Picklers, ~}
 trait ContactEntries extends AtomEntries {
   type Entry <: ContactEntry
   
+  /**
+   * A contact entry kind. It represents contact infromation for an entity, including
+   * emails, phone numbers, addresses etc.
+   * 
+   * @author Iulian Dragos
+   * @see http://code.google.com/apis/gdata/elements.html
+   */
   class ContactEntry extends AtomEntry {
     /** Email addresses. */
     var emails: List[Email] = Nil
@@ -46,6 +53,14 @@ trait ContactEntries extends AtomEntries {
     
     /** Deleted status. */
     var deleted: Boolean = false
+    
+    /** Convenience constructor for a contact with several emails. */
+    def this(title: String, content: String, emails: Email*) {
+      this()
+      this.title = new Text(title)
+      this.content = Some(TextContent(content))
+      this.emails = emails.toList
+    }
     
     /** Fill fields declared by this class, using the given parameters. */
     def fillOwnFields(emails: List[Email], instantMessageIds: List[Im], 

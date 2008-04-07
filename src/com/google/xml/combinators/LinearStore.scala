@@ -123,7 +123,6 @@ class LinearStore(ats: MetaData, nods: List[Node], bindings: NamespaceBinding)
       (Some(Text("")), this)
     else 
       nodes.head match {
-//        case t: Text => (Some(Text(unescapeText(nodes))), mkState(attrs, nodes.tail, ns))
         case t: Text => (Some(t), mkState(attrs, nodes.tail, ns))
         case _       => (None, this)
       }

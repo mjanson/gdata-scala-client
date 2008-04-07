@@ -25,7 +25,8 @@ import scala.collection.mutable.{Buffer, ListBuffer}
  * An interface for XML stores. It keeps around a collection of attributes, elements and 
  * namespace bindings.
  * 
- * @see XmlInputStore, XmlOutputStore
+ * @see com.google.xml.combinators.XmlInputStore
+ * @see com.google.xml.combinators.XmlOutputStore
  * @author Iulian Dragos
  */
 trait XmlStore {

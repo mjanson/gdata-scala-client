@@ -62,7 +62,10 @@ object Reminder {
         ~ opt(attr("method", text)) ~ opt(attr("days", intVal))
         ~ opt(attr("hours", intVal)) ~ opt(attr("minutes", intVal)))(Uris.gdNs)
     
-    wrap (ctents) (Reminder.apply) (funTuple5ToPairUnapply(Reminder.unapply))
+    wrap (ctents) (Reminder.apply) (fromReminder)
   }
+  
+  private def fromReminder(r: Reminder) =
+    new ~(r.absoluteTime, r.method) ~ r.days ~ r.hours ~ r.minutes
   
 }

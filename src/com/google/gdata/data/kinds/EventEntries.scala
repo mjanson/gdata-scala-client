@@ -17,6 +17,7 @@
 package com.google.gdata.data.kinds
 
 import com.google.xml.combinators.{Picklers, ~}
+import com.google.gdata.data.util.DateTime
 
 /**
  * An event kind. It extends Atom entries with elements for describing a calendar
@@ -69,6 +70,24 @@ trait EventEntries extends AtomEntries {
     
     /** Reccurence exceptions for this event. */
     var exceptions: List[RecurrenceException[Entry]] = Nil
+    
+    /** Convenience method for creating a one-shot event entry. */
+    def this(title: String, content: String, start: DateTime, end: DateTime) {
+      this()
+      this.title = new Text(title)
+      this.content = Some(TextContent(content))
+      this.when = new When(start, end) :: Nil
+    }
+    
+    /**
+     * Convenience constructor for quick add events. The given string is parsed by the
+     * server and fields like location, time and title are automatically filled in.
+     */
+    def this(content: String) {
+      this()
+      this.content = Some(TextContent(content))
+      this.quickAdd = true
+    }
     
     /** Copy given parameters to the corresponding fields of this entry. */
     def fillOwnFields(comments: Option[Comments[commentsFeed.Feed]], eventStatus: Option[String],

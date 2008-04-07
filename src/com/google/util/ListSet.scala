@@ -21,10 +21,10 @@ import scala.collection.mutable.Set
 /**
  * A mutable Set backed by a List. Inserts are constant time, removes and contains
  * are linear. Use when sets are supposed to remains small, and a HashSet would not
- * fit the bill (for instance, no implementation of hashCode, @see scala.xml.NodeBuffer). 
+ * fit the bill (for instance, no implementation of hashCode). 
  * 
  * @author Iulian Dragos
- * @version 1.0 02/19/2008
+ * @see scala.xml.NodeBuffer
  */
 class ListSet[A] extends Set[A] {
   private var elems: List[A] = Nil

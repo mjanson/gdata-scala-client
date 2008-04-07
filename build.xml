@@ -28,13 +28,16 @@
   <property name="coverage.dir" value="coverage"/>
   <!--  directory that contains emma.jar and emma_ant.jar: -->
   <property name="emma.dir" value="/usr/local/google/home/iuliandragos/soft/emma-2.0.5312/lib"/>
+  <available property="emma.available" file="${emma.dir}" type="dir"/>
+	
   <!-- path element used by EMMA taskdef below: -->
-	<property name="instrument" value="false"/>
+  <property name="instrument" value="false"/>
   
   <path id="emma.lib">
     <pathelement location="${emma.dir}/emma.jar"/>
     <pathelement location="${emma.dir}/emma_ant.jar"/>
   </path>
+
   <!-- this loads <emma> and <emmajava> custom tasks: -->
   <taskdef resource="emma_ant.properties" classpathref="emma.lib"/>
   
@@ -42,7 +45,7 @@
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
   -->
   
-	<!-- INITIALISATION -->
+  <!-- INITIALISATION -->
 
   <target name="init">
     <available file="${scala.dir}" property="scala.present"/>
@@ -142,15 +145,16 @@
         />
   </target>
   
-	<target name="instrument" depends="init, build.test">
-		<emma enabled="${instrument}">
-		  <instr destdir="${instr.dir}" metadatafile="${coverage.dir}/coverage.emma">
-		    <instrpath>
-			    <pathelement path="${build.dir}"/>
-		    </instrpath>
-		  </instr>
-		</emma>
-	</target>
+  <target name="instrument" depends="init, build.test" if="emma.available">
+  	<mkdir dir="${instr.dir}"/>
+    <emma enabled="${emma.available}">
+      <instr destdir="${instr.dir}" metadatafile="${coverage.dir}/coverage.emma">
+        <instrpath>
+          <pathelement path="${build.dir}"/>
+        </instrpath>
+      </instr>
+    </emma>
+  </target>
 	
   <target name="test" depends="instrument,test.feeds">
     <junit fork="true">
@@ -159,7 +163,6 @@
       <test name="com.google.xml.combinators.GDataCoreTest"/>
       <test name="com.google.gdata.data.util.DateTimeTest"/>
       <test name="com.google.gdata.data.util.NormalPlayTimeTest"/>
-      <test name="com.google.gdata.data.EntryTest"/>
       <test name="com.google.gdata.QueryTest"/>
       <test name="com.google.gdata.data.media.ContentTest"/>
       <formatter type="plain" usefile="false"/>
@@ -186,17 +189,21 @@
     </junit>
   </target>
 	
-	<target name="coverage" depends="test">
-		<emma enabled="true">
-  		<report sourcepath="${source.dir}">
+  <target name="coverage" depends="test">
+  	<fail unless="emma.available" 
+  		message="emma not found. Test coverage is not available. 
+  		Set the emma.dir property to point to your emma instalation."/>
+  	<mkdir dir="${coverage.dir}"/>
+    <emma enabled="true">
+      <report sourcepath="${source.dir}">
         <fileset dir="${coverage.dir}" >
           <include name="*.emma" />
         </fileset>
-  
+        
         <txt outfile="${coverage.dir}/coverage.txt" />
         <html outfile="${coverage.dir}/coverage.html" />			
-  	  </report>
-		 </emma>
+      </report>
+    </emma>
   </target>
 	
   <!-- DOCS -->

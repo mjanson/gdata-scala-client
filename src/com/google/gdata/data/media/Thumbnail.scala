@@ -28,7 +28,8 @@ import scala.xml.{NamespaceBinding, TopScope}
  * @see http://search.yahoo.com/mrss
  * @author Iulian Dragos 
  */
-case class Thumbnail(url: String, width: Option[Int], height: Option[Int], time: Option[NormalPlayTime])
+case class Thumbnail(url: String, width: Option[Int], height: Option[Int],
+                    time: Option[NormalPlayTime])
 
 object Thumbnail {
 

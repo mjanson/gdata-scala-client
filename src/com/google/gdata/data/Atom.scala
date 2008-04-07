@@ -22,7 +22,13 @@ import com.google.gdata.data.util.DateTime
 
 /** A text construct, according to the Atom specification. The content is uninterpreted. */
 case class Text(tpe: Option[String],
-                content: String) extends Tuple2(tpe, content)
+                content: String) extends Tuple2(tpe, content) {
+  
+  /** A convenience constructor for plain text. */
+  def this(content: String) = {
+    this(None, content)
+  }
+}
 
 /** A default, empty text construct. */
 object NoText extends Text(None, "")

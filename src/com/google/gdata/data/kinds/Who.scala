@@ -43,6 +43,16 @@ class Who[ContactEntry <: ContactEntries#ContactEntry] {
   
   /** Entry representing contact details.*/
   var entryLink: Option[EntryLink[ContactEntry]] = None
+  
+  /**
+   * Convenience constructor for a person with an email and a string representation 
+   * of its relation. 
+   */
+  def this(email: String, valueString: String) {
+    this()
+    this.email = Some(email)
+    this.valueString = Some(valueString)
+  }
 }
 
 object Who {

@@ -20,19 +20,29 @@ import com.google.xml.combinators.{Picklers, ~, XmlStore}
 
 import scala.xml.{NodeSeq, Utility}
 
-import Picklers._
-
-case class MalformedEntry(str: String) extends RuntimeException
-
+/**
+ * A content element as defined by the Atom syndication format.
+ * 
+ * @see http://atomenabled.org/developers/syndication/atom-format-spec.php#element.content
+ */
 abstract class Content(tpe: String)
 
+/** A plain text content. */
 case class TextContent(var text: String) extends Content("text")
+
+/** An Html content. */
 case class HtmlContent(var text: String) extends Content("html")
+
+/** A Xhtml content. */
 case class XhtmlContent(var div: NodeSeq) extends Content("xhtml")
+
+/** An out of line content (linked to an external URL). */
 case class OutOfLineContent(var src: String, var tpe: String) extends Content(tpe)
 
+/** Provide picklers for content elements. */
 object Content {
   implicit val atomNs = Uris.atomNs
+  import Picklers._
   
   val pickler: Pickler[Content] = {
     val content = elem("content", 
@@ -45,7 +55,6 @@ object Content {
         case Some("xhtml") ~ None ~ ctent => XhtmlContent(ctent)
         case Some(tpe) ~ Some(src) ~ NodeSeq.Empty => OutOfLineContent(src, tpe)
         case _ ~ _ ~ ctent => TextContent(ctent.toString) // this forgives some malformed entries!
-//        case _ => throw new MalformedEntry("Invalid atom:content entry: " + parsed)
       }
     
     def fromContent(c: Content) = c match {

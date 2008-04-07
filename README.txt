@@ -1,12 +1,13 @@
 Google data API for Scala
 ==========================================================
 
-February  5, 2008
+April  7, 2008
 
-The GData package contains Scala bindings for Google Data APIs. For
-the moment, it consists of a generic XML pickling library. It will
-contain specific instantiations for several Google services, and a
-communication library to tie everything together.
+The GData package contains Scala bindings for Google Data APIs. It
+consists of a generic XML pickling library, generic data classes and
+picklers for Atom and Google common elements, authentication and
+HTTP connection handling. It has specific bindings for the YouTube and
+Calendar API.
 
 Building
 ========
@@ -21,6 +22,22 @@ where you installed Scala, for earlier releases you need to append
 
 ant build
 
+Tests
+=====
+
 To run the tests, type
 
 ant test
+
+If you have installed emma (http://emma.sourceforge.net/) you can get
+a report of code coverage during testing. Change the 'emma.dir' ant
+property to point to your the lib directory of your installation. Then
+run 
+
+ant coverage
+
+This will build the tests with instrumentation and run the tests
+again. You'll find an html report in the 'coverage/'
+directory. Results are not very precise, since some synthetic methods
+like $tag, are taken into accound and bring down the coverage
+percentage.

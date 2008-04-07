@@ -17,7 +17,7 @@
 package com.google.gdata.youtube
 
 import com.google.xml.combinators.{Picklers, ~}
-import com.google.gdata.data.{AtomEntries, Uris}
+import com.google.gdata.data.{AtomEntries, Uris, Text}
 
 /**
  * Youtube user contact entries.
@@ -35,6 +35,17 @@ trait ContactsEntries extends AtomEntries {
     def fromContactEntry(ce: ContactEntry) {
       fromAtomEntry(ce)
       fillOwnFields(ce.username, ce.status)
+    }
+    
+    /** 
+     * Convenience constructor. It creates an entry with the given username and status.
+     * The entry atom title is set to the username.
+     */
+    def this(username: String, status: String) {
+      this()
+      this.title = new Text(username)
+      this.username = username
+      this.status = status
     }
     
     def fillOwnFields(username: String, status: String): this.type = {

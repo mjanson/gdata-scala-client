@@ -46,24 +46,58 @@ trait Entries {
  * Entry type remains abstract, to allow further refinements.
  *
  * @author Iulian Dragos
+ * @see http://atomenabled.org/developers/syndication/atom-format-spec.php#element.entry
  */
 trait AtomEntries extends Entries {
   type Entry <: AtomEntry
   
-  /** An Atom Entry. */
+  /**
+   * An Atom Entry. It represents an individual entry, acting as a container for 
+   * metadata and data associated with the entry.
+   */
   class AtomEntry extends AnyRef with LinkNavigation with HasStore {
+    /** The entry author. */
     var authors: List[Person] = Nil
+    
+    /** Categories associated to this entry. */
     var categories: List[Category] = Nil
+    
+    /** Contains or links to the content of this entry. */
     var content: Option[Content] = None
+
+    /** Contributors to this entry or feed. */
     var contributors: List[Person] = Nil
+
+    /** A permanent, universally unique identifier for this entry. */
     var id: Option[String] = None
+
+    /** References to web resources. */
     var links: List[Link] = Nil
+    
+    /** Initial creation date. */
     var published: Option[DateTime] = None
+    
+    /** Information about rights held in and over the entry. */
     var rights: Option[String] = None
+    
+    /** Information about the feed from where this entry was copied. */
     var source: Option[Source] = None
+    
+    /** Short summary or abstract of this entry. */
     var summary: Option[Text] = None
+    
+    /** Human readable title for this entry. */
     var title: Text = NoText
+    
+    /** Most recent time this entry has been modified. */
     var updated: DateTime = new DateTime(new java.util.Date())
+    
+    /** Construct an entry with the given title and content as plain-text. */
+    def this(title: String, content: String) {
+      this()
+      this.title = new Text(title)
+      this.content = Some(TextContent(content))
+    }
     
     /**
      * Fill fields declared by this class, from the given parameters. Subclasses should

@@ -45,6 +45,9 @@ object OriginalEvent {
       ~ attr("href", text)
       ~ When.pickler)(Uris.gdNs)
     
-    wrap (contents) (OriginalEvent.apply) (funTuple3ToPairUnapply(OriginalEvent.unapply))
+    wrap (contents) (OriginalEvent.apply) (fromOriginalEvent)
   }
+  
+  private def fromOriginalEvent(oe: OriginalEvent) =
+    new ~(oe.id, oe.href) ~ oe.when
 }

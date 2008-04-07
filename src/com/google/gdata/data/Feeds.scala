@@ -42,11 +42,15 @@ trait Feeds { this: Feeds with Entries =>
 
 /**
  * Atom feeds refines Feeds with Atom-like feeds.
+ * 
+ * @see http://atomenabled.org/developers/syndication/atom-format-spec.php#element.feed
  */
 trait AtomFeeds extends Feeds { this: AtomFeeds with Entries =>
   type Feed <: AtomFeed with HasStore
 
-  /** An Atom Feed. */
+  /** 
+   * An Atom Feed. It contains metadata about the feed and a sequence of entries.
+   */
   class AtomFeed extends AnyRef with Seq[Entry] with HasStore {
     /** The authors of this feed. */
     var authors: List[Person] = Nil
@@ -104,6 +108,14 @@ trait AtomFeeds extends Feeds { this: AtomFeeds with Entries =>
     
     /** Return the n'th entry. */
     def apply(n: Int): Entry = entries(n)
+    
+    /** Convenience method for creating a new feed based on an id and a title. */
+    def this(id: String, title: String) {
+      this()
+      this.id = id
+      this.title = Text(None, title)
+    } 
+    
     
     /** Initialization method to fill all known fields. */
     def fillOwnFields(authors: List[Person], categories: List[Category], contributors: List[Person],

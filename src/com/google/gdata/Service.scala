@@ -27,9 +27,17 @@ import java.net.URL
 import scala.xml.XML
 
 /**
- * A base class for Google services. It provides the basic querying mechanism. It caches
- * 'gsessionid' parameters when redirected, and ships them with every future query.
+ * A base class for Google services. It provides the basic querying mechanism and
+ * authentication. It caches 'gsessionid' parameters when redirected, and ships them 
+ * with every future query.
  * 
+ * All Google services should extend this class and provide specific methods for
+ * that service. If a specific class is not yet available, this class can be used
+ * with generic StdAtomFeed to retrieve and further process feeds.
+ * 
+ * @param appName The application name. It should contain the company name, application name
+ *                and its version, separated by '-'.
+ * @param service The service name. See <a href="http://code.google.com/support/bin/answer.py?answer=62712&topic=10433">
  * @author Iulian Dragos
  */
 abstract class Service(appName: String, service: String) {
@@ -207,15 +215,7 @@ abstract class Service(appName: String, service: String) {
         throw m
     }
   }
-  
-  /**
-   * Put 'a' at the given URL, serialized using the given pickler. Returns the
-   * object as given back by the server.
-   */
-/*  def put[A](url: URL, a: A, pa: Pickler[A]): A = {
 
-  }*/
-  
   /** 
    * Return the feed embedded in the given feed link, or make a query to retrieve
    * it from the given URL. If the url is not given, it assumes the feed is embedded.
@@ -231,7 +231,7 @@ abstract class Service(appName: String, service: String) {
    * Return the entry embedded in the given entry link, or make a query to retrieve
    * it from the given URL. If the url is not given, it assumes the entry is embedded.
    */
-  def fromFeedLink[A](f: EntryLink[A], pa: Pickler[A]): A = {
+  def fromEntryLink[A](f: EntryLink[A], pa: Pickler[A]): A = {
     f.href match {
       case Some(href) => query(href, pa)
       case None => f.entry.get

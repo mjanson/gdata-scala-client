@@ -38,6 +38,20 @@ class DateTime(private var value: Long, private var tzShift: Long) extends Order
    */
   def compare(that: DateTime) = (this.value - that.value).toInt
   
+  /** Logic equality is based on the Ordered interface */
+  override def equals(other: Any): Boolean = other match {
+    case that: DateTime => compare(that) == 0
+    case _ => false
+  }
+  
+  /**
+   * The hash code is obtained by XOR-ing the two int halves of the 'value' field.
+   * 
+   * @see java.lang.Long.hashCode
+   */
+  override def hashCode: Int =
+    (this.value ^ (this.value >>> 32)).toInt
+  
   /** 
    * Create a DateTime from the specificed Java Date. The given date is considered
    * to be in UTC time (zero time zone shift).

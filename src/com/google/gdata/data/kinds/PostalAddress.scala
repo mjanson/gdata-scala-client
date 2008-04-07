@@ -38,12 +38,21 @@ case class PostalAddress(
      * Human-readable address; Leading and trailing whitespace is insignificant, 
      * newlines are signifficant.
      */
-    var address: String)
+    var address: String) {
+  
+  /** Convenience constructor for a simple, non-primary postal address. */
+  def this(address: String, rel: String) {
+    this(None, Some(rel), false, address)
+  }
+}
 
 object PostalAddress {
   import Picklers._
  
   def pickler = (wrap (elem("postalAddress", opt(attr("label", text))
       ~ opt(attr("rel", text)) ~ default(attr("primary", boolVal), false)
-      ~ text)(Uris.gdNs)) (PostalAddress.apply) (funTuple4ToPairUnapply(PostalAddress.unapply)))
+      ~ text)(Uris.gdNs)) (PostalAddress.apply) (fromPostalAddress))
+  
+  private def fromPostalAddress(pa: PostalAddress) = 
+    new ~(pa.label, pa.rel) ~ pa.primary ~ pa.address
 }

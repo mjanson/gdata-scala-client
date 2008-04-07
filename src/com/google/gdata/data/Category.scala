@@ -17,7 +17,6 @@
 package com.google.gdata.data;
 
 import com.google.xml.combinators.{Picklers, ~}
-import Picklers._
 import scala.xml.{NamespaceBinding, TopScope}
 
 /**
@@ -25,32 +24,23 @@ import scala.xml.{NamespaceBinding, TopScope}
  * 
  * @see http://atomenabled.org/developers/syndication/atom-format-spec.php
  */
-case class Category(term: String, scheme: Option[String], label: Option[String])
-
-trait Isomorphic[A, B] {
-  def toB(v: A): B
-  def fromB(v: B): A
+case class Category(term: String, scheme: Option[String], label: Option[String]) {
+  /** Convenience constructor for a category with no label. */
+  def this(term: String, scheme: String) {
+    this(term, Some(scheme), None)
+  }
 }
 
-/** 
- * TODO: remove the isomorphism class, use plain wrappers.
- */
+/** Provides the picklers for Category elements. */
 object Category {
+  import Picklers._
   implicit val atomNs = Uris.atomNs
 
-  def wrap[A, B](p: => Pickler[A], iso: Isomorphic[A, B]): Pickler[B] =
-    Picklers.wrap (p) (iso.toB) (iso.fromB)
-  
   val pickler: Pickler[Category] =
-    wrap(elem("category",
-        attr("term", text) ~ opt(attr("scheme", text)) ~ opt(attr("label", text))),
-        isoCategory)
+    (wrap(elem("category",
+        attr("term", text) ~ opt(attr("scheme", text)) ~ opt(attr("label", text))))
+        (Category.apply) (fromCategory))
+  
+  private def fromCategory(v: Category) = new ~(v.term, v.scheme) ~ v.label
 }
 
-/** Define the isomorphism between categories and the parseable strings. */
-object isoCategory extends Isomorphic[String ~ Option[String] ~ Option[String], Category] {
-  def toB(v: String ~ Option[String] ~ Option[String]) = v match {
-    case term ~ scheme ~ label => Category(term, scheme, label) 
-  }
-  def fromB(v: Category) = new ~(v.term, v.scheme) ~ v.label
-}

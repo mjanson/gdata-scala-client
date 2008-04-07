@@ -22,8 +22,14 @@ import scala.xml.{Node, Elem, MetaData, NamespaceBinding, Text, ProcInstr,
 
 /**
  * This class matches elements at any position in the sequence of nodes. This allows
- * unpicklers to accept any permutation of a defined sequence. For efficiency 
- * reasons, this class uses a mutable representation for elements. (TODO:more detail)
+ * unpicklers to accept any permutation of a defined sequence. 
+ * 
+ * For efficiency reasons, this class uses a mutable representation for elements. When
+ * an instance is created, this class creates a map from element labels (regardless of
+ * namespace) to XML elements. This allows access in constant time implementation of
+ * the 'acceptElem' method.
+ * 
+ * @see com.google.xml.combinators.XmlInputStore
  */
 class RandomAccessStore(myAttrs: MetaData, myNodes: Seq[Node], 
     myNs: NamespaceBinding, level: Int) extends LinearStore(myAttrs, myNodes.toList, myNs) {

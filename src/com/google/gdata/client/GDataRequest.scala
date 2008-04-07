@@ -160,13 +160,18 @@ object GDataRequest {
     def sessionId: Option[String] = sid
     
     private var sid: Option[String] = None
+
+    /** 
+     * An optional session id. If set, the session id is added to all requests URLs as
+     * 'gsessionid=<sid>'. It is used by stateful APIs (for instance, Calendar API)
+     */
     def sessionId_=(sid: String) {
       this.sid = Some(sid)
     }
     
     /** 
-     * Create a new GData request. Additional request parameters, and authentication token are
-     * set before returning the request.
+     * Create a new GData request. Additional request parameters, authentication token and
+     * session id are set before returning the request.
      */
     def mkRequest(method: RequestMethod.Value, url: URL): GDataRequest = {
       val request = new GDataRequest(method, addSessionId(url.toString))

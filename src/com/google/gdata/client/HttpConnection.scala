@@ -27,9 +27,20 @@ import scala.collection.{mutable, immutable, jcl}
 
 /**
  * Scala wrapper over HttpURLConnection. Turns getter/setters into properties and implements
- * a mutable map interface for request headers. Like the underlying Java connection, it
+ * a request headers as properties. Like the underlying Java connection, it
  * supports only one request/response. The 'connect' method returns an <code>HttpResponse</code>
  * that gives access to the response headers and streams.
+ * 
+ * You can set headers using the following syntax:
+ * <code>
+ *   connection("Content-Type") = "text/xml"
+ * </code>
+ * 
+ * A similar syntax can be used on the HttpResponse object to retrieve response headers:
+ * <code>
+ *   val response = connection.connect
+ *   log("redirected to: " + response("Location"))
+ * </code>
  * 
  * @author Iulian Dragos
  */

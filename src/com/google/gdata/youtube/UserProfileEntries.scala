@@ -16,7 +16,7 @@
 
 package com.google.gdata.youtube
 
-import com.google.gdata.data.{AtomEntries, Uris}
+import com.google.gdata.data.{AtomEntries, AtomFeeds, Uris}
 import com.google.gdata.data.kinds.FeedLink
 import com.google.gdata.data.media.Thumbnail
 import com.google.xml.combinators.{Picklers, ~}
@@ -35,6 +35,14 @@ trait UserProfileEntries extends AtomEntries {
    * playlist feed object.
    */
   val playlistFeeds: UserPlaylistsFeed
+  
+  /**
+   * Abstract value for contact feeds. Subclasses should instantiate it to the
+   * desired implementation of contact feeds.
+   */
+  val contactFeeds: AtomFeeds with ContactsEntries
+  
+  val subscriptionFeeds: AtomFeeds with SubscriptionEntries
 
   /**
    * A user profile entry in user's profile feed.
@@ -65,10 +73,8 @@ trait UserProfileEntries extends AtomEntries {
     var playlists: FeedLink[playlistFeeds.Feed] = _
     var uploads: FeedLink[videoFeeds.Feed] = _
 
-    // TODO: switch to 'friends' feed.
-    var contacts: FeedLink[videoFeeds.AtomFeed] = _
-    // TODO: switch to subscription feed.
-    var subscriptions: FeedLink[videoFeeds.AtomFeed] = _
+    var contacts: FeedLink[contactFeeds.Feed] = _
+    var subscriptions: FeedLink[subscriptionFeeds.Feed] = _
     
     def fromUserProfileEntry(pe: UserProfileEntry) {
       fromAtomEntry(pe)
@@ -86,8 +92,8 @@ trait UserProfileEntries extends AtomEntries {
         occupation: Option[String], school: Option[String], relationship: Option[String],
         statistics: Option[Statistics], thumbnail: Option[Thumbnail], 
         favorites: FeedLink[videoFeeds.Feed], playlists: FeedLink[playlistFeeds.Feed],
-        uploads: FeedLink[videoFeeds.Feed], contacts: FeedLink[videoFeeds.AtomFeed],
-        subscriptions: FeedLink[videoFeeds.AtomFeed]) = {
+        uploads: FeedLink[videoFeeds.Feed], contacts: FeedLink[contactFeeds.Feed],
+        subscriptions: FeedLink[subscriptionFeeds.Feed]) = {
       this.username = username
       this.firstName = firstName
       this.lastName = lastName
@@ -169,9 +175,9 @@ trait UserProfileEntries extends AtomEntries {
         ~ when(feedLinkRel(Schemas.USER_PLAYLISTS), FeedLink.pickler(playlistFeeds.feedPickler))
         ~ when(feedLinkRel(Schemas.USER_UPLOADS), FeedLink.pickler(videoFeeds.feedPickler)) 
         ~ when(feedLinkRel(Schemas.USER_CONTACTS), 
-              FeedLink.pickler(videoFeeds.atomFeedContentsPickler)) // TODO: switch to contacts pickler
+              FeedLink.pickler(contactFeeds.feedPickler))
         ~ when(feedLinkRel(Schemas.USER_SUBSCRIPTIONS), 
-              FeedLink.pickler(videoFeeds.atomFeedContentsPickler)))// TODO: switch to subscriptions 
+              FeedLink.pickler(subscriptionFeeds.feedPickler))) 
     }
     
     def fromUserProfileEntry(pe: UserProfileEntry) = new ~(pe, new ~(pe.username, pe.firstName)

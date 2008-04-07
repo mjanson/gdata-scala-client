@@ -25,6 +25,7 @@ import java.net.URL
  * 
  * @author Iulian Dragos
  * @see http://code.google.com/apis/calendar/developers_guide_protocol.html
+ * @see com.google.gdata.Service
  */
 class CalendarService(appName: String) extends Service(appName, "cl")  {
   /** A standard comment feed. */

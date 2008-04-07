@@ -29,6 +29,9 @@ object ExtendedProperty {
   lazy val pickler: Pickler[ExtendedProperty] = {
     val contents = elem("extendedProperty", attr("name", text) ~ attr("value", text))(Uris.gdNs)
     
-    wrap (contents) (ExtendedProperty.apply) (funTuple2ToPairUnapply(ExtendedProperty.unapply))
+    wrap (contents) (ExtendedProperty.apply) (fromExtendedProperty)
   }
+  
+  private def fromExtendedProperty(ep: ExtendedProperty) =
+    new ~(ep.name, ep.value)
 }

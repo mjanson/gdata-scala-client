@@ -28,14 +28,23 @@ case class Im(var address: String,
     var label: Option[String],
     var rel: Option[String],
     var protocol: Option[String],
-    var primary: Boolean)
+    var primary: Boolean) {
+  
+  /** Convenience constructor for an instant messaging address. */
+  def this(address: String, rel: String, protocol: String) {
+    this(address, None, Some(rel), Some(protocol), false)
+  }
+}
 
-
+/** Defines a pickler for Im. */
 object Im {
   import Picklers._
   
   def pickler = (wrap (elem("im", attr("address", text) ~ opt(attr("label", text))
       ~ opt(attr("rel", text)) ~ opt(attr("protocol", text))
       ~ default(attr("primary", boolVal), false))(Uris.gdNs)) 
-      (Im.apply) (funTuple5ToPairUnapply(Im.unapply)))
+      (Im.apply) (fromIm))
+  
+  private def fromIm(im: Im) =
+    new ~(im.address, im.label) ~ im.rel ~ im.protocol ~ im.primary
 }

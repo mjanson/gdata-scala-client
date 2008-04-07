@@ -48,6 +48,7 @@ class ClientLoginFactory(appName: String, service: String) extends AuthTokenFact
       throw new IllegalStateException("Set user credentials before asking for a token.")
   }
   
+  /** Set an authentication Token retrieved by other means. */
   def token_=(tok: AuthToken) {
     authToken = Some(tok)
     this

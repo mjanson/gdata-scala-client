@@ -49,7 +49,10 @@ object Organization {
     (wrap (elem("organization", opt(attr("label", text))
         ~ opt(attr("rel", text)) ~ default(attr("primary", boolVal), false)
         ~ opt(elem("orgName", text)) ~ opt(elem("orgTitle", text)))) 
-        (Organization.apply) (funTuple5ToPairUnapply(Organization.unapply)))
-  } 
+        (Organization.apply) (fromOrganization))
+  }
+  
+  private def fromOrganization(org: Organization) =
+    new ~(org.label, org.rel) ~ org.primary ~ org.name ~ org.title
 }
 

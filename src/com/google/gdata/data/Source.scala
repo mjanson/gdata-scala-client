@@ -22,21 +22,65 @@ import com.google.gdata.data.util.DateTime
 import Picklers._
 import Atom._
 
-/** An Atom source. */
+/** 
+ * An Atom source element. It is used when entries are copied over from another feed
+ * to keep around metadata bout the source feed.
+ * 
+ * @see http://atomenabled.org/developers/syndication/atom-format-spec.php#element.source
+ */
 class Source {
+  /** The authors of the originating feed. */
   var authors: List[Person] = Nil
+  
+  /** Categories associated with the originating feed. */
   var categories: List[Category] = Nil
+  
+  /** Contributors associated to the originating feed. */  
   var contributors: List[Person] = Nil
+  
+  /** User agent used to generate the originating feed. */
   var generator: Option[Generator] = None
+  
+  /** IRI for an icon for the originating feed. */
   var icon: Option[String] = None
+  
+  /** Permanent, unique id of the originating feed. */
   var id: Option[String] = None
+  
+  /** References to web resources. */
   var links: List[Link] = Nil
+  
+  /** IRI for a visual identification of the originating feed. */
   var logo: Option[String] = None
+  
+  /** Rights held over the originating feed. */
   var rights: Option[String] = None
+    
+  /** A subtitle of the originating feed. */
   var subtitle: Option[Text] = None
+    
+  /** The originating feed's title. */
   var title: Option[Text] = None
+    
+  /** The most recent instant in time the originating feed has been modified. */
   var updated: Option[DateTime] = None
 
+  /** Convenience method for creating a source element from an atom Feed. */
+  def this(feed: AtomFeeds#Feed) {
+    this()
+    this.authors = feed.authors
+    this.categories = feed.categories
+    this.contributors = feed.contributors
+    this.generator = feed.generator
+    this.id = Some(feed.id)
+    this.links = feed.links
+    this.logo = feed.logo
+    this.rights = feed.rights
+    this.subtitle = feed.subtitle
+    this.title = Some(feed.title)
+    this.updated = Some(feed.updated)
+  }
+  
   override def toString = {
     val sb = new StringBuffer
     sb.append("Authors: ").append(authors.mkString("", ", ", ""))
@@ -55,6 +99,7 @@ class Source {
   }
 }
 
+/** Provide a pickler for Source. */
 object Source {
   lazy val atomSourceContents =
     interleaved(
@@ -72,6 +117,7 @@ object Source {
 
   private implicit val atomNs = Uris.atomNs
   
+  /** A pickler for Source. */
   lazy val pickler: Pickler[Source] = wrap (elem("source", atomSourceContents)) ({
     case authors ~ cats ~ contribs ~ generator ~ id
          ~ links ~ logo ~ rights ~ subtitle ~ title ~ updated => 
@@ -90,15 +136,8 @@ object Source {
       e
   }) (fromSource)
 
+  /** Turn the Source object into a tuple. */
   private def fromSource(e: Source) = (new ~(e.authors, e.categories) 
-      ~ e.contributors
-      ~ e.generator
-      ~ e.id
-      ~ e.links
-      ~ e.logo
-      ~ e.rights
-      ~ e.subtitle
-      ~ e.title
-      ~ e.updated)
-      
+      ~ e.contributors ~ e.generator ~ e.id ~ e.links ~ e.logo
+      ~ e.rights ~ e.subtitle ~ e.title ~ e.updated)
 }

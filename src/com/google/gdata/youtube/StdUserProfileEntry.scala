@@ -26,6 +26,8 @@ class StdUserProfileEntry extends UserProfileEntries {
   
   val videoFeeds = new StdVideoFeed
   val playlistFeeds = new StdUserPlaylistsFeed
+  val subscriptionFeeds = new StdSubscriptionFeed
+  val contactFeeds = new StdContactsFeed
   
   def entryContentsPickler = userProfileEntryContents
 }

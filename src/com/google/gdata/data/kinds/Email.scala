@@ -35,7 +35,13 @@ case class Email(
   var rel: Option[String],
   
   /** At most one email may be primary. Default value is "false". */
-  var primary: Boolean)
+  var primary: Boolean) {
+  
+  /** Convenience constructor. */
+  def this(address: String, rel: String) {
+    this(address, None, Some(rel), false)
+  }
+}
 
 object Email {
   import Picklers._
@@ -43,5 +49,8 @@ object Email {
   def pickler = (wrap (elem("email", attr("address", text) ~ opt(attr("label", text))
       ~ opt(attr("rel", text))
       ~ default(attr("primary", boolVal), false))(Uris.gdNs)) 
-      (Email.apply) (funTuple4ToPairUnapply(Email.unapply)))
+      (Email.apply) (fromEmail))
+  
+  private def fromEmail(e: Email) = 
+    new ~(e.address, e.label) ~ e.rel ~ e.primary
 }
