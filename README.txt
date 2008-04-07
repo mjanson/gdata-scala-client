@@ -31,8 +31,15 @@ ant test
 
 If you have installed emma (http://emma.sourceforge.net/) you can get
 a report of code coverage during testing. Change the 'emma.dir' ant
-property to point to your the lib directory of your installation. Then
-run 
+property to point to your the lib directory of your installation. You
+can do that by adding the following line in your 'build.properties'
+file:
+
+emma.dir=/path/to/emma-2.0.5312/lib
+
+(of course, you might have a different version).
+
+Then run 
 
 ant coverage
 

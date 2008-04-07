@@ -27,7 +27,6 @@
 
   <property name="coverage.dir" value="coverage"/>
   <!--  directory that contains emma.jar and emma_ant.jar: -->
-  <property name="emma.dir" value="/usr/local/google/home/iuliandragos/soft/emma-2.0.5312/lib"/>
   <available property="emma.available" file="${emma.dir}" type="dir"/>
 	
   <!-- path element used by EMMA taskdef below: -->
