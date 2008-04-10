@@ -1,0 +1,501 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+        <head><title>class YouTubeService in com.google.gdata.youtube</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.1.RC1)" name="generator"></meta><link href="../../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../../script.js"></script>
+        </head>
+        <body onload="init()">
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">GData Scala Client Library Documentation</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+        
+      <div class="entity">
+        <a href="../../../../com/google/gdata/youtube$package.html" target="_self">com.google.gdata.youtube</a>
+        <br></br>
+        <span class="entity">class  YouTubeService</span>
+      </div><hr></hr>
+      <div class="source">
+        [source: <a href="" class="com/google/gdata/youtube/YouTubeService"><code>com/google/gdata/youtube/YouTubeService.scala</code></a>]
+      </div><hr></hr>
+      <a name="YouTubeService"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>class</code>
+        <em>YouTubeService</em>(<em>appName</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>)
+      </dt>
+      <dd><code> extends </code><a href="../../../../com/google/gdata/Service.html" target="_self">Service</a></dd>
+    </dl>
+      <dl><dd>This class takes care of the communication with the you tube service and provides
+ methods for retrieving and navigating between different feeds.
+ 
+ Example:
+ <code>
+   val s = new YouTubeService("mycompany-test-1.0")
+   for (e <- s.getVideos(Query.empty / "Comedy")) println(e.rating)
+ </code>
+ It will print all the ratings for videos retrieved by the given query (those
+ having the 'Comedy' category).</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Author</b></dt><dd>Iulian Dragos</dd></dl>
+    
+      
+
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Value Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code> val</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#comments" target="_self">comments</a></em>
+         : <a href="../../../../com/google/gdata/youtube/StdCommentsFeed.html" target="_self">StdCommentsFeed</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> val</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#contacts" target="_self">contacts</a></em>
+         : <a href="../../../../com/google/gdata/youtube/StdContactsFeed.html" target="_self">StdContactsFeed</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> val</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#playlist" target="_self">playlist</a></em>
+         : <a href="../../../../com/google/gdata/youtube/StdPlaylistFeed.html" target="_self">StdPlaylistFeed</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> val</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#subscription" target="_self">subscription</a></em>
+         : <a href="../../../../com/google/gdata/youtube/StdSubscriptionFeed.html" target="_self">StdSubscriptionFeed</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> val</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#userPlaylists" target="_self">userPlaylists</a></em>
+         : <a href="../../../../com/google/gdata/youtube/StdUserPlaylistsFeed.html" target="_self">StdUserPlaylistsFeed</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> val</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#userProfile" target="_self">userProfile</a></em>
+         : <a href="../../../../com/google/gdata/youtube/StdUserProfileEntry.html" target="_self">StdUserProfileEntry</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> val</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#videos" target="_self">videos</a></em>
+         : <a href="../../../../com/google/gdata/youtube/StdVideoFeed.html" target="_self">StdVideoFeed</a>
+        
+        
+      </td>
+    </tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Values and Variables inherited from <a href="../../../../com/google/gdata/Service.html" target="_self">Service</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="../../../../com/google/gdata/Service.html#requestFactory" target="_self">requestFactory</a>, <a href="../../../../com/google/gdata/Service.html#authTokenFactory" target="_self">authTokenFactory</a>, <a href="../../../../com/google/gdata/Service.html#user" target="_self">user</a>
+        </td></tr>
+      </table>
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Method Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#getComments%28String%29" target="_self">getComments</a></em>
+        (<em>url</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
+        
+        <div>Get the comment feed from the given url.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#getComments%28YouTubeService.this.videos.Entry%29" target="_self">getComments</a></em>
+        (<em>ventry</em> : <a href="../../../../com/google/gdata/youtube/VideoEntries.VideoEntry.html" target="_self">VideoEntry</a>) : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>]
+        
+        <div>Get comments for the given video entry.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#getContacts%28String%29" target="_self">getContacts</a></em>
+        (<em>username</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
+        
+        <div>Return a user's contacts.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#getFavorites%28String%29" target="_self">getFavorites</a></em>
+        (<em>username</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
+        
+        <div>Return user's favorite feeds.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#getPlaylists%28String%29" target="_self">getPlaylists</a></em>
+        (<em>username</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
+        
+        <div>Return user's playlists</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#getRelatedVideos%28YouTubeService.this.videos.Entry%29" target="_self">getRelatedVideos</a></em>
+        (<em>ventry</em> : <a href="../../../../com/google/gdata/youtube/VideoEntries.VideoEntry.html" target="_self">VideoEntry</a>) : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>]
+        
+        <div>Get videos related to the given video.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#getResponseVideos%28YouTubeService.this.videos.Entry%29" target="_self">getResponseVideos</a></em>
+        (<em>ventry</em> : <a href="../../../../com/google/gdata/youtube/VideoEntries.VideoEntry.html" target="_self">VideoEntry</a>) : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>]
+        
+        <div>Get videos responses to the given video.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#getSubscriptions%28String%29" target="_self">getSubscriptions</a></em>
+        (<em>username</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
+        
+        <div>Return user's subscriptions.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#getUserProfile%28String%29" target="_self">getUserProfile</a></em>
+        (<em>username</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/youtube/UserProfileEntries.UserProfileEntry.html" target="_self">UserProfileEntry</a>
+        
+        <div>Get the user profile.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#getVideos%28String%29" target="_self">getVideos</a></em>
+        (<em>url</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
+        
+        <div>Return a video feed from the given url.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#getVideos%28com.google.gdata.Query%29" target="_self">getVideos</a></em>
+        (<em>q</em> : <a href="../../../../com/google/gdata/Query.html" target="_self">Query</a>) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
+        
+        <div>Return a video feed matching the given query.</div>
+      </td>
+    </tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="../../../../com/google/gdata/Service.html" target="_self">Service</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="../../../../com/google/gdata/Service.html#username" target="_self">username</a>, <a href="../../../../com/google/gdata/Service.html#setUserCredentials%28String%2CString%29" target="_self">setUserCredentials</a>, <a href="../../../../com/google/gdata/Service.html#setUserCredentials%28String%2CString%2CString%2CString%29" target="_self">setUserCredentials</a>, <a href="../../../../com/google/gdata/Service.html#query%28String%2Ccom.google.gdata.Query%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29" target="_self">query</a>, <a href="../../../../com/google/gdata/Service.html#query%28String%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29" target="_self">query</a>, <a href="../../../../com/google/gdata/Service.html#query%28java.net.URL%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29" target="_self">query</a>, <a href="../../../../com/google/gdata/Service.html#insert%28java.net.URL%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29" target="_self">insert</a>, <a href="../../../../com/google/gdata/Service.html#update%28java.net.URL%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29" target="_self">update</a>, <a href="../../../../com/google/gdata/Service.html#delete%28java.net.URL%29" target="_self">delete</a>, <a href="../../../../com/google/gdata/Service.html#pickle%28com.google.gdata.client.GDataRequest%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29" target="_self">pickle</a>, <a href="../../../../com/google/gdata/Service.html#fromFeedLink%28com.google.gdata.data.kinds.FeedLink%5BA%5D%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29" target="_self">fromFeedLink</a>, <a href="../../../../com/google/gdata/Service.html#fromEntryLink%28com.google.gdata.data.kinds.EntryLink%5BA%5D%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29" target="_self">fromEntryLink</a>, <a href="../../../../com/google/gdata/Service.html#mkRequest%28com.google.gdata.client.RequestMethod.Value%2CString%29" target="_self">mkRequest</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#getClass%28%29" target="_self">getClass</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#hashCode%28%29" target="_self">hashCode</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#equals%28Any%29" target="_self">equals</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#clone%28%29" target="_self">clone</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#toString%28%29" target="_self">toString</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notify%28%29" target="_self">notify</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notifyAll%28%29" target="_self">notifyAll</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%2CInt%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#finalize%28%29" target="_self">finalize</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%3D%3D%28AnyRef%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%21%3D%28AnyRef%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#eq%28AnyRef%29" target="_self">eq</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#ne%28AnyRef%29" target="_self">ne</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#synchronized%28T0%29" target="_self">synchronized</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%3D%3D%28Any%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%21%3D%28Any%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#isInstanceOf" target="_self">isInstanceOf</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#asInstanceOf" target="_self">asInstanceOf</a>
+        </td></tr>
+      </table>
+
+
+      
+
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Value Details</td></tr>
+        </table><div><a name="videos"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>val</code>
+        <em>videos</em> : <a href="../../../../com/google/gdata/youtube/StdVideoFeed.html" target="_self">StdVideoFeed</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="comments"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>val</code>
+        <em>comments</em> : <a href="../../../../com/google/gdata/youtube/StdCommentsFeed.html" target="_self">StdCommentsFeed</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="contacts"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>val</code>
+        <em>contacts</em> : <a href="../../../../com/google/gdata/youtube/StdContactsFeed.html" target="_self">StdContactsFeed</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="playlist"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>val</code>
+        <em>playlist</em> : <a href="../../../../com/google/gdata/youtube/StdPlaylistFeed.html" target="_self">StdPlaylistFeed</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="subscription"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>val</code>
+        <em>subscription</em> : <a href="../../../../com/google/gdata/youtube/StdSubscriptionFeed.html" target="_self">StdSubscriptionFeed</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="userPlaylists"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>val</code>
+        <em>userPlaylists</em> : <a href="../../../../com/google/gdata/youtube/StdUserPlaylistsFeed.html" target="_self">StdUserPlaylistsFeed</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="userProfile"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>val</code>
+        <em>userProfile</em> : <a href="../../../../com/google/gdata/youtube/StdUserProfileEntry.html" target="_self">StdUserProfileEntry</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr></div>
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Method Details</td></tr>
+        </table><div><a name="getVideos%28com.google.gdata.Query%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>getVideos</em>(<em>q</em> : <a href="../../../../com/google/gdata/Query.html" target="_self">Query</a>) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Return a video feed matching the given query.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="getVideos%28String%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>getVideos</em>(<em>url</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Return a video feed from the given url.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="getComments%28String%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>getComments</em>(<em>url</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Get the comment feed from the given url.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="getComments%28YouTubeService.this.videos.Entry%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>getComments</em>(<em>ventry</em> : <a href="../../../../com/google/gdata/youtube/VideoEntries.VideoEntry.html" target="_self">VideoEntry</a>) : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Get comments for the given video entry.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="getRelatedVideos%28YouTubeService.this.videos.Entry%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>getRelatedVideos</em>(<em>ventry</em> : <a href="../../../../com/google/gdata/youtube/VideoEntries.VideoEntry.html" target="_self">VideoEntry</a>) : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Get videos related to the given video.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="getResponseVideos%28YouTubeService.this.videos.Entry%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>getResponseVideos</em>(<em>ventry</em> : <a href="../../../../com/google/gdata/youtube/VideoEntries.VideoEntry.html" target="_self">VideoEntry</a>) : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Get videos responses to the given video.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="getUserProfile%28String%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>getUserProfile</em>(<em>username</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/youtube/UserProfileEntries.UserProfileEntry.html" target="_self">UserProfileEntry</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Get the user profile.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="getFavorites%28String%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>getFavorites</em>(<em>username</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Return user's favorite feeds.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="getPlaylists%28String%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>getPlaylists</em>(<em>username</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Return user's playlists</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="getSubscriptions%28String%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>getSubscriptions</em>(<em>username</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Return user's subscriptions.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="getContacts%28String%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>getContacts</em>(<em>username</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Return a user's contacts.</dd></dl>
+      <dl></dl>
+    <hr></hr></div>
+
+
+    <hr></hr>
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">GData Scala Client Library Documentation</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+      </body>
+      </html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+        <head><title>All classes and objects in com.google.gdata</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.1.RC1)" name="generator"></meta><link href="../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../script.js"></script>
+        </head>
+        <body onload="init()"><div class="page-title"><div>GData Scala Client</div></div><p><div>This document is the API specification for GData Scala Client Library Documentation</div></p><table summary="" cellpadding="3" class="member">
+        <tr><td class="title" colspan="2">Class Summary</td></tr>
+        <tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/CNot.html" target="_self">CNot</a></em>
+        (<code>val </code><em>p</em> : <a href="../../com/google/gdata/CategoryQuery.html" target="_self">CategoryQuery</a>)<code> extends </code><a href="../../com/google/gdata/CategoryQuery.html" target="_self">CategoryQuery</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        <div>A query that matches when 'p' doesn't.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/COr.html" target="_self">COr</a></em>
+        (<code>val </code><em>p</em> : <a href="../../com/google/gdata/CategoryQuery.html" target="_self">CategoryQuery</a>, <code>val </code><em>q</em> : <a href="../../com/google/gdata/CategoryQuery.html" target="_self">CategoryQuery</a>)<code> extends </code><a href="../../com/google/gdata/CategoryQuery.html" target="_self">CategoryQuery</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        <div>A query that matches either 'p' or 'q'.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/Category.html" target="_self">Category</a></em>
+        (<code>val </code><em>scheme</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>], <code>val </code><em>term</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>)<code> extends </code><a href="../../com/google/gdata/CategoryQuery.html" target="_self">CategoryQuery</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        <div>A category with an optional scheme.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>abstract class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/CategoryQuery.html" target="_self">CategoryQuery</a></em>
+        <code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        <div>A base class for category queries. It supports 'or' and negation. It is used
+ to build complex category queries. This class makes little sense on its own,
+ most users should use @link com.google.gdata.Query.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/Query.html" target="_self">Query</a></em>
+        (<code>val </code><em>searchQuery</em> : <a href="../../com/google/gdata/SearchQuery.html" target="_self">SearchQuery</a>)<code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        <div>Base class for GData queries. It has a category part and a search query part. 
+ Categories are added using the '/' operator. The search query is added using
+ 'suchThat'. Retrieve the URL by calling 'mkUrl(base)'. It returns a URL looking
+ like 'base/-/categories/../lastCategory?q=<searchquery>'. It takes care of URL
+ encoding.
+ 
+ It handles the default GData parameters (author, alt, updated-min, updated-max, 
+ published-min, published-max, start-index, max-results). @see <a href=
+ "http://code.google.com/apis/gdata/reference.html#Queries">GData queries</a>.
+ 
+ Subclasses should override 'searchName' to change 'q' to something else. New
+ parameters should be implemented as methods in terms of 'addParam'.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/SAnd.html" target="_self">SAnd</a></em>
+        (<code>val </code><em>p</em> : <a href="../../com/google/gdata/SearchQuery.html" target="_self">SearchQuery</a>, <code>val </code><em>q</em> : <a href="../../com/google/gdata/SearchQuery.html" target="_self">SearchQuery</a>)<code> extends </code><a href="../../com/google/gdata/SearchQuery.html" target="_self">SearchQuery</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        <div>A query that matches both subqueries.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/SNot.html" target="_self">SNot</a></em>
+        (<code>val </code><em>p</em> : <a href="../../com/google/gdata/SearchQuery.html" target="_self">SearchQuery</a>)<code> extends </code><a href="../../com/google/gdata/SearchQuery.html" target="_self">SearchQuery</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        <div>A query that matches only when 'p' does not.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/SOr.html" target="_self">SOr</a></em>
+        (<code>val </code><em>p</em> : <a href="../../com/google/gdata/SearchQuery.html" target="_self">SearchQuery</a>, <code>val </code><em>q</em> : <a href="../../com/google/gdata/SearchQuery.html" target="_self">SearchQuery</a>)<code> extends </code><a href="../../com/google/gdata/SearchQuery.html" target="_self">SearchQuery</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        <div>A query that matches either on of the subqueries.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>sealed abstract class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/SearchQuery.html" target="_self">SearchQuery</a></em>
+        <code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        <div>Base class for Search queries. Supports 'or', 'and' and negation. Start with
+ SearchQuery.empty which returns a query that matches all, and use the operators
+ to build a more complex query.
+ 
+ Example:
+   SearchQuery.empty & "football" & !Text("soccer")
+ 
+ It can be turned into a GData query by calling 'toQuery'.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>abstract class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/Service.html" target="_self">Service</a></em>
+        (<em>appName</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>service</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>)<code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        <div>A base class for Google services. It provides the basic querying mechanism and
+ authentication. It caches 'gsessionid' parameters when redirected, and ships them 
+ with every future query.
+ 
+ All Google services should extend this class and provide specific methods for
+ that service. If a specific class is not yet available, this class can be used
+ with generic StdAtomFeed to retrieve and further process feeds.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/ServiceException.html" target="_self">ServiceException</a></em>
+        (<em>msg</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>)<code> extends </code><a href="" target="contentFrame" class="java/lang/Exception">java.lang.Exception</a><code> with </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        <div>Base class for GData Service exceptions.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/Text.html" target="_self">Text</a></em>
+        (<code>val </code><em>str</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>)<code> extends </code><a href="../../com/google/gdata/SearchQuery.html" target="_self">SearchQuery</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        <div>A query that matches the exact string 'str'.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/UnknownDocumentException.html" target="_self">UnknownDocumentException</a></em>
+        (<code>val </code><em>msg</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <code>val </code><em>err</em> : <a href="../../com/google/xml/combinators/Picklers$object.NoSuccess.html" target="_self">NoSuccess</a>)<code> extends </code><a href="../../com/google/gdata/ServiceException.html" target="_self">ServiceException</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        <div>This exception is thrown when the retrieved XML document cannot be parsed by the provided
+ pickler.</div>
+      </td>
+    </tr>        
+        </table>
+<table summary="" cellpadding="3" class="member">
+        <tr><td class="title" colspan="2">Object Summary</td></tr>
+        <tr>
+      <td class="modifiers" valign="top"> 
+        <code>case object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/AllCategories$object.html" target="_self">AllCategories</a></em>
+        <code> extends </code><a href="../../com/google/gdata/CategoryQuery.html" target="_self">CategoryQuery</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        <div>A query that matches all categories.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/CNot$object.html" target="_self">CNot</a></em>
+        <code> extends </code>(<a href="../../com/google/gdata/CategoryQuery.html" target="_self">CategoryQuery</a>) =&gt; <a href="../../com/google/gdata/CNot.html" target="_self">CNot</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/COr$object.html" target="_self">COr</a></em>
+        <code> extends </code>(<a href="../../com/google/gdata/CategoryQuery.html" target="_self">CategoryQuery</a>, <a href="../../com/google/gdata/CategoryQuery.html" target="_self">CategoryQuery</a>) =&gt; <a href="../../com/google/gdata/COr.html" target="_self">COr</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/Category$object.html" target="_self">Category</a></em>
+        <code> extends </code>(<a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>], <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) =&gt; <a href="../../com/google/gdata/Category.html" target="_self">Category</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/CategoryQuery$object.html" target="_self">CategoryQuery</a></em>
+        <code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        <div>Convenience factory object.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/MatchAll$object.html" target="_self">MatchAll</a></em>
+        <code> extends </code><a href="../../com/google/gdata/SearchQuery.html" target="_self">SearchQuery</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        <div>A query that matches everything. All operators are rewritten so that MatchAll behaves
+ like the 'unit' (they return their argument).</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/Query$object.html" target="_self">Query</a></em>
+        <code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/SAnd$object.html" target="_self">SAnd</a></em>
+        <code> extends </code>(<a href="../../com/google/gdata/SearchQuery.html" target="_self">SearchQuery</a>, <a href="../../com/google/gdata/SearchQuery.html" target="_self">SearchQuery</a>) =&gt; <a href="../../com/google/gdata/SAnd.html" target="_self">SAnd</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/SNot$object.html" target="_self">SNot</a></em>
+        <code> extends </code>(<a href="../../com/google/gdata/SearchQuery.html" target="_self">SearchQuery</a>) =&gt; <a href="../../com/google/gdata/SNot.html" target="_self">SNot</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/SOr$object.html" target="_self">SOr</a></em>
+        <code> extends </code>(<a href="../../com/google/gdata/SearchQuery.html" target="_self">SearchQuery</a>, <a href="../../com/google/gdata/SearchQuery.html" target="_self">SearchQuery</a>) =&gt; <a href="../../com/google/gdata/SOr.html" target="_self">SOr</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/SearchQuery$object.html" target="_self">SearchQuery</a></em>
+        <code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        <div>Convenience factory object.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/Service$object.html" target="_self">Service</a></em>
+        <code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/Text$object.html" target="_self">Text</a></em>
+        <code> extends </code>(<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) =&gt; <a href="../../com/google/gdata/Text.html" target="_self">Text</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../com/google/gdata/UnknownDocumentException$object.html" target="_self">UnknownDocumentException</a></em>
+        <code> extends </code>(<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <a href="../../com/google/xml/combinators/Picklers$object.NoSuccess.html" target="_self">NoSuccess</a>) =&gt; <a href="../../com/google/gdata/UnknownDocumentException.html" target="_self">UnknownDocumentException</a>
+        
+        
+      </td>
+    </tr>        
+        </table></body>
+      </html>

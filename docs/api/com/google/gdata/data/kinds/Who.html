@@ -1,0 +1,250 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+        <head><title>class Who in com.google.gdata.data.kinds</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.1.RC1)" name="generator"></meta><link href="../../../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../../../script.js"></script>
+        </head>
+        <body onload="init()">
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">GData Scala Client Library Documentation</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+        
+      <div class="entity">
+        <a href="../../../../../com/google/gdata/data/kinds$package.html" target="_self">com.google.gdata.data.kinds</a>
+        <br></br>
+        <span class="entity">class  Who</span>
+      </div><hr></hr>
+      <div class="source">
+        [source: <a href="" class="com/google/gdata/data/kinds/Who"><code>com/google/gdata/data/kinds/Who.scala</code></a>]
+      </div><hr></hr>
+      <a name="Who"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>class</code>
+        <em>Who</em>[<em>ContactEntry</em> &lt;: <a href="../../../../../com/google/gdata/data/kinds/ContactEntries.ContactEntry.html" target="_self">ContactEntry</a>]
+      </dt>
+      <dd><code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a></dd>
+    </dl>
+      <dl><dd>A person associated to the containing entity. The relation is specified by the 'rel'
+ field.</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Author</b></dt><dd>Iulian Dragos</dd><dt style="margin:10px 0 0 20px;">
+        <b>See Also</b></dt><dd><a href="http://code.google.com/apis/gdata/elements.html#gdWho">http://code.google.com/apis/gdata/elements.html#gdWho</a></dd></dl>
+    
+      <table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Additional Constructor Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/google/gdata/data/kinds/Who.html#this%28String%2CString%29" target="_self">this</a></em>
+        (<em>email</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>valueString</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../../com/google/gdata/data/kinds/Who.html" target="_self">Who</a>[<a href="../../../../../com/google/gdata/data/kinds/Who.html#ContactEntry" target="_self">ContactEntry</a>]
+        
+        <div>Convenience constructor for a person with an email and a string representation 
+   of its relation.</div>
+      </td>
+    </tr>
+      </table>
+
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Value Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/google/gdata/data/kinds/Who.html#attendeeStatus" target="_self">attendeeStatus</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+        
+        <div>The attendee status.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/google/gdata/data/kinds/Who.html#attendeeType" target="_self">attendeeType</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+        
+        <div>Type of attendee.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/google/gdata/data/kinds/Who.html#email" target="_self">email</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+        
+        <div>Email address. This property is typically used when entryLink is not specified.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/google/gdata/data/kinds/Who.html#entryLink" target="_self">entryLink</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../../com/google/gdata/data/kinds/EntryLink.html" target="_self">EntryLink</a>[<a href="../../../../../com/google/gdata/data/kinds/Who.html#ContactEntry" target="_self">ContactEntry</a>]]
+        
+        <div>Entry representing contact details.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/google/gdata/data/kinds/Who.html#rel" target="_self">rel</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+        
+        <div>The relationship between the containing entity and the contained person.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/google/gdata/data/kinds/Who.html#valueString" target="_self">valueString</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+        
+        <div>A simple string value that can be used as a representation of this person.</div>
+      </td>
+    </tr>
+      </table>
+<table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#getClass%28%29" target="_self">getClass</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#hashCode%28%29" target="_self">hashCode</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#equals%28Any%29" target="_self">equals</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#clone%28%29" target="_self">clone</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#toString%28%29" target="_self">toString</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notify%28%29" target="_self">notify</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notifyAll%28%29" target="_self">notifyAll</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%2CInt%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#finalize%28%29" target="_self">finalize</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%3D%3D%28AnyRef%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%21%3D%28AnyRef%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#eq%28AnyRef%29" target="_self">eq</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#ne%28AnyRef%29" target="_self">ne</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#synchronized%28T0%29" target="_self">synchronized</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%3D%3D%28Any%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%21%3D%28Any%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#isInstanceOf" target="_self">isInstanceOf</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#asInstanceOf" target="_self">asInstanceOf</a>
+        </td></tr>
+      </table>
+
+
+      <table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Additional Constructor Details</td></tr>
+        </table><div><a name="this%28String%2CString%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>this</em>(<em>email</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>valueString</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../../com/google/gdata/data/kinds/Who.html" target="_self">Who</a>[<a href="../../../../../com/google/gdata/data/kinds/Who.html#ContactEntry" target="_self">ContactEntry</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Convenience constructor for a person with an email and a string representation 
+   of its relation.</dd></dl>
+      <dl></dl>
+    <hr></hr></div>
+
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Value Details</td></tr>
+        </table><div><a name="email"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>email</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Email address. This property is typically used when entryLink is not specified.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="rel"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>rel</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>The relationship between the containing entity and the contained person.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="valueString"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>valueString</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>A simple string value that can be used as a representation of this person.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="attendeeStatus"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>attendeeStatus</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>The attendee status.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="attendeeType"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>attendeeType</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Type of attendee.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="entryLink"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>entryLink</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../../com/google/gdata/data/kinds/EntryLink.html" target="_self">EntryLink</a>[<a href="../../../../../com/google/gdata/data/kinds/Who.html#ContactEntry" target="_self">ContactEntry</a>]]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Entry representing contact details.</dd></dl>
+      <dl></dl>
+    <hr></hr></div>
+
+
+
+    <hr></hr>
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">GData Scala Client Library Documentation</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+      </body>
+      </html>

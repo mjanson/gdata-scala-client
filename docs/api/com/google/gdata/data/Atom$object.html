@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+        <head><title>object Atom in com.google.gdata.data</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.1.RC1)" name="generator"></meta><link href="../../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../../script.js"></script>
+        </head>
+        <body onload="init()">
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">GData Scala Client Library Documentation</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+        
+      <div class="entity">
+        <a href="../../../../com/google/gdata/data$package.html" target="_self">com.google.gdata.data</a>
+        <br></br>
+        <span class="entity">object  Atom</span>
+      </div><hr></hr>
+      <div class="source">
+        [source: <a href="" class="com/google/gdata/data/Atom"><code>com/google/gdata/data/Atom.scala</code></a>]
+      </div><hr></hr>
+      <a name="Atom"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>object</code>
+        <em>Atom</em>
+      </dt>
+      <dd><code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a></dd>
+    </dl>
+      <dl><dd>This object defines common Atom constructs. 
+ See @link http://atomenabled.org/developers/syndication/atom-format-spec.php</dd></dl>
+      <dl></dl>
+    
+      
+
+
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Method Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/Atom$object.html#atomDate%28String%29" target="_self">atomDate</a></em>
+        (<em>elemName</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>]
+        
+        <div>Return a pickler for a date time in Atom format (RFC 3339). Atom common
+   attributes (xml:base and xml:lang) are ignored.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/Atom$object.html#atomPerson%28String%29" target="_self">atomPerson</a></em>
+        (<em>elemName</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../../com/google/gdata/data/Person.html" target="_self">Person</a>]
+        
+        <div>Return a pickler for an element that is a person construct.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/Atom$object.html#atomText%28String%29" target="_self">atomText</a></em>
+        (<em>elemName</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../../com/google/gdata/data/Text.html" target="_self">Text</a>]
+        
+        <div>Return a pickler for an element that is a text construct.</div>
+      </td>
+    </tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#getClass%28%29" target="_self">getClass</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#hashCode%28%29" target="_self">hashCode</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#equals%28Any%29" target="_self">equals</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#clone%28%29" target="_self">clone</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#toString%28%29" target="_self">toString</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notify%28%29" target="_self">notify</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notifyAll%28%29" target="_self">notifyAll</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%2CInt%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#finalize%28%29" target="_self">finalize</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%3D%3D%28AnyRef%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%21%3D%28AnyRef%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#eq%28AnyRef%29" target="_self">eq</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#ne%28AnyRef%29" target="_self">ne</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#synchronized%28T0%29" target="_self">synchronized</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%3D%3D%28Any%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%21%3D%28Any%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#isInstanceOf" target="_self">isInstanceOf</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#asInstanceOf" target="_self">asInstanceOf</a>
+        </td></tr>
+      </table>
+
+
+      
+
+
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Method Details</td></tr>
+        </table><div><a name="atomText%28String%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>atomText</em>(<em>elemName</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../../com/google/gdata/data/Text.html" target="_self">Text</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Return a pickler for an element that is a text construct.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="atomPerson%28String%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>atomPerson</em>(<em>elemName</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../../com/google/gdata/data/Person.html" target="_self">Person</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Return a pickler for an element that is a person construct.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="atomDate%28String%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>atomDate</em>(<em>elemName</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Return a pickler for a date time in Atom format (RFC 3339). Atom common
+   attributes (xml:base and xml:lang) are ignored.</dd></dl>
+      <dl></dl>
+    <hr></hr></div>
+
+
+    <hr></hr>
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">GData Scala Client Library Documentation</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+      </body>
+      </html>

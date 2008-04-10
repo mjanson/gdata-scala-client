@@ -1,0 +1,498 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+        <head><title>trait TupleToPairFunctions in com.google.xml.combinators</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.1.RC1)" name="generator"></meta><link href="../../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../../script.js"></script>
+        </head>
+        <body onload="init()">
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">GData Scala Client Library Documentation</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+        
+      <div class="entity">
+        <a href="../../../../com/google/xml/combinators$package.html" target="_self">com.google.xml.combinators</a>
+        <br></br>
+        <span class="entity">trait  TupleToPairFunctions</span>
+      </div><hr></hr>
+      <div class="source">
+        [source: <a href="" class="com/google/xml/combinators/TupleToPairFunctions"><code>com/google/xml/combinators/TupleToPairFunctions.scala</code></a>]
+      </div><hr></hr>
+      <a name="TupleToPairFunctions"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>trait</code>
+        <em>TupleToPairFunctions</em>
+      </dt>
+      <dd><code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a></dd>
+    </dl>
+      <dl><dd>Mix in this trait to get implicit conversions between functions of arity 2-7 and 
+ functions that take nested instances of '~' pairs.
+ 
+ This is particularly useful when pickling case classes. Complier generated functions for
+ apply and unapply are then implicitly converted to functions that take '~' instances.
+ 
+ Example:
+ <code>
+ case class Foo(x: Int, y: String)
+ 
+ wrap (elem("x", intVal) ~ elem("y", text)) Foo.apply Foo.unapply</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Author</b></dt><dd>Iulian Dragos</dd></dl>
+    <dl>
+      <dt style="margin:10px 0 0 20px;"><b>Direct Known Subclasses:</b></dt>
+      <dd><a href="../../../../com/google/xml/combinators/Picklers$object.html" target="_self">Picklers</a></dd>
+      </dl><hr></hr>
+      
+
+
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Method Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code>implicit def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun2ToPair%28%28A%2CB%29%3D%3EC%29" target="_self">fun2ToPair</a></em>
+        [<em>A</em>, <em>B</em>, <em>C</em>](<em>fun</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun2ToPair%28%28A%2CB%29%3D%3EC%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun2ToPair%28%28A%2CB%29%3D%3EC%29#B" target="_self">B</a>) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun2ToPair%28%28A%2CB%29%3D%3EC%29#C" target="_self">C</a>) : (<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun2ToPair%28%28A%2CB%29%3D%3EC%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun2ToPair%28%28A%2CB%29%3D%3EC%29#B" target="_self">B</a>]) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun2ToPair%28%28A%2CB%29%3D%3EC%29#C" target="_self">C</a>
+        
+        <div>Convert a binary function to a function of a pair.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>implicit def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairL%28%28A%2CB%2CC%29%3D%3ED%29" target="_self">fun3ToPpairL</a></em>
+        [<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>](<em>fun</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairL%28%28A%2CB%2CC%29%3D%3ED%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairL%28%28A%2CB%2CC%29%3D%3ED%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairL%28%28A%2CB%2CC%29%3D%3ED%29#C" target="_self">C</a>) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairL%28%28A%2CB%2CC%29%3D%3ED%29#D" target="_self">D</a>) : (<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairL%28%28A%2CB%2CC%29%3D%3ED%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairL%28%28A%2CB%2CC%29%3D%3ED%29#B" target="_self">B</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairL%28%28A%2CB%2CC%29%3D%3ED%29#C" target="_self">C</a>]) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairL%28%28A%2CB%2CC%29%3D%3ED%29#D" target="_self">D</a>
+        
+        <div>Convert a function of 3 arguments to one that takes a pair of a pair.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>implicit def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairR%28%28A%2CB%2CC%29%3D%3ED%29" target="_self">fun3ToPpairR</a></em>
+        [<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>](<em>f</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairR%28%28A%2CB%2CC%29%3D%3ED%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairR%28%28A%2CB%2CC%29%3D%3ED%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairR%28%28A%2CB%2CC%29%3D%3ED%29#C" target="_self">C</a>) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairR%28%28A%2CB%2CC%29%3D%3ED%29#D" target="_self">D</a>) : (<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairR%28%28A%2CB%2CC%29%3D%3ED%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairR%28%28A%2CB%2CC%29%3D%3ED%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairR%28%28A%2CB%2CC%29%3D%3ED%29#C" target="_self">C</a>]]) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairR%28%28A%2CB%2CC%29%3D%3ED%29#D" target="_self">D</a>
+        
+        <div>Convert a function of 3 arguments to one that takes a pair of a pair, 
+   right associative.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>implicit def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun4ToPpairL%28%28A%2CB%2CC%2CD%29%3D%3EE%29" target="_self">fun4ToPpairL</a></em>
+        [<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>, <em>E</em>](<em>fun</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun4ToPpairL%28%28A%2CB%2CC%2CD%29%3D%3EE%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun4ToPpairL%28%28A%2CB%2CC%2CD%29%3D%3EE%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun4ToPpairL%28%28A%2CB%2CC%2CD%29%3D%3EE%29#C" target="_self">C</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun4ToPpairL%28%28A%2CB%2CC%2CD%29%3D%3EE%29#D" target="_self">D</a>) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun4ToPpairL%28%28A%2CB%2CC%2CD%29%3D%3EE%29#E" target="_self">E</a>) : (<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun4ToPpairL%28%28A%2CB%2CC%2CD%29%3D%3EE%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun4ToPpairL%28%28A%2CB%2CC%2CD%29%3D%3EE%29#B" target="_self">B</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun4ToPpairL%28%28A%2CB%2CC%2CD%29%3D%3EE%29#C" target="_self">C</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun4ToPpairL%28%28A%2CB%2CC%2CD%29%3D%3EE%29#D" target="_self">D</a>]) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun4ToPpairL%28%28A%2CB%2CC%2CD%29%3D%3EE%29#E" target="_self">E</a>
+        
+        <div>Convert a function of 4 arguments to one that takes a pair of a pair.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>implicit def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29" target="_self">fun5ToPpairL</a></em>
+        [<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>, <em>E</em>, <em>F</em>](<em>fun</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29#C" target="_self">C</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29#D" target="_self">D</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29#E" target="_self">E</a>) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29#F" target="_self">F</a>) : (<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29#B" target="_self">B</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29#C" target="_self">C</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29#D" target="_self">D</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29#E" target="_self">E</a>]) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29#F" target="_self">F</a>
+        
+        <div>Convert a function of 4 arguments to one that takes a pair of a pair.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>implicit def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29" target="_self">fun6ToPpairL</a></em>
+        [<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>, <em>E</em>, <em>F</em>, <em>G</em>](<em>fun</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#C" target="_self">C</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#D" target="_self">D</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#E" target="_self">E</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#F" target="_self">F</a>) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#G" target="_self">G</a>) : (<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#B" target="_self">B</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#C" target="_self">C</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#D" target="_self">D</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#E" target="_self">E</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#F" target="_self">F</a>]) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#G" target="_self">G</a>
+        
+        <div>Convert a function of 4 arguments to one that takes a pair of a pair.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>implicit def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29" target="_self">fun7ToPpairL</a></em>
+        [<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>, <em>E</em>, <em>F</em>, <em>G</em>, <em>H</em>](<em>fun</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#C" target="_self">C</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#D" target="_self">D</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#E" target="_self">E</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#F" target="_self">F</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#G" target="_self">G</a>) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#H" target="_self">H</a>) : (<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#B" target="_self">B</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#C" target="_self">C</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#D" target="_self">D</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#E" target="_self">E</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#F" target="_self">F</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#G" target="_self">G</a>]) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#H" target="_self">H</a>
+        
+        <div>Convert a function of 4 arguments to one that takes a pair of a pair.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>implicit def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPair%28%28A%29%3D%3E%28B%2CC%29%29" target="_self">funTuple2ToPair</a></em>
+        [<em>A</em>, <em>B</em>, <em>C</em>](<em>f</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPair%28%28A%29%3D%3E%28B%2CC%29%29#A" target="_self">A</a>) =&gt; (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPair%28%28A%29%3D%3E%28B%2CC%29%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPair%28%28A%29%3D%3E%28B%2CC%29%29#C" target="_self">C</a>)) : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPair%28%28A%29%3D%3E%28B%2CC%29%29#A" target="_self">A</a>) =&gt; <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPair%28%28A%29%3D%3E%28B%2CC%29%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPair%28%28A%29%3D%3E%28B%2CC%29%29#C" target="_self">C</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>implicit def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%29%5D%29" target="_self">funTuple2ToPairUnapply</a></em>
+        [<em>A</em>, <em>B</em>, <em>C</em>](<em>f</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%29%5D%29#A" target="_self">A</a>) =&gt; <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[(<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%29%5D%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%29%5D%29#C" target="_self">C</a>)]) : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%29%5D%29#A" target="_self">A</a>) =&gt; <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%29%5D%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%29%5D%29#C" target="_self">C</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>implicit def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPair%28%28A%29%3D%3E%28B%2CC%2CD%29%29" target="_self">funTuple3ToPair</a></em>
+        [<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>](<em>f</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPair%28%28A%29%3D%3E%28B%2CC%2CD%29%29#A" target="_self">A</a>) =&gt; (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPair%28%28A%29%3D%3E%28B%2CC%2CD%29%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPair%28%28A%29%3D%3E%28B%2CC%2CD%29%29#C" target="_self">C</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPair%28%28A%29%3D%3E%28B%2CC%2CD%29%29#D" target="_self">D</a>)) : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPair%28%28A%29%3D%3E%28B%2CC%2CD%29%29#A" target="_self">A</a>) =&gt; <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPair%28%28A%29%3D%3E%28B%2CC%2CD%29%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPair%28%28A%29%3D%3E%28B%2CC%2CD%29%29#C" target="_self">C</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPair%28%28A%29%3D%3E%28B%2CC%2CD%29%29#D" target="_self">D</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>implicit def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%29%5D%29" target="_self">funTuple3ToPairUnapply</a></em>
+        [<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>](<em>f</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%29%5D%29#A" target="_self">A</a>) =&gt; <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[(<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%29%5D%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%29%5D%29#C" target="_self">C</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%29%5D%29#D" target="_self">D</a>)]) : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%29%5D%29#A" target="_self">A</a>) =&gt; <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%29%5D%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%29%5D%29#C" target="_self">C</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%29%5D%29#D" target="_self">D</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>implicit def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%29%29" target="_self">funTuple4ToPair</a></em>
+        [<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>, <em>E</em>](<em>f</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%29%29#A" target="_self">A</a>) =&gt; (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%29%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%29%29#C" target="_self">C</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%29%29#D" target="_self">D</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%29%29#E" target="_self">E</a>)) : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%29%29#A" target="_self">A</a>) =&gt; <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%29%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%29%29#C" target="_self">C</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%29%29#D" target="_self">D</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%29%29#E" target="_self">E</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>implicit def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%29%5D%29" target="_self">funTuple4ToPairUnapply</a></em>
+        [<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>, <em>E</em>](<em>f</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%29%5D%29#A" target="_self">A</a>) =&gt; <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[(<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%29%5D%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%29%5D%29#C" target="_self">C</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%29%5D%29#D" target="_self">D</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%29%5D%29#E" target="_self">E</a>)]) : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%29%5D%29#A" target="_self">A</a>) =&gt; <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%29%5D%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%29%5D%29#C" target="_self">C</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%29%5D%29#D" target="_self">D</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%29%5D%29#E" target="_self">E</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>implicit def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29" target="_self">funTuple5ToPair</a></em>
+        [<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>, <em>E</em>, <em>F</em>](<em>f</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29#A" target="_self">A</a>) =&gt; (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29#C" target="_self">C</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29#D" target="_self">D</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29#E" target="_self">E</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29#F" target="_self">F</a>)) : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29#A" target="_self">A</a>) =&gt; <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29#C" target="_self">C</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29#D" target="_self">D</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29#E" target="_self">E</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29#F" target="_self">F</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>implicit def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29" target="_self">funTuple5ToPairUnapply</a></em>
+        [<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>, <em>E</em>, <em>F</em>](<em>f</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29#A" target="_self">A</a>) =&gt; <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[(<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29#C" target="_self">C</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29#D" target="_self">D</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29#E" target="_self">E</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29#F" target="_self">F</a>)]) : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29#A" target="_self">A</a>) =&gt; <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29#C" target="_self">C</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29#D" target="_self">D</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29#E" target="_self">E</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29#F" target="_self">F</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple2Pair%28%28A%2CB%29%29" target="_self">tuple2Pair</a></em>
+        [<em>A</em>, <em>B</em>](<em>p</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple2Pair%28%28A%2CB%29%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple2Pair%28%28A%2CB%29%29#B" target="_self">B</a>)) : <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple2Pair%28%28A%2CB%29%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple2Pair%28%28A%2CB%29%29#B" target="_self">B</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple3Pair%28%28A%2CB%2CC%29%29" target="_self">tuple3Pair</a></em>
+        [<em>A</em>, <em>B</em>, <em>C</em>](<em>p</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple3Pair%28%28A%2CB%2CC%29%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple3Pair%28%28A%2CB%2CC%29%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple3Pair%28%28A%2CB%2CC%29%29#C" target="_self">C</a>)) : <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple3Pair%28%28A%2CB%2CC%29%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple3Pair%28%28A%2CB%2CC%29%29#B" target="_self">B</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple3Pair%28%28A%2CB%2CC%29%29#C" target="_self">C</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple4Pair%28%28A%2CB%2CC%2CD%29%29" target="_self">tuple4Pair</a></em>
+        [<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>](<em>p</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple4Pair%28%28A%2CB%2CC%2CD%29%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple4Pair%28%28A%2CB%2CC%2CD%29%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple4Pair%28%28A%2CB%2CC%2CD%29%29#C" target="_self">C</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple4Pair%28%28A%2CB%2CC%2CD%29%29#D" target="_self">D</a>)) : <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple4Pair%28%28A%2CB%2CC%2CD%29%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple4Pair%28%28A%2CB%2CC%2CD%29%29#B" target="_self">B</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple4Pair%28%28A%2CB%2CC%2CD%29%29#C" target="_self">C</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple4Pair%28%28A%2CB%2CC%2CD%29%29#D" target="_self">D</a>]
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple5Pair%28%28A%2CB%2CC%2CD%2CE%29%29" target="_self">tuple5Pair</a></em>
+        [<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>, <em>E</em>](<em>p</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple5Pair%28%28A%2CB%2CC%2CD%2CE%29%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple5Pair%28%28A%2CB%2CC%2CD%2CE%29%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple5Pair%28%28A%2CB%2CC%2CD%2CE%29%29#C" target="_self">C</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple5Pair%28%28A%2CB%2CC%2CD%2CE%29%29#D" target="_self">D</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple5Pair%28%28A%2CB%2CC%2CD%2CE%29%29#E" target="_self">E</a>)) : <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple5Pair%28%28A%2CB%2CC%2CD%2CE%29%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple5Pair%28%28A%2CB%2CC%2CD%2CE%29%29#B" target="_self">B</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple5Pair%28%28A%2CB%2CC%2CD%2CE%29%29#C" target="_self">C</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple5Pair%28%28A%2CB%2CC%2CD%2CE%29%29#D" target="_self">D</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple5Pair%28%28A%2CB%2CC%2CD%2CE%29%29#E" target="_self">E</a>]
+        
+        
+      </td>
+    </tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#getClass%28%29" target="_self">getClass</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#hashCode%28%29" target="_self">hashCode</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#equals%28Any%29" target="_self">equals</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#clone%28%29" target="_self">clone</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#toString%28%29" target="_self">toString</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notify%28%29" target="_self">notify</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notifyAll%28%29" target="_self">notifyAll</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%2CInt%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#finalize%28%29" target="_self">finalize</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%3D%3D%28AnyRef%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%21%3D%28AnyRef%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#eq%28AnyRef%29" target="_self">eq</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#ne%28AnyRef%29" target="_self">ne</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#synchronized%28T0%29" target="_self">synchronized</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%3D%3D%28Any%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%21%3D%28Any%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#isInstanceOf" target="_self">isInstanceOf</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#asInstanceOf" target="_self">asInstanceOf</a>
+        </td></tr>
+      </table>
+
+
+      
+
+
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Method Details</td></tr>
+        </table><div><a name="fun2ToPair%28%28A%2CB%29%3D%3EC%29"></a><dl>
+      <dt>
+        
+        <code>implicit</code>
+        <code>def</code>
+        <em>fun2ToPair</em>[<em>A</em>, <em>B</em>, <em>C</em>](<em>fun</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun2ToPair%28%28A%2CB%29%3D%3EC%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun2ToPair%28%28A%2CB%29%3D%3EC%29#B" target="_self">B</a>) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun2ToPair%28%28A%2CB%29%3D%3EC%29#C" target="_self">C</a>) : (<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun2ToPair%28%28A%2CB%29%3D%3EC%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun2ToPair%28%28A%2CB%29%3D%3EC%29#B" target="_self">B</a>]) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun2ToPair%28%28A%2CB%29%3D%3EC%29#C" target="_self">C</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Convert a binary function to a function of a pair.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="fun3ToPpairL%28%28A%2CB%2CC%29%3D%3ED%29"></a><dl>
+      <dt>
+        
+        <code>implicit</code>
+        <code>def</code>
+        <em>fun3ToPpairL</em>[<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>](<em>fun</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairL%28%28A%2CB%2CC%29%3D%3ED%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairL%28%28A%2CB%2CC%29%3D%3ED%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairL%28%28A%2CB%2CC%29%3D%3ED%29#C" target="_self">C</a>) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairL%28%28A%2CB%2CC%29%3D%3ED%29#D" target="_self">D</a>) : (<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairL%28%28A%2CB%2CC%29%3D%3ED%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairL%28%28A%2CB%2CC%29%3D%3ED%29#B" target="_self">B</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairL%28%28A%2CB%2CC%29%3D%3ED%29#C" target="_self">C</a>]) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairL%28%28A%2CB%2CC%29%3D%3ED%29#D" target="_self">D</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Convert a function of 3 arguments to one that takes a pair of a pair.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="fun4ToPpairL%28%28A%2CB%2CC%2CD%29%3D%3EE%29"></a><dl>
+      <dt>
+        
+        <code>implicit</code>
+        <code>def</code>
+        <em>fun4ToPpairL</em>[<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>, <em>E</em>](<em>fun</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun4ToPpairL%28%28A%2CB%2CC%2CD%29%3D%3EE%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun4ToPpairL%28%28A%2CB%2CC%2CD%29%3D%3EE%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun4ToPpairL%28%28A%2CB%2CC%2CD%29%3D%3EE%29#C" target="_self">C</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun4ToPpairL%28%28A%2CB%2CC%2CD%29%3D%3EE%29#D" target="_self">D</a>) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun4ToPpairL%28%28A%2CB%2CC%2CD%29%3D%3EE%29#E" target="_self">E</a>) : (<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun4ToPpairL%28%28A%2CB%2CC%2CD%29%3D%3EE%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun4ToPpairL%28%28A%2CB%2CC%2CD%29%3D%3EE%29#B" target="_self">B</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun4ToPpairL%28%28A%2CB%2CC%2CD%29%3D%3EE%29#C" target="_self">C</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun4ToPpairL%28%28A%2CB%2CC%2CD%29%3D%3EE%29#D" target="_self">D</a>]) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun4ToPpairL%28%28A%2CB%2CC%2CD%29%3D%3EE%29#E" target="_self">E</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Convert a function of 4 arguments to one that takes a pair of a pair.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29"></a><dl>
+      <dt>
+        
+        <code>implicit</code>
+        <code>def</code>
+        <em>fun5ToPpairL</em>[<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>, <em>E</em>, <em>F</em>](<em>fun</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29#C" target="_self">C</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29#D" target="_self">D</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29#E" target="_self">E</a>) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29#F" target="_self">F</a>) : (<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29#B" target="_self">B</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29#C" target="_self">C</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29#D" target="_self">D</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29#E" target="_self">E</a>]) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun5ToPpairL%28%28A%2CB%2CC%2CD%2CE%29%3D%3EF%29#F" target="_self">F</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Convert a function of 4 arguments to one that takes a pair of a pair.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29"></a><dl>
+      <dt>
+        
+        <code>implicit</code>
+        <code>def</code>
+        <em>fun6ToPpairL</em>[<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>, <em>E</em>, <em>F</em>, <em>G</em>](<em>fun</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#C" target="_self">C</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#D" target="_self">D</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#E" target="_self">E</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#F" target="_self">F</a>) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#G" target="_self">G</a>) : (<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#B" target="_self">B</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#C" target="_self">C</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#D" target="_self">D</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#E" target="_self">E</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#F" target="_self">F</a>]) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun6ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%29%3D%3EG%29#G" target="_self">G</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Convert a function of 4 arguments to one that takes a pair of a pair.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29"></a><dl>
+      <dt>
+        
+        <code>implicit</code>
+        <code>def</code>
+        <em>fun7ToPpairL</em>[<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>, <em>E</em>, <em>F</em>, <em>G</em>, <em>H</em>](<em>fun</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#C" target="_self">C</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#D" target="_self">D</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#E" target="_self">E</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#F" target="_self">F</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#G" target="_self">G</a>) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#H" target="_self">H</a>) : (<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#B" target="_self">B</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#C" target="_self">C</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#D" target="_self">D</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#E" target="_self">E</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#F" target="_self">F</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#G" target="_self">G</a>]) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun7ToPpairL%28%28A%2CB%2CC%2CD%2CE%2CF%2CG%29%3D%3EH%29#H" target="_self">H</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Convert a function of 4 arguments to one that takes a pair of a pair.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="fun3ToPpairR%28%28A%2CB%2CC%29%3D%3ED%29"></a><dl>
+      <dt>
+        
+        <code>implicit</code>
+        <code>def</code>
+        <em>fun3ToPpairR</em>[<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>](<em>f</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairR%28%28A%2CB%2CC%29%3D%3ED%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairR%28%28A%2CB%2CC%29%3D%3ED%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairR%28%28A%2CB%2CC%29%3D%3ED%29#C" target="_self">C</a>) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairR%28%28A%2CB%2CC%29%3D%3ED%29#D" target="_self">D</a>) : (<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairR%28%28A%2CB%2CC%29%3D%3ED%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairR%28%28A%2CB%2CC%29%3D%3ED%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairR%28%28A%2CB%2CC%29%3D%3ED%29#C" target="_self">C</a>]]) =&gt; <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#fun3ToPpairR%28%28A%2CB%2CC%29%3D%3ED%29#D" target="_self">D</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Convert a function of 3 arguments to one that takes a pair of a pair, 
+   right associative.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="funTuple2ToPair%28%28A%29%3D%3E%28B%2CC%29%29"></a><dl>
+      <dt>
+        
+        <code>implicit</code>
+        <code>def</code>
+        <em>funTuple2ToPair</em>[<em>A</em>, <em>B</em>, <em>C</em>](<em>f</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPair%28%28A%29%3D%3E%28B%2CC%29%29#A" target="_self">A</a>) =&gt; (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPair%28%28A%29%3D%3E%28B%2CC%29%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPair%28%28A%29%3D%3E%28B%2CC%29%29#C" target="_self">C</a>)) : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPair%28%28A%29%3D%3E%28B%2CC%29%29#A" target="_self">A</a>) =&gt; <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPair%28%28A%29%3D%3E%28B%2CC%29%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPair%28%28A%29%3D%3E%28B%2CC%29%29#C" target="_self">C</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="funTuple3ToPair%28%28A%29%3D%3E%28B%2CC%2CD%29%29"></a><dl>
+      <dt>
+        
+        <code>implicit</code>
+        <code>def</code>
+        <em>funTuple3ToPair</em>[<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>](<em>f</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPair%28%28A%29%3D%3E%28B%2CC%2CD%29%29#A" target="_self">A</a>) =&gt; (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPair%28%28A%29%3D%3E%28B%2CC%2CD%29%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPair%28%28A%29%3D%3E%28B%2CC%2CD%29%29#C" target="_self">C</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPair%28%28A%29%3D%3E%28B%2CC%2CD%29%29#D" target="_self">D</a>)) : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPair%28%28A%29%3D%3E%28B%2CC%2CD%29%29#A" target="_self">A</a>) =&gt; <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPair%28%28A%29%3D%3E%28B%2CC%2CD%29%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPair%28%28A%29%3D%3E%28B%2CC%2CD%29%29#C" target="_self">C</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPair%28%28A%29%3D%3E%28B%2CC%2CD%29%29#D" target="_self">D</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="funTuple4ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%29%29"></a><dl>
+      <dt>
+        
+        <code>implicit</code>
+        <code>def</code>
+        <em>funTuple4ToPair</em>[<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>, <em>E</em>](<em>f</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%29%29#A" target="_self">A</a>) =&gt; (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%29%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%29%29#C" target="_self">C</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%29%29#D" target="_self">D</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%29%29#E" target="_self">E</a>)) : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%29%29#A" target="_self">A</a>) =&gt; <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%29%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%29%29#C" target="_self">C</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%29%29#D" target="_self">D</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%29%29#E" target="_self">E</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29"></a><dl>
+      <dt>
+        
+        <code>implicit</code>
+        <code>def</code>
+        <em>funTuple5ToPair</em>[<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>, <em>E</em>, <em>F</em>](<em>f</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29#A" target="_self">A</a>) =&gt; (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29#C" target="_self">C</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29#D" target="_self">D</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29#E" target="_self">E</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29#F" target="_self">F</a>)) : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29#A" target="_self">A</a>) =&gt; <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29#C" target="_self">C</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29#D" target="_self">D</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29#E" target="_self">E</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPair%28%28A%29%3D%3E%28B%2CC%2CD%2CE%2CF%29%29#F" target="_self">F</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="funTuple2ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%29%5D%29"></a><dl>
+      <dt>
+        
+        <code>implicit</code>
+        <code>def</code>
+        <em>funTuple2ToPairUnapply</em>[<em>A</em>, <em>B</em>, <em>C</em>](<em>f</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%29%5D%29#A" target="_self">A</a>) =&gt; <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[(<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%29%5D%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%29%5D%29#C" target="_self">C</a>)]) : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%29%5D%29#A" target="_self">A</a>) =&gt; <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%29%5D%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple2ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%29%5D%29#C" target="_self">C</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="funTuple3ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%29%5D%29"></a><dl>
+      <dt>
+        
+        <code>implicit</code>
+        <code>def</code>
+        <em>funTuple3ToPairUnapply</em>[<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>](<em>f</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%29%5D%29#A" target="_self">A</a>) =&gt; <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[(<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%29%5D%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%29%5D%29#C" target="_self">C</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%29%5D%29#D" target="_self">D</a>)]) : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%29%5D%29#A" target="_self">A</a>) =&gt; <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%29%5D%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%29%5D%29#C" target="_self">C</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple3ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%29%5D%29#D" target="_self">D</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="funTuple4ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%29%5D%29"></a><dl>
+      <dt>
+        
+        <code>implicit</code>
+        <code>def</code>
+        <em>funTuple4ToPairUnapply</em>[<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>, <em>E</em>](<em>f</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%29%5D%29#A" target="_self">A</a>) =&gt; <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[(<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%29%5D%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%29%5D%29#C" target="_self">C</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%29%5D%29#D" target="_self">D</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%29%5D%29#E" target="_self">E</a>)]) : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%29%5D%29#A" target="_self">A</a>) =&gt; <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%29%5D%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%29%5D%29#C" target="_self">C</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%29%5D%29#D" target="_self">D</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple4ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%29%5D%29#E" target="_self">E</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29"></a><dl>
+      <dt>
+        
+        <code>implicit</code>
+        <code>def</code>
+        <em>funTuple5ToPairUnapply</em>[<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>, <em>E</em>, <em>F</em>](<em>f</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29#A" target="_self">A</a>) =&gt; <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[(<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29#C" target="_self">C</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29#D" target="_self">D</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29#E" target="_self">E</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29#F" target="_self">F</a>)]) : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29#A" target="_self">A</a>) =&gt; <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29#C" target="_self">C</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29#D" target="_self">D</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29#E" target="_self">E</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#funTuple5ToPairUnapply%28%28A%29%3D%3EOption%5B%28B%2CC%2CD%2CE%2CF%29%5D%29#F" target="_self">F</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="tuple2Pair%28%28A%2CB%29%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>tuple2Pair</em>[<em>A</em>, <em>B</em>](<em>p</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple2Pair%28%28A%2CB%29%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple2Pair%28%28A%2CB%29%29#B" target="_self">B</a>)) : <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple2Pair%28%28A%2CB%29%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple2Pair%28%28A%2CB%29%29#B" target="_self">B</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="tuple3Pair%28%28A%2CB%2CC%29%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>tuple3Pair</em>[<em>A</em>, <em>B</em>, <em>C</em>](<em>p</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple3Pair%28%28A%2CB%2CC%29%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple3Pair%28%28A%2CB%2CC%29%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple3Pair%28%28A%2CB%2CC%29%29#C" target="_self">C</a>)) : <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple3Pair%28%28A%2CB%2CC%29%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple3Pair%28%28A%2CB%2CC%29%29#B" target="_self">B</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple3Pair%28%28A%2CB%2CC%29%29#C" target="_self">C</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="tuple4Pair%28%28A%2CB%2CC%2CD%29%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>tuple4Pair</em>[<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>](<em>p</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple4Pair%28%28A%2CB%2CC%2CD%29%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple4Pair%28%28A%2CB%2CC%2CD%29%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple4Pair%28%28A%2CB%2CC%2CD%29%29#C" target="_self">C</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple4Pair%28%28A%2CB%2CC%2CD%29%29#D" target="_self">D</a>)) : <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple4Pair%28%28A%2CB%2CC%2CD%29%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple4Pair%28%28A%2CB%2CC%2CD%29%29#B" target="_self">B</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple4Pair%28%28A%2CB%2CC%2CD%29%29#C" target="_self">C</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple4Pair%28%28A%2CB%2CC%2CD%29%29#D" target="_self">D</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="tuple5Pair%28%28A%2CB%2CC%2CD%2CE%29%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>tuple5Pair</em>[<em>A</em>, <em>B</em>, <em>C</em>, <em>D</em>, <em>E</em>](<em>p</em> : (<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple5Pair%28%28A%2CB%2CC%2CD%2CE%29%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple5Pair%28%28A%2CB%2CC%2CD%2CE%29%29#B" target="_self">B</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple5Pair%28%28A%2CB%2CC%2CD%2CE%29%29#C" target="_self">C</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple5Pair%28%28A%2CB%2CC%2CD%2CE%29%29#D" target="_self">D</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple5Pair%28%28A%2CB%2CC%2CD%2CE%29%29#E" target="_self">E</a>)) : <a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/$tilde.html" target="_self">~</a>[<a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple5Pair%28%28A%2CB%2CC%2CD%2CE%29%29#A" target="_self">A</a>, <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple5Pair%28%28A%2CB%2CC%2CD%2CE%29%29#B" target="_self">B</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple5Pair%28%28A%2CB%2CC%2CD%2CE%29%29#C" target="_self">C</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple5Pair%28%28A%2CB%2CC%2CD%2CE%29%29#D" target="_self">D</a>], <a href="../../../../com/google/xml/combinators/TupleToPairFunctions.html#tuple5Pair%28%28A%2CB%2CC%2CD%2CE%29%29#E" target="_self">E</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr></div>
+
+
+    <hr></hr>
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">GData Scala Client Library Documentation</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+      </body>
+      </html>

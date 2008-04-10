@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+        <head><title>class StdUserPlaylistsFeed in com.google.gdata.youtube</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.1.RC1)" name="generator"></meta><link href="../../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../../script.js"></script>
+        </head>
+        <body onload="init()">
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">GData Scala Client Library Documentation</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+        
+      <div class="entity">
+        <a href="../../../../com/google/gdata/youtube$package.html" target="_self">com.google.gdata.youtube</a>
+        <br></br>
+        <span class="entity">class  StdUserPlaylistsFeed</span>
+      </div><hr></hr>
+      <div class="source">
+        [source: <a href="" class="com/google/gdata/youtube/StdUserPlaylistsFeed"><code>com/google/gdata/youtube/StdUserPlaylistsFeed.scala</code></a>]
+      </div><hr></hr>
+      <a name="StdUserPlaylistsFeed"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>class</code>
+        <em>StdUserPlaylistsFeed</em>
+      </dt>
+      <dd><code> extends </code><a href="../../../../com/google/gdata/youtube/UserPlaylistsFeed.html" target="_self">UserPlaylistsFeed</a><code> with </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a></dd>
+    </dl>
+      <dl><dd>A concrete, standard user playlists feed. Entries are links to a video feed for
+ the given playlist.</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Author</b></dt><dd>Iulian Dragos</dd></dl>
+    
+      
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Type Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code> type</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/StdUserPlaylistsFeed.html#Entry" target="_self">Entry</a></em>
+        
+        
+        <div>The abstract type for entries.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> type</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/StdUserPlaylistsFeed.html#Feed" target="_self">Feed</a></em>
+        
+        
+        
+      </td>
+    </tr>
+      </table>
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Value Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code> val</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/StdUserPlaylistsFeed.html#playlistFeed" target="_self">playlistFeed</a></em>
+         : <a href="../../../../com/google/gdata/youtube/StdVideoFeed.html" target="_self">StdVideoFeed</a>
+        
+        <div>The video feed for a playlist entry.</div>
+      </td>
+    </tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Values and Variables inherited from <a href="../../../../com/google/gdata/data/AtomEntries.html" target="_self">AtomEntries</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="../../../../com/google/gdata/data/AtomEntries.html#atomEntryContentsPickler" target="_self">atomEntryContentsPickler</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Values and Variables inherited from <a href="../../../../com/google/gdata/data/AtomFeeds.html" target="_self">AtomFeeds</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="../../../../com/google/gdata/data/AtomFeeds.html#atomFeedContents" target="_self">atomFeedContents</a>, <a href="../../../../com/google/gdata/data/AtomFeeds.html#atomFeedContentsPickler" target="_self">atomFeedContentsPickler</a>
+        </td></tr>
+      </table>
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Method Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/StdUserPlaylistsFeed.html#entryContentsPickler" target="_self">entryContentsPickler</a></em>
+         : <a href="../../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../../com/google/gdata/youtube/PlaylistEntries.PlaylistEntry.html" target="_self">PlaylistEntry</a>]
+        
+        <div>An abstract pickler for entries. Subclasses need to implement this.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/StdUserPlaylistsFeed.html#feedContentsPickler" target="_self">feedContentsPickler</a></em>
+         : <a href="../../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>]
+        
+        <div>An abstract pickler for feed contents. Subclasses need to implement this method.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/StdUserPlaylistsFeed.html#playlistFeedPickler" target="_self">playlistFeedPickler</a></em>
+         : <a href="../../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>]
+        
+        <div>An abstract pickler for the PlaylistFeed type. @see PlaylistFeed.</div>
+      </td>
+    </tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="../../../../com/google/gdata/youtube/PlaylistEntries.html" target="_self">PlaylistEntries</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="../../../../com/google/gdata/youtube/PlaylistEntries.html#playlistEntryContentsPickler" target="_self">playlistEntryContentsPickler</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="../../../../com/google/gdata/data/Entries.html" target="_self">Entries</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="../../../../com/google/gdata/data/Entries.html#entryPickler" target="_self">entryPickler</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="../../../../com/google/gdata/data/Feeds.html" target="_self">Feeds</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="../../../../com/google/gdata/data/Feeds.html#feedPickler" target="_self">feedPickler</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#getClass%28%29" target="_self">getClass</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#hashCode%28%29" target="_self">hashCode</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#equals%28Any%29" target="_self">equals</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#clone%28%29" target="_self">clone</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#toString%28%29" target="_self">toString</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notify%28%29" target="_self">notify</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notifyAll%28%29" target="_self">notifyAll</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%2CInt%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#finalize%28%29" target="_self">finalize</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%3D%3D%28AnyRef%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%21%3D%28AnyRef%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#eq%28AnyRef%29" target="_self">eq</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#ne%28AnyRef%29" target="_self">ne</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#synchronized%28T0%29" target="_self">synchronized</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%3D%3D%28Any%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%21%3D%28Any%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#isInstanceOf" target="_self">isInstanceOf</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#asInstanceOf" target="_self">asInstanceOf</a>
+        </td></tr>
+      </table>
+
+
+      
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Type Details</td></tr>
+        </table><div><a name="Feed"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>type</code>
+        <em>Feed</em>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="Entry"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>type</code>
+        <em>Entry</em>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>The abstract type for entries.</dd></dl>
+      <dl></dl>
+    <hr></hr></div>
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Value Details</td></tr>
+        </table><div><a name="playlistFeed"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>val</code>
+        <em>playlistFeed</em> : <a href="../../../../com/google/gdata/youtube/StdVideoFeed.html" target="_self">StdVideoFeed</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>The video feed for a playlist entry.</dd></dl>
+      <dl></dl>
+    <hr></hr></div>
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Method Details</td></tr>
+        </table><div><a name="feedContentsPickler"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>feedContentsPickler</em> : <a href="../../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>An abstract pickler for feed contents. Subclasses need to implement this method.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="entryContentsPickler"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>entryContentsPickler</em> : <a href="../../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../../com/google/gdata/youtube/PlaylistEntries.PlaylistEntry.html" target="_self">PlaylistEntry</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>An abstract pickler for entries. Subclasses need to implement this.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="playlistFeedPickler"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>playlistFeedPickler</em> : <a href="../../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>An abstract pickler for the PlaylistFeed type. @see PlaylistFeed.</dd></dl>
+      <dl></dl>
+    <hr></hr></div>
+
+
+    <hr></hr>
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">GData Scala Client Library Documentation</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+      </body>
+      </html>

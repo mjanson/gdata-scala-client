@@ -1,0 +1,291 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+        <head><title>class DateTime in com.google.gdata.data.util</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.1.RC1)" name="generator"></meta><link href="../../../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../../../script.js"></script>
+        </head>
+        <body onload="init()">
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">GData Scala Client Library Documentation</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+        
+      <div class="entity">
+        <a href="../../../../../com/google/gdata/data/util$package.html" target="_self">com.google.gdata.data.util</a>
+        <br></br>
+        <span class="entity">class  DateTime</span>
+      </div><hr></hr>
+      <div class="source">
+        [source: <a href="" class="com/google/gdata/data/util/DateTime"><code>com/google/gdata/data/util/DateTime.scala</code></a>]
+      </div><hr></hr>
+      <a name="DateTime"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>class</code>
+        <em>DateTime</em>(<code>private </code><em>value</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Long.html" target="_self">Long</a>, <code>private </code><em>tzShift</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Long.html" target="_self">Long</a>)
+      </dt>
+      <dd><code> extends </code><a href="" target="contentFrame" class="scala/Ordered">scala.Ordered</a>[<a href="../../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>]</dd>
+    </dl>
+      <dl><dd>Simple class to represent Date/Time. It holds the time as the
+ number of milliseconds from the Epoch (similar to java.util.Date)
+ and keeps track of the timezone shift. The number of milliseconds 
+ is normalized to UTC, so time shift has to be applied when using
+ this date.</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Parameters</b></dt><dd><code>value - </code>The number of milliseconds from the Epoch.</dd><dd><code>tzShift - </code>The time zone shift, in milliseconds.</dd></dl>
+    
+      <table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Additional Constructor Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/google/gdata/data/util/DateTime.html#this%28java.util.Date%2Cjava.util.TimeZone%29" target="_self">this</a></em>
+        (<em>date</em> : <a href="" target="contentFrame" class="java/util/Date">java.util.Date</a>, <em>tz</em> : <a href="" target="contentFrame" class="java/util/TimeZone">java.util.TimeZone</a>) : <a href="../../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>
+        
+        <div>Create a DateTime from the given Java Date.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/google/gdata/data/util/DateTime.html#this%28java.util.Date%29" target="_self">this</a></em>
+        (<em>date</em> : <a href="" target="contentFrame" class="java/util/Date">java.util.Date</a>) : <a href="../../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>
+        
+        <div>Create a DateTime from the specificed Java Date. The given date is considered
+   to be in UTC time (zero time zone shift).</div>
+      </td>
+    </tr>
+      </table>
+
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Value Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/google/gdata/data/util/DateTime.html#dateOnly" target="_self">dateOnly</a></em>
+         : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>
+        
+        <div>Is this date time a date only?</div>
+      </td>
+    </tr>
+      </table>
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Method Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/google/gdata/data/util/DateTime.html#compare%28com.google.gdata.data.util.DateTime%29" target="_self">compare</a></em>
+        (<em>that</em> : <a href="../../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>
+        
+        <div>Compare this DateTime to another. Date d1 is less than d2 iff the UTC time of d1
+   is less than the UTC time of d2. This translates to comparing the 'value' field
+   of the two dates (time zones are not taken into account).</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>override def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/google/gdata/data/util/DateTime.html#equals%28Any%29" target="_self">equals</a></em>
+        (<em>other</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>
+        
+        <div>Logic equality is based on the Ordered interface</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>override def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/google/gdata/data/util/DateTime.html#hashCode%28%29" target="_self">hashCode</a></em>
+         : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>
+        
+        <div>The hash code is obtained by XOR-ing the two int halves of the 'value' field.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/google/gdata/data/util/DateTime.html#toDate" target="_self">toDate</a></em>
+         : <a href="" target="contentFrame" class="java/util/Date">java.util.Date</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>override def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/google/gdata/data/util/DateTime.html#toString%28%29" target="_self">toString</a></em>
+         : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>
+        
+        
+      </td>
+    </tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="" target="contentFrame" class="scala/Ordered">scala.Ordered</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="#&amp;lt;" target="contentFrame" class="scala/Ordered">scala.Ordered.&lt;</a>, <a href="#&amp;gt;" target="contentFrame" class="scala/Ordered">scala.Ordered.&gt;</a>, <a href="#&amp;lt;=" target="contentFrame" class="scala/Ordered">scala.Ordered.&lt;=</a>, <a href="#&amp;gt;=" target="contentFrame" class="scala/Ordered">scala.Ordered.&gt;=</a>, <a href="#compareTo" target="contentFrame" class="scala/Ordered">scala.Ordered.compareTo</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#getClass%28%29" target="_self">getClass</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#clone%28%29" target="_self">clone</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notify%28%29" target="_self">notify</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notifyAll%28%29" target="_self">notifyAll</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%2CInt%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#finalize%28%29" target="_self">finalize</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%3D%3D%28AnyRef%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%21%3D%28AnyRef%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#eq%28AnyRef%29" target="_self">eq</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#ne%28AnyRef%29" target="_self">ne</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#synchronized%28T0%29" target="_self">synchronized</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%3D%3D%28Any%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%21%3D%28Any%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#isInstanceOf" target="_self">isInstanceOf</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#asInstanceOf" target="_self">asInstanceOf</a>
+        </td></tr>
+      </table>
+
+
+      <table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Additional Constructor Details</td></tr>
+        </table><div><a name="this%28java.util.Date%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>this</em>(<em>date</em> : <a href="" target="contentFrame" class="java/util/Date">java.util.Date</a>) : <a href="../../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Create a DateTime from the specificed Java Date. The given date is considered
+   to be in UTC time (zero time zone shift).</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="this%28java.util.Date%2Cjava.util.TimeZone%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>this</em>(<em>date</em> : <a href="" target="contentFrame" class="java/util/Date">java.util.Date</a>, <em>tz</em> : <a href="" target="contentFrame" class="java/util/TimeZone">java.util.TimeZone</a>) : <a href="../../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Create a DateTime from the given Java Date.</dd></dl>
+      <dl></dl>
+    <hr></hr></div>
+
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Value Details</td></tr>
+        </table><div><a name="dateOnly"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>dateOnly</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Is this date time a date only?</dd></dl>
+      <dl></dl>
+    <hr></hr></div>
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Method Details</td></tr>
+        </table><div><a name="compare%28com.google.gdata.data.util.DateTime%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>compare</em>(<em>that</em> : <a href="../../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Compare this DateTime to another. Date d1 is less than d2 iff the UTC time of d1
+   is less than the UTC time of d2. This translates to comparing the 'value' field
+   of the two dates (time zones are not taken into account).</dd></dl>
+      <dl></dl>
+    <dl>
+        <dt style="margin:10px 0 0 20px;">
+          <b>Overrides</b>
+        </dt>
+        <dd>
+        <a href="" target="contentFrame" class="scala/Ordered">scala.Ordered</a>.<a href="#compare" target="contentFrame" class="scala/Ordered">scala.Ordered.compare</a>
+        </dd>
+      </dl><hr></hr>
+<a name="equals%28Any%29"></a><dl>
+      <dt>
+        
+        <code>override</code>
+        <code>def</code>
+        <em>equals</em>(<em>other</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Logic equality is based on the Ordered interface</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="hashCode%28%29"></a><dl>
+      <dt>
+        
+        <code>override</code>
+        <code>def</code>
+        <em>hashCode</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>The hash code is obtained by XOR-ing the two int halves of the 'value' field.</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>See Also</b></dt><dd>java.lang.Long.hashCode</dd></dl>
+    <hr></hr>
+<a name="toDate"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>toDate</em> : <a href="" target="contentFrame" class="java/util/Date">java.util.Date</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr>
+<a name="toString%28%29"></a><dl>
+      <dt>
+        
+        <code>override</code>
+        <code>def</code>
+        <em>toString</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr></div>
+
+
+    <hr></hr>
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">GData Scala Client Library Documentation</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+      </body>
+      </html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+        <head><title>class YouTubeQuery in com.google.gdata.youtube</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.1.RC1)" name="generator"></meta><link href="../../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../../script.js"></script>
+        </head>
+        <body onload="init()">
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">GData Scala Client Library Documentation</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+        
+      <div class="entity">
+        <a href="../../../../com/google/gdata/youtube$package.html" target="_self">com.google.gdata.youtube</a>
+        <br></br>
+        <span class="entity">class  YouTubeQuery</span>
+      </div><hr></hr>
+      <div class="source">
+        [source: <a href="" class="com/google/gdata/youtube/YouTubeQuery"><code>com/google/gdata/youtube/YouTubeQuery.scala</code></a>]
+      </div><hr></hr>
+      <a name="YouTubeQuery"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>class</code>
+        <em>YouTubeQuery</em>
+      </dt>
+      <dd><code> extends </code><a href="../../../../com/google/gdata/Query.html" target="_self">Query</a></dd>
+    </dl>
+      <dl><dd>A YouTube specific query.</dd></dl>
+      <dl></dl>
+    
+      
+
+<table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Values and Variables inherited from <a href="../../../../com/google/gdata/Query.html" target="_self">Query</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="../../../../com/google/gdata/Query.html#searchQuery" target="_self">searchQuery</a>
+        </td></tr>
+      </table>
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Method Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeQuery.html#format%28Int%29" target="_self">format</a></em>
+        (<em>format</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>) : <a href="../../../../com/google/gdata/youtube/YouTubeQuery.html" target="_self">YouTubeQuery</a>
+        
+        <div>Videos must be available in a particular format: use 1 for RTSP streaming, 5 for
+   videos that are embeddable, 6 for mobile video playback.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeQuery.html#lr%28String%29" target="_self">lr</a></em>
+        (<em>lang</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/youtube/YouTubeQuery.html" target="_self">YouTubeQuery</a>
+        
+        <div>Restrict to videos that have title, description or keywords in the given language.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeQuery.html#orderBy%28String%29" target="_self">orderBy</a></em>
+        (<em>ordering</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/youtube/YouTubeQuery.html" target="_self">YouTubeQuery</a>
+        
+        <div>Specifies how to sort videos in the search result set. Valid values for this 
+   parameter are relevance, published, viewCount and rating. Default is 'relevance'.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeQuery.html#racy%28Boolean%29" target="_self">racy</a></em>
+        (<em>b</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>) : <a href="../../../../com/google/gdata/youtube/YouTubeQuery.html" target="_self">YouTubeQuery</a>
+        
+        <div>Include restricted content. Defaults to false.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeQuery.html#restriction%28String%29" target="_self">restriction</a></em>
+        (<em>target</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/youtube/YouTubeQuery.html" target="_self">YouTubeQuery</a>
+        
+        <div>The video will be played on 'target' (IP address or country code). Defaults to
+   the IP of the client. YouTube filters out videos that cannot be played in a given
+   country. Use this parameter when the IP of the client is different from the 
+   IP where the video will be played.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>override def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeQuery.html#searchName" target="_self">searchName</a></em>
+         : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>
+        
+        <div>The parameter name for video queries.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeQuery.html#time%28String%29" target="_self">time</a></em>
+        (<em>t</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/youtube/YouTubeQuery.html" target="_self">YouTubeQuery</a>
+        
+        <div>Restrict search to videos uploaded in the giben time frame. Valid values are
+   'today', 'this_week', 'this_month' and 'all_time'. This parameter is available 
+   only on 'top_rated', 'top_favorites', 'most_discussed', 'most_linked' and 
+   'most_responded' standard feeds.</div>
+      </td>
+    </tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="../../../../com/google/gdata/Query.html" target="_self">Query</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="../../../../com/google/gdata/Query.html#%26%28com.google.gdata.SearchQuery%29" target="_self">&amp;</a>, <a href="../../../../com/google/gdata/Query.html#%7C%28com.google.gdata.SearchQuery%29" target="_self">|</a>, <a href="../../../../com/google/gdata/Query.html#%2F%28com.google.gdata.CategoryQuery%29" target="_self">/</a>, <a href="../../../../com/google/gdata/Query.html#%2F%28String%29" target="_self">/</a>, <a href="../../../../com/google/gdata/Query.html#matching%28com.google.gdata.SearchQuery%29" target="_self">matching</a>, <a href="../../../../com/google/gdata/Query.html#mkUrl%28String%29" target="_self">mkUrl</a>, <a href="../../../../com/google/gdata/Query.html#addParam%28String%2CString%29" target="_self">addParam</a>, <a href="../../../../com/google/gdata/Query.html#author%28String%29" target="_self">author</a>, <a href="../../../../com/google/gdata/Query.html#alt%28String%29" target="_self">alt</a>, <a href="../../../../com/google/gdata/Query.html#updatedMin%28com.google.gdata.data.util.DateTime%29" target="_self">updatedMin</a>, <a href="../../../../com/google/gdata/Query.html#updatedMax%28com.google.gdata.data.util.DateTime%29" target="_self">updatedMax</a>, <a href="../../../../com/google/gdata/Query.html#publishedMin%28com.google.gdata.data.util.DateTime%29" target="_self">publishedMin</a>, <a href="../../../../com/google/gdata/Query.html#publishedMax%28com.google.gdata.data.util.DateTime%29" target="_self">publishedMax</a>, <a href="../../../../com/google/gdata/Query.html#startIndex%28Int%29" target="_self">startIndex</a>, <a href="../../../../com/google/gdata/Query.html#maxResults%28Int%29" target="_self">maxResults</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#getClass%28%29" target="_self">getClass</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#hashCode%28%29" target="_self">hashCode</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#equals%28Any%29" target="_self">equals</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#clone%28%29" target="_self">clone</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#toString%28%29" target="_self">toString</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notify%28%29" target="_self">notify</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notifyAll%28%29" target="_self">notifyAll</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%2CInt%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#finalize%28%29" target="_self">finalize</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%3D%3D%28AnyRef%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%21%3D%28AnyRef%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#eq%28AnyRef%29" target="_self">eq</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#ne%28AnyRef%29" target="_self">ne</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#synchronized%28T0%29" target="_self">synchronized</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%3D%3D%28Any%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%21%3D%28Any%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#isInstanceOf" target="_self">isInstanceOf</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#asInstanceOf" target="_self">asInstanceOf</a>
+        </td></tr>
+      </table>
+
+
+      
+
+
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Method Details</td></tr>
+        </table><div><a name="searchName"></a><dl>
+      <dt>
+        
+        <code>override</code>
+        <code>def</code>
+        <em>searchName</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>The parameter name for video queries.</dd></dl>
+      <dl></dl>
+    <dl>
+        <dt style="margin:10px 0 0 20px;">
+          <b>Overrides</b>
+        </dt>
+        <dd>
+        <a href="../../../../com/google/gdata/Query.html" target="_self">Query</a>.<a href="../../../../com/google/gdata/Query.html#searchName" target="_self">searchName</a>
+        </dd>
+      </dl><hr></hr>
+<a name="orderBy%28String%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>orderBy</em>(<em>ordering</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/youtube/YouTubeQuery.html" target="_self">YouTubeQuery</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Specifies how to sort videos in the search result set. Valid values for this 
+   parameter are relevance, published, viewCount and rating. Default is 'relevance'.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="format%28Int%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>format</em>(<em>format</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>) : <a href="../../../../com/google/gdata/youtube/YouTubeQuery.html" target="_self">YouTubeQuery</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Videos must be available in a particular format: use 1 for RTSP streaming, 5 for
+   videos that are embeddable, 6 for mobile video playback.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="lr%28String%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>lr</em>(<em>lang</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/youtube/YouTubeQuery.html" target="_self">YouTubeQuery</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Restrict to videos that have title, description or keywords in the given language.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="racy%28Boolean%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>racy</em>(<em>b</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>) : <a href="../../../../com/google/gdata/youtube/YouTubeQuery.html" target="_self">YouTubeQuery</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Include restricted content. Defaults to false.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="restriction%28String%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>restriction</em>(<em>target</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/youtube/YouTubeQuery.html" target="_self">YouTubeQuery</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>The video will be played on 'target' (IP address or country code). Defaults to
+   the IP of the client. YouTube filters out videos that cannot be played in a given
+   country. Use this parameter when the IP of the client is different from the 
+   IP where the video will be played.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="time%28String%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>time</em>(<em>t</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/youtube/YouTubeQuery.html" target="_self">YouTubeQuery</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Restrict search to videos uploaded in the giben time frame. Valid values are
+   'today', 'this_week', 'this_month' and 'all_time'. This parameter is available 
+   only on 'top_rated', 'top_favorites', 'most_discussed', 'most_linked' and 
+   'most_responded' standard feeds.</dd></dl>
+      <dl></dl>
+    <hr></hr></div>
+
+
+    <hr></hr>
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">GData Scala Client Library Documentation</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+      </body>
+      </html>

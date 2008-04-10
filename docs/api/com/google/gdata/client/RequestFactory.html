@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+        <head><title>trait RequestFactory in com.google.gdata.client</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.1.RC1)" name="generator"></meta><link href="../../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../../script.js"></script>
+        </head>
+        <body onload="init()">
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">GData Scala Client Library Documentation</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+        
+      <div class="entity">
+        <a href="../../../../com/google/gdata/client$package.html" target="_self">com.google.gdata.client</a>
+        <br></br>
+        <span class="entity">trait  RequestFactory</span>
+      </div><hr></hr>
+      <div class="source">
+        [source: <a href="" class="com/google/gdata/client/RequestFactory"><code>com/google/gdata/client/RequestFactory.scala</code></a>]
+      </div><hr></hr>
+      <a name="RequestFactory"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>trait</code>
+        <em>RequestFactory</em>
+      </dt>
+      <dd><code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a></dd>
+    </dl>
+      <dl><dd>A factory for GData requests. It handles header parameters that need to be set
+ on all requests, as well as authentication tokens.</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Author</b></dt><dd>Iulian Dragos</dd></dl>
+    <dl>
+      <dt style="margin:10px 0 0 20px;"><b>Direct Known Subclasses:</b></dt>
+      <dd><a href="../../../../com/google/gdata/client/GDataRequest$object.Factory.html" target="_self">GDataRequest.Factory</a></dd>
+      </dl><hr></hr>
+      
+
+
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Method Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code>abstract def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/client/RequestFactory.html#%2B%3D%28String%2CString%29" target="_self">+=</a></em>
+        (<em>name</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>value</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/client/RequestFactory.html" target="_self">RequestFactory</a>
+        
+        <div>Add a new header parameter that will be set on all requests created by this factory.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>abstract def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/client/RequestFactory.html#mkRequest%28com.google.gdata.client.RequestMethod.Value%2Cjava.net.URL%29" target="_self">mkRequest</a></em>
+        (<em>method</em> : <a href="" target="contentFrame" class="scala/Enumeration/Value">scala.Enumeration.Value</a>, <em>url</em> : <a href="" target="contentFrame" class="java/net/URL">java.net.URL</a>) : <a href="../../../../com/google/gdata/client/GDataRequest.html" target="_self">GDataRequest</a>
+        
+        <div>Create a request given a method and a URL. The request will contain the authentication
+   token, if any, and all header parameters set on this factory.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>abstract def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/client/RequestFactory.html#token" target="_self">token</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/client/AuthToken.html" target="_self">AuthToken</a>]
+        
+        <div>Get the current authentication token, if any.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>abstract def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/client/RequestFactory.html#token_%3D%28com.google.gdata.client.AuthToken%29" target="_self">token_=</a></em>
+        (<em>token</em> : <a href="../../../../com/google/gdata/client/AuthToken.html" target="_self">AuthToken</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        <div>Set the authentication token. All requests will get this token.</div>
+      </td>
+    </tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#getClass%28%29" target="_self">getClass</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#hashCode%28%29" target="_self">hashCode</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#equals%28Any%29" target="_self">equals</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#clone%28%29" target="_self">clone</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#toString%28%29" target="_self">toString</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notify%28%29" target="_self">notify</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notifyAll%28%29" target="_self">notifyAll</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%2CInt%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#finalize%28%29" target="_self">finalize</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%3D%3D%28AnyRef%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%21%3D%28AnyRef%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#eq%28AnyRef%29" target="_self">eq</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#ne%28AnyRef%29" target="_self">ne</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#synchronized%28T0%29" target="_self">synchronized</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%3D%3D%28Any%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%21%3D%28Any%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#isInstanceOf" target="_self">isInstanceOf</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#asInstanceOf" target="_self">asInstanceOf</a>
+        </td></tr>
+      </table>
+
+
+      
+
+
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Method Details</td></tr>
+        </table><div><a name="mkRequest%28com.google.gdata.client.RequestMethod.Value%2Cjava.net.URL%29"></a><dl>
+      <dt>
+        
+        <code>abstract</code>
+        <code>def</code>
+        <em>mkRequest</em>(<em>method</em> : <a href="" target="contentFrame" class="scala/Enumeration/Value">scala.Enumeration.Value</a>, <em>url</em> : <a href="" target="contentFrame" class="java/net/URL">java.net.URL</a>) : <a href="../../../../com/google/gdata/client/GDataRequest.html" target="_self">GDataRequest</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Create a request given a method and a URL. The request will contain the authentication
+   token, if any, and all header parameters set on this factory.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="token_%3D%28com.google.gdata.client.AuthToken%29"></a><dl>
+      <dt>
+        
+        <code>abstract</code>
+        <code>def</code>
+        <em>token_=</em>(<em>token</em> : <a href="../../../../com/google/gdata/client/AuthToken.html" target="_self">AuthToken</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Set the authentication token. All requests will get this token.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="token"></a><dl>
+      <dt>
+        
+        <code>abstract</code>
+        <code>def</code>
+        <em>token</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/client/AuthToken.html" target="_self">AuthToken</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Get the current authentication token, if any.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="%2B%3D%28String%2CString%29"></a><dl>
+      <dt>
+        
+        <code>abstract</code>
+        <code>def</code>
+        <em>+=</em>(<em>name</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>value</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/client/RequestFactory.html" target="_self">RequestFactory</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Add a new header parameter that will be set on all requests created by this factory.</dd></dl>
+      <dl></dl>
+    <hr></hr></div>
+
+
+    <hr></hr>
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">GData Scala Client Library Documentation</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+      </body>
+      </html>

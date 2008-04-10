@@ -1,0 +1,408 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+        <head><title>class Source in com.google.gdata.data</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.1.RC1)" name="generator"></meta><link href="../../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../../script.js"></script>
+        </head>
+        <body onload="init()">
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">GData Scala Client Library Documentation</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+        
+      <div class="entity">
+        <a href="../../../../com/google/gdata/data$package.html" target="_self">com.google.gdata.data</a>
+        <br></br>
+        <span class="entity">class  Source</span>
+      </div><hr></hr>
+      <div class="source">
+        [source: <a href="" class="com/google/gdata/data/Source"><code>com/google/gdata/data/Source.scala</code></a>]
+      </div><hr></hr>
+      <a name="Source"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>class</code>
+        <em>Source</em>
+      </dt>
+      <dd><code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a></dd>
+    </dl>
+      <dl><dd>An Atom source element. It is used when entries are copied over from another feed
+ to keep around metadata bout the source feed.</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>See Also</b></dt><dd><a href="http://atomenabled.org/developers/syndication/atom-format-spec.php#element.source">http://atomenabled.org/developers/syndication/atom-format-spec.php#element.source</a></dd></dl>
+    
+      <table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Additional Constructor Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/Source.html#this%28com.google.gdata.data.AtomFeeds%23Feed%29" target="_self">this</a></em>
+        (<em>feed</em> : <a href="../../../../com/google/gdata/data/AtomFeeds.html#Feed" target="_self">Feed</a>) : <a href="../../../../com/google/gdata/data/Source.html" target="_self">Source</a>
+        
+        <div>Convenience method for creating a source element from an atom Feed.</div>
+      </td>
+    </tr>
+      </table>
+
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Value Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/Source.html#authors" target="_self">authors</a></em>
+         : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Person.html" target="_self">Person</a>]
+        
+        <div>The authors of the originating feed.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/Source.html#categories" target="_self">categories</a></em>
+         : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Category.html" target="_self">Category</a>]
+        
+        <div>Categories associated with the originating feed.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/Source.html#contributors" target="_self">contributors</a></em>
+         : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Person.html" target="_self">Person</a>]
+        
+        <div>Contributors associated to the originating feed.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/Source.html#generator" target="_self">generator</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/data/Generator.html" target="_self">Generator</a>]
+        
+        <div>User agent used to generate the originating feed.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/Source.html#icon" target="_self">icon</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+        
+        <div>IRI for an icon for the originating feed.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/Source.html#id" target="_self">id</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+        
+        <div>Permanent, unique id of the originating feed.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/Source.html#links" target="_self">links</a></em>
+         : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Link.html" target="_self">Link</a>]
+        
+        <div>References to web resources.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/Source.html#logo" target="_self">logo</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+        
+        <div>IRI for a visual identification of the originating feed.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/Source.html#rights" target="_self">rights</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+        
+        <div>Rights held over the originating feed.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/Source.html#subtitle" target="_self">subtitle</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/data/Text.html" target="_self">Text</a>]
+        
+        <div>A subtitle of the originating feed.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/Source.html#title" target="_self">title</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/data/Text.html" target="_self">Text</a>]
+        
+        <div>The originating feed's title.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/Source.html#updated" target="_self">updated</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>]
+        
+        <div>The most recent instant in time the originating feed has been modified.</div>
+      </td>
+    </tr>
+      </table>
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Method Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code>override def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/Source.html#toString%28%29" target="_self">toString</a></em>
+         : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>
+        
+        
+      </td>
+    </tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#getClass%28%29" target="_self">getClass</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#hashCode%28%29" target="_self">hashCode</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#equals%28Any%29" target="_self">equals</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#clone%28%29" target="_self">clone</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notify%28%29" target="_self">notify</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notifyAll%28%29" target="_self">notifyAll</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%2CInt%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#finalize%28%29" target="_self">finalize</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%3D%3D%28AnyRef%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%21%3D%28AnyRef%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#eq%28AnyRef%29" target="_self">eq</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#ne%28AnyRef%29" target="_self">ne</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#synchronized%28T0%29" target="_self">synchronized</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%3D%3D%28Any%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%21%3D%28Any%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#isInstanceOf" target="_self">isInstanceOf</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#asInstanceOf" target="_self">asInstanceOf</a>
+        </td></tr>
+      </table>
+
+
+      <table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Additional Constructor Details</td></tr>
+        </table><div><a name="this%28com.google.gdata.data.AtomFeeds%23Feed%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>this</em>(<em>feed</em> : <a href="../../../../com/google/gdata/data/AtomFeeds.html#Feed" target="_self">Feed</a>) : <a href="../../../../com/google/gdata/data/Source.html" target="_self">Source</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Convenience method for creating a source element from an atom Feed.</dd></dl>
+      <dl></dl>
+    <hr></hr></div>
+
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Value Details</td></tr>
+        </table><div><a name="authors"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>authors</em> : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Person.html" target="_self">Person</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>The authors of the originating feed.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="categories"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>categories</em> : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Category.html" target="_self">Category</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Categories associated with the originating feed.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="contributors"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>contributors</em> : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Person.html" target="_self">Person</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Contributors associated to the originating feed.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="generator"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>generator</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/data/Generator.html" target="_self">Generator</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>User agent used to generate the originating feed.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="icon"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>icon</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>IRI for an icon for the originating feed.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="id"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>id</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Permanent, unique id of the originating feed.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="links"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>links</em> : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Link.html" target="_self">Link</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>References to web resources.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="logo"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>logo</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>IRI for a visual identification of the originating feed.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="rights"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>rights</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Rights held over the originating feed.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="subtitle"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>subtitle</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/data/Text.html" target="_self">Text</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>A subtitle of the originating feed.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="title"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>title</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/data/Text.html" target="_self">Text</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>The originating feed's title.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="updated"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>updated</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>The most recent instant in time the originating feed has been modified.</dd></dl>
+      <dl></dl>
+    <hr></hr></div>
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Method Details</td></tr>
+        </table><div><a name="toString%28%29"></a><dl>
+      <dt>
+        
+        <code>override</code>
+        <code>def</code>
+        <em>toString</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr></div>
+
+
+    <hr></hr>
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">GData Scala Client Library Documentation</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+      </body>
+      </html>

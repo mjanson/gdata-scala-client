@@ -1,0 +1,550 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+        <head><title>All classes and objects in com.google.gdata.client</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.1.RC1)" name="generator"></meta><link href="../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../script.js"></script>
+        </head>
+        <body onload="init()"><div class="page-title"><div>GData Scala Client</div></div><p><div>This document is the API specification for GData Scala Client Library Documentation</div></p><table summary="" cellpadding="3" class="member">
+        <tr><td class="title" colspan="2">Class Summary</td></tr>
+        <tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/AccountDeleted.html" target="_self">AccountDeleted</a></em>
+        (<code>val </code><em>url</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>)<code> extends </code><a href="../../../com/google/gdata/client/AuthenticationException.html" target="_self">AuthenticationException</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        <div>The account has been deleted.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/AccountDisabled.html" target="_self">AccountDisabled</a></em>
+        (<code>val </code><em>url</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>)<code> extends </code><a href="../../../com/google/gdata/client/AuthenticationException.html" target="_self">AuthenticationException</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        <div>The account has been disabled.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/AuthToken.html" target="_self">AuthToken</a></em>
+        <code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        <div>An authentication token used by GData services. It encapsulate the logic necessary
+ to fill the 'Auth' HTTP header in GData requests. Such tokens are obtained using
+ an AuthFactory.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/AuthTokenFactory.html" target="_self">AuthTokenFactory</a></em>
+        <code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        <div>Factory for creating authentication objects. It encapsulates the method by which they
+ are aquired. It supports ClientLogin. TODO: AuthSub.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>abstract class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/AuthenticationException.html" target="_self">AuthenticationException</a></em>
+        (<code>val </code><em>error</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>)<code> extends </code><a href="" target="contentFrame" class="java/lang/Exception">java.lang.Exception</a><code> with </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        <div>Base class for Google authentication exceptions.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/BadAuthentication.html" target="_self">BadAuthentication</a></em>
+        (<code>val </code><em>url</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>)<code> extends </code><a href="../../../com/google/gdata/client/AuthenticationException.html" target="_self">AuthenticationException</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        <div>Wrong username or password.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/BadRequestException.html" target="_self">BadRequestException</a></em>
+        <code> extends </code><a href="../../../com/google/gdata/client/GDataRequestException.html" target="_self">GDataRequestException</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/CaptchaRequired.html" target="_self">CaptchaRequired</a></em>
+        (<code>val </code><em>url</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <code>val </code><em>token</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <code>val </code><em>captchaUrl</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>)<code> extends </code><a href="../../../com/google/gdata/client/AuthenticationException.html" target="_self">AuthenticationException</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        <div>The user should answer a captcha challenge. The captcha url points to the image. Reattempt
+ authentication by providing user's answer and the captcha token.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/ClientLoginFactory.html" target="_self">ClientLoginFactory</a></em>
+        (<em>appName</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>service</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>)<code> extends </code><a href="../../../com/google/gdata/client/AuthTokenFactory.html" target="_self">AuthTokenFactory</a><code> with </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        <div>Concrete factory class for ClientLogin authentication tokens.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/ConflictException.html" target="_self">ConflictException</a></em>
+        <code> extends </code><a href="../../../com/google/gdata/client/GDataRequestException.html" target="_self">GDataRequestException</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/ForbiddenException.html" target="_self">ForbiddenException</a></em>
+        <code> extends </code><a href="../../../com/google/gdata/client/GDataRequestException.html" target="_self">GDataRequestException</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/GDataRequest.html" target="_self">GDataRequest</a></em>
+        (<em>method</em> : <a href="" target="contentFrame" class="scala/Enumeration/Value">scala.Enumeration.Value</a>, <em>url</em> : <a href="" target="contentFrame" class="java/net/URL">java.net.URL</a>)<code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        <div>This class encapsulates an HTTP request to a GData service. It sets up
+ the HTTP connection and handles authentication. This class throws 
+ IllegalStateException in exactly the same cases as HttpURLConnection.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/GDataRequestException.html" target="_self">GDataRequestException</a></em>
+        (<em>msg</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>)<code> extends </code><a href="" target="contentFrame" class="java/lang/Exception">java.lang.Exception</a><code> with </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        <div>Base class for GData request exceptions.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/HttpConnection.html" target="_self">HttpConnection</a></em>
+        (<code>val </code><em>underlying</em> : <a href="" target="contentFrame" class="java/net/HttpURLConnection">java.net.HttpURLConnection</a>)<code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        <div>Scala wrapper over HttpURLConnection. Turns getter/setters into properties and implements
+ a request headers as properties. Like the underlying Java connection, it
+ supports only one request/response. The 'connect' method returns an <code>HttpResponse</code>
+ that gives access to the response headers and streams.
+ 
+ You can set headers using the following syntax:
+ <code>
+   connection("Content-Type") = "text/xml"
+ </code>
+ 
+ A similar syntax can be used on the HttpResponse object to retrieve response headers:
+ <code>
+   val response = connection.connect
+   log("redirected to: " + response("Location"))
+ </code></div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/InternalServerErrorException.html" target="_self">InternalServerErrorException</a></em>
+        <code> extends </code><a href="../../../com/google/gdata/client/GDataRequestException.html" target="_self">GDataRequestException</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/MovedTemporarily.html" target="_self">MovedTemporarily</a></em>
+        (<code>val </code><em>headers</em> : <a href="" target="contentFrame" class="scala/collection/Map">scala.collection.Map</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]])<code> extends </code><a href="../../../com/google/gdata/client/GDataRequestException.html" target="_self">GDataRequestException</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        <div>Redirection. The header collection should contain a 'Location' field.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/NotFoundException.html" target="_self">NotFoundException</a></em>
+        <code> extends </code><a href="../../../com/google/gdata/client/GDataRequestException.html" target="_self">GDataRequestException</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/NotModifiedException.html" target="_self">NotModifiedException</a></em>
+        <code> extends </code><a href="../../../com/google/gdata/client/GDataRequestException.html" target="_self">GDataRequestException</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/NotVerified.html" target="_self">NotVerified</a></em>
+        (<code>val </code><em>url</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>)<code> extends </code><a href="../../../com/google/gdata/client/AuthenticationException.html" target="_self">AuthenticationException</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        <div>Account not verified.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> trait</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/RequestFactory.html" target="_self">RequestFactory</a></em>
+        <code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        <div>A factory for GData requests. It handles header parameters that need to be set
+ on all requests, as well as authentication tokens.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/ServiceDisabled.html" target="_self">ServiceDisabled</a></em>
+        (<code>val </code><em>url</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>)<code> extends </code><a href="../../../com/google/gdata/client/AuthenticationException.html" target="_self">AuthenticationException</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        <div>Service is disabled for the given user.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/ServiceUnavailable.html" target="_self">ServiceUnavailable</a></em>
+        (<code>val </code><em>url</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>)<code> extends </code><a href="../../../com/google/gdata/client/AuthenticationException.html" target="_self">AuthenticationException</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        <div>The service is unavailable.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/TermsNotAgreed.html" target="_self">TermsNotAgreed</a></em>
+        (<code>val </code><em>url</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>)<code> extends </code><a href="../../../com/google/gdata/client/AuthenticationException.html" target="_self">AuthenticationException</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        <div>Terms not agreed.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/UnauthorizedException.html" target="_self">UnauthorizedException</a></em>
+        <code> extends </code><a href="../../../com/google/gdata/client/GDataRequestException.html" target="_self">GDataRequestException</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>case class</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/Unknown.html" target="_self">Unknown</a></em>
+        (<code>val </code><em>url</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>)<code> extends </code><a href="../../../com/google/gdata/client/AuthenticationException.html" target="_self">AuthenticationException</a><code> with </code><a href="" target="contentFrame" class="scala/Product">scala.Product</a>
+        
+        <div>Unknown error.</div>
+      </td>
+    </tr>        
+        </table>
+<table summary="" cellpadding="3" class="member">
+        <tr><td class="title" colspan="2">Object Summary</td></tr>
+        <tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/AccountDeleted$object.html" target="_self">AccountDeleted</a></em>
+        <code> extends </code>(<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) =&gt; <a href="../../../com/google/gdata/client/AccountDeleted.html" target="_self">AccountDeleted</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/AccountDisabled$object.html" target="_self">AccountDisabled</a></em>
+        <code> extends </code>(<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) =&gt; <a href="../../../com/google/gdata/client/AccountDisabled.html" target="_self">AccountDisabled</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/AuthenticationException$object.html" target="_self">AuthenticationException</a></em>
+        <code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        <div>Factory for authentication exceptions, based on server answer.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/BadAuthentication$object.html" target="_self">BadAuthentication</a></em>
+        <code> extends </code>(<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) =&gt; <a href="../../../com/google/gdata/client/BadAuthentication.html" target="_self">BadAuthentication</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/BadRequestException$object.html" target="_self">BadRequestException</a></em>
+        <code> extends </code>() =&gt; <a href="../../../com/google/gdata/client/BadRequestException.html" target="_self">BadRequestException</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/CaptchaRequired$object.html" target="_self">CaptchaRequired</a></em>
+        <code> extends </code>(<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) =&gt; <a href="../../../com/google/gdata/client/CaptchaRequired.html" target="_self">CaptchaRequired</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/ClientLoginFactory$object.html" target="_self">ClientLoginFactory</a></em>
+        <code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/ConflictException$object.html" target="_self">ConflictException</a></em>
+        <code> extends </code>() =&gt; <a href="../../../com/google/gdata/client/ConflictException.html" target="_self">ConflictException</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/ForbiddenException$object.html" target="_self">ForbiddenException</a></em>
+        <code> extends </code>() =&gt; <a href="../../../com/google/gdata/client/ForbiddenException.html" target="_self">ForbiddenException</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/GDataRequest$object.html" target="_self">GDataRequest</a></em>
+        <code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/HttpConnection$object.html" target="_self">HttpConnection</a></em>
+        <code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/InternalServerErrorException$object.html" target="_self">InternalServerErrorException</a></em>
+        <code> extends </code>() =&gt; <a href="../../../com/google/gdata/client/InternalServerErrorException.html" target="_self">InternalServerErrorException</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/MovedTemporarily$object.html" target="_self">MovedTemporarily</a></em>
+        <code> extends </code>(<a href="" target="contentFrame" class="scala/collection/Map">scala.collection.Map</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]]) =&gt; <a href="../../../com/google/gdata/client/MovedTemporarily.html" target="_self">MovedTemporarily</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/NotFoundException$object.html" target="_self">NotFoundException</a></em>
+        <code> extends </code>() =&gt; <a href="../../../com/google/gdata/client/NotFoundException.html" target="_self">NotFoundException</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/NotModifiedException$object.html" target="_self">NotModifiedException</a></em>
+        <code> extends </code>() =&gt; <a href="../../../com/google/gdata/client/NotModifiedException.html" target="_self">NotModifiedException</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/NotVerified$object.html" target="_self">NotVerified</a></em>
+        <code> extends </code>(<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) =&gt; <a href="../../../com/google/gdata/client/NotVerified.html" target="_self">NotVerified</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/RequestMethod$object.html" target="_self">RequestMethod</a></em>
+        <code> extends </code><a href="" target="contentFrame" class="scala/Enumeration">scala.Enumeration</a>
+        
+        <div>The HTTP method used by the GData Request</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/ServiceDisabled$object.html" target="_self">ServiceDisabled</a></em>
+        <code> extends </code>(<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) =&gt; <a href="../../../com/google/gdata/client/ServiceDisabled.html" target="_self">ServiceDisabled</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/ServiceUnavailable$object.html" target="_self">ServiceUnavailable</a></em>
+        <code> extends </code>(<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) =&gt; <a href="../../../com/google/gdata/client/ServiceUnavailable.html" target="_self">ServiceUnavailable</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/TermsNotAgreed$object.html" target="_self">TermsNotAgreed</a></em>
+        <code> extends </code>(<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) =&gt; <a href="../../../com/google/gdata/client/TermsNotAgreed.html" target="_self">TermsNotAgreed</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/UnauthorizedException$object.html" target="_self">UnauthorizedException</a></em>
+        <code> extends </code>() =&gt; <a href="../../../com/google/gdata/client/UnauthorizedException.html" target="_self">UnauthorizedException</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> object</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/client/Unknown$object.html" target="_self">Unknown</a></em>
+        <code> extends </code>(<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) =&gt; <a href="../../../com/google/gdata/client/Unknown.html" target="_self">Unknown</a>
+        
+        
+      </td>
+    </tr>        
+        </table></body>
+      </html>

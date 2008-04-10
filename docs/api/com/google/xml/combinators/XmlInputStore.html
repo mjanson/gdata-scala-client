@@ -1,0 +1,358 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+        <head><title>trait XmlInputStore in com.google.xml.combinators</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.1.RC1)" name="generator"></meta><link href="../../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../../script.js"></script>
+        </head>
+        <body onload="init()">
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">GData Scala Client Library Documentation</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+        
+      <div class="entity">
+        <a href="../../../../com/google/xml/combinators$package.html" target="_self">com.google.xml.combinators</a>
+        <br></br>
+        <span class="entity">trait  XmlInputStore</span>
+      </div><hr></hr>
+      <div class="source">
+        [source: <a href="" class="com/google/xml/combinators/XmlInputStore"><code>com/google/xml/combinators/XmlInputStore.scala</code></a>]
+      </div><hr></hr>
+      <a name="XmlInputStore"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>trait</code>
+        <em>XmlInputStore</em>
+      </dt>
+      <dd><code> extends </code><a href="../../../../com/google/xml/combinators/XmlStore.html" target="_self">XmlStore</a><code> with </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a></dd>
+    </dl>
+      <dl><dd>This class represents the input of picklers. It keeps around XML attributes,
+ nodes and current namespace bindings. There are two modes in which input stores
+ operate: linear and random access. A linear store will return elements in the 
+ order in which they are defined in the XML document. A random access store will
+ look the element up anywhere in the 'nodes' collection. Switching between the 
+ two modes is done by calling 'randomAccessMode' and 'linearAccessMode'. The modes
+ nest (randomAccessMode and linearAccessMode calls have to match). 
+ 
+ All 'accept' methods return an instance of XmlInputStore which is the input after
+ the accepted element was consumed. Implementers may choose whether to implement 
+ it using mutable state (and return 'this') or use an immutable representation.</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>See Also</b></dt><dd><a href="../../../../com/google/xml/combinators/LinearStore.html" target="_self">com.google.xml.combinators.LinearStore</a></dd><dd><a href="../../../../com/google/xml/combinators/RandomAccessStore.html" target="_self">com.google.xml.combinators.RandomAccessStore</a></dd><dt style="margin:10px 0 0 20px;">
+        <b>Author</b></dt><dd>Iulian Dragos</dd></dl>
+    <dl>
+      <dt style="margin:10px 0 0 20px;"><b>Direct Known Subclasses:</b></dt>
+      <dd><a href="../../../../com/google/xml/combinators/LinearStore.html" target="_self">LinearStore</a></dd>
+      </dl><hr></hr>
+      
+
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Value Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code>protected[combinators] var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/XmlInputStore.html#randomAccessLevel" target="_self">randomAccessLevel</a></em>
+         : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>
+        
+        <div>The nesting level of randomAccessMode calls. The level is equal to the number of
+   times 'interleaved' has been called (and we have not yet left the interleaved mode).</div>
+      </td>
+    </tr>
+      </table>
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Method Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code>abstract def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/XmlInputStore.html#acceptAttr%28String%2CString%29" target="_self">acceptAttr</a></em>
+        (<em>label</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>uri</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : (<a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="scala/Seq">scala.Seq</a>[<a href="" target="contentFrame" class="scala/xml/Node">scala.xml.Node</a>]], <a href="../../../../com/google/xml/combinators/XmlInputStore.html" target="_self">XmlInputStore</a>)
+        
+        <div>Accept the given prefixed attribute, or fail. Succeeds when the given attribute exists
+   (order does not matter). Returns a Seq[Node], since attributes may contain text nodes 
+   interspersed with entity references.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>abstract def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/XmlInputStore.html#acceptAttr%28String%29" target="_self">acceptAttr</a></em>
+        (<em>label</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : (<a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="scala/Seq">scala.Seq</a>[<a href="" target="contentFrame" class="scala/xml/Node">scala.xml.Node</a>]], <a href="../../../../com/google/xml/combinators/XmlInputStore.html" target="_self">XmlInputStore</a>)
+        
+        <div>Accept the given unprefixed attribute, or fail. Succeeds when the given attribute exists
+   (order does not matter). Returns a Seq[Node], since attributes may contain text nodes 
+   interspersed with entity references.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>abstract def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/XmlInputStore.html#acceptElem%28String%2CString%29" target="_self">acceptElem</a></em>
+        (<em>Label</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>uri</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : (<a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="scala/xml/Node">scala.xml.Node</a>], <a href="../../../../com/google/xml/combinators/XmlInputStore.html" target="_self">XmlInputStore</a>)
+        
+        <div>Accept the given element, or fail. Succeeds when the given element is the head of the node
+   list. Comments, processing instructions and entity references might.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>abstract def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/XmlInputStore.html#acceptText" target="_self">acceptText</a></em>
+         : (<a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="scala/xml/Text">scala.xml.Text</a>], <a href="../../../../com/google/xml/combinators/XmlInputStore.html" target="_self">XmlInputStore</a>)
+        
+        <div>Accept a text node. Fails if the head of the node list is not a text node.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/XmlInputStore.html#linearAccessMode" target="_self">linearAccessMode</a></em>
+         : <a href="../../../../com/google/xml/combinators/XmlInputStore.html" target="_self">XmlInputStore</a>
+        
+        <div>Switch back to linear access mode. We take care of nesting, by switching to a linear
+   xml store only when the randomAccessLevel nesting is 0. This allows nesting of 'interleaved'
+   combinators.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>protected[combinators] def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/XmlInputStore.html#mkState%28scala.xml.MetaData%2CSeq%5Bscala.xml.Node%5D%2Cscala.xml.NamespaceBinding%29" target="_self">mkState</a></em>
+        (<em>attrs</em> : <a href="" target="contentFrame" class="scala/xml/MetaData">scala.xml.MetaData</a>, <em>nodes</em> : <a href="" target="contentFrame" class="scala/Seq">scala.Seq</a>[<a href="" target="contentFrame" class="scala/xml/Node">scala.xml.Node</a>], <em>ns</em> : <a href="" target="contentFrame" class="scala/xml/NamespaceBinding">scala.xml.NamespaceBinding</a>) : <a href="../../../../com/google/xml/combinators/XmlInputStore.html" target="_self">XmlInputStore</a>
+        
+        <div>Create a new xml store with the given data. Preserves the current randomAccessLevel</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>protected abstract def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/XmlInputStore.html#mkState%28scala.xml.MetaData%2CSeq%5Bscala.xml.Node%5D%2Cscala.xml.NamespaceBinding%2CInt%29" target="_self">mkState</a></em>
+        (<em>attrs</em> : <a href="" target="contentFrame" class="scala/xml/MetaData">scala.xml.MetaData</a>, <em>nodes</em> : <a href="" target="contentFrame" class="scala/Seq">scala.Seq</a>[<a href="" target="contentFrame" class="scala/xml/Node">scala.xml.Node</a>], <em>ns</em> : <a href="" target="contentFrame" class="scala/xml/NamespaceBinding">scala.xml.NamespaceBinding</a>, <em>level</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>) : <a href="../../../../com/google/xml/combinators/XmlInputStore.html" target="_self">XmlInputStore</a>
+        
+        <div>Implementers should create a new instance of their class, given the Xml store data.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/XmlInputStore.html#randomAccessMode" target="_self">randomAccessMode</a></em>
+         : <a href="../../../../com/google/xml/combinators/XmlInputStore.html" target="_self">XmlInputStore</a>
+        
+        <div>Enter random access mode. If the random access level is greater than 0, we try to reuse
+   the current type (my calling the factory method mkState). Otherwise, we create an 
+   instance of RandomAccessStore.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>abstract def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/XmlInputStore.html#skipNonElements" target="_self">skipNonElements</a></em>
+         : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>
+        
+        <div>If 'true', comments, spaces and processing instructions are skipped when
+   accepting nodes.</div>
+      </td>
+    </tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#getClass%28%29" target="_self">getClass</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#hashCode%28%29" target="_self">hashCode</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#equals%28Any%29" target="_self">equals</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#clone%28%29" target="_self">clone</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#toString%28%29" target="_self">toString</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notify%28%29" target="_self">notify</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notifyAll%28%29" target="_self">notifyAll</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%2CInt%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#finalize%28%29" target="_self">finalize</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%3D%3D%28AnyRef%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%21%3D%28AnyRef%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#eq%28AnyRef%29" target="_self">eq</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#ne%28AnyRef%29" target="_self">ne</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#synchronized%28T0%29" target="_self">synchronized</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%3D%3D%28Any%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%21%3D%28Any%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#isInstanceOf" target="_self">isInstanceOf</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#asInstanceOf" target="_self">asInstanceOf</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="../../../../com/google/xml/combinators/XmlStore.html" target="_self">XmlStore</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="../../../../com/google/xml/combinators/XmlStore.html#attrs" target="_self">attrs</a> (abstract), <a href="../../../../com/google/xml/combinators/XmlStore.html#nodes" target="_self">nodes</a> (abstract), <a href="../../../../com/google/xml/combinators/XmlStore.html#ns" target="_self">ns</a> (abstract)
+        </td></tr>
+      </table>
+
+
+      
+
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Value Details</td></tr>
+        </table><div><a name="randomAccessLevel"></a><dl>
+      <dt>
+        
+        <code>protected[combinators]</code>
+        <code>var</code>
+        <em>randomAccessLevel</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>The nesting level of randomAccessMode calls. The level is equal to the number of
+   times 'interleaved' has been called (and we have not yet left the interleaved mode).</dd></dl>
+      <dl></dl>
+    <hr></hr></div>
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Method Details</td></tr>
+        </table><div><a name="skipNonElements"></a><dl>
+      <dt>
+        
+        <code>abstract</code>
+        <code>def</code>
+        <em>skipNonElements</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Boolean.html" target="_self">Boolean</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>If 'true', comments, spaces and processing instructions are skipped when
+   accepting nodes.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="acceptElem%28String%2CString%29"></a><dl>
+      <dt>
+        
+        <code>abstract</code>
+        <code>def</code>
+        <em>acceptElem</em>(<em>Label</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>uri</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : (<a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="scala/xml/Node">scala.xml.Node</a>], <a href="../../../../com/google/xml/combinators/XmlInputStore.html" target="_self">XmlInputStore</a>)
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Accept the given element, or fail. Succeeds when the given element is the head of the node
+   list. Comments, processing instructions and entity references might.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="acceptAttr%28String%2CString%29"></a><dl>
+      <dt>
+        
+        <code>abstract</code>
+        <code>def</code>
+        <em>acceptAttr</em>(<em>label</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>uri</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : (<a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="scala/Seq">scala.Seq</a>[<a href="" target="contentFrame" class="scala/xml/Node">scala.xml.Node</a>]], <a href="../../../../com/google/xml/combinators/XmlInputStore.html" target="_self">XmlInputStore</a>)
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Accept the given prefixed attribute, or fail. Succeeds when the given attribute exists
+   (order does not matter). Returns a Seq[Node], since attributes may contain text nodes 
+   interspersed with entity references.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="acceptAttr%28String%29"></a><dl>
+      <dt>
+        
+        <code>abstract</code>
+        <code>def</code>
+        <em>acceptAttr</em>(<em>label</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : (<a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="scala/Seq">scala.Seq</a>[<a href="" target="contentFrame" class="scala/xml/Node">scala.xml.Node</a>]], <a href="../../../../com/google/xml/combinators/XmlInputStore.html" target="_self">XmlInputStore</a>)
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Accept the given unprefixed attribute, or fail. Succeeds when the given attribute exists
+   (order does not matter). Returns a Seq[Node], since attributes may contain text nodes 
+   interspersed with entity references.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="acceptText"></a><dl>
+      <dt>
+        
+        <code>abstract</code>
+        <code>def</code>
+        <em>acceptText</em> : (<a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="scala/xml/Text">scala.xml.Text</a>], <a href="../../../../com/google/xml/combinators/XmlInputStore.html" target="_self">XmlInputStore</a>)
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Accept a text node. Fails if the head of the node list is not a text node.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="randomAccessMode"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>randomAccessMode</em> : <a href="../../../../com/google/xml/combinators/XmlInputStore.html" target="_self">XmlInputStore</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Enter random access mode. If the random access level is greater than 0, we try to reuse
+   the current type (my calling the factory method mkState). Otherwise, we create an 
+   instance of RandomAccessStore.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="linearAccessMode"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>linearAccessMode</em> : <a href="../../../../com/google/xml/combinators/XmlInputStore.html" target="_self">XmlInputStore</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Switch back to linear access mode. We take care of nesting, by switching to a linear
+   xml store only when the randomAccessLevel nesting is 0. This allows nesting of 'interleaved'
+   combinators.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="mkState%28scala.xml.MetaData%2CSeq%5Bscala.xml.Node%5D%2Cscala.xml.NamespaceBinding%29"></a><dl>
+      <dt>
+        
+        <code>protected[combinators]</code>
+        <code>def</code>
+        <em>mkState</em>(<em>attrs</em> : <a href="" target="contentFrame" class="scala/xml/MetaData">scala.xml.MetaData</a>, <em>nodes</em> : <a href="" target="contentFrame" class="scala/Seq">scala.Seq</a>[<a href="" target="contentFrame" class="scala/xml/Node">scala.xml.Node</a>], <em>ns</em> : <a href="" target="contentFrame" class="scala/xml/NamespaceBinding">scala.xml.NamespaceBinding</a>) : <a href="../../../../com/google/xml/combinators/XmlInputStore.html" target="_self">XmlInputStore</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Create a new xml store with the given data. Preserves the current randomAccessLevel</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="mkState%28scala.xml.MetaData%2CSeq%5Bscala.xml.Node%5D%2Cscala.xml.NamespaceBinding%2CInt%29"></a><dl>
+      <dt>
+        
+        <code>protected abstract</code>
+        <code>def</code>
+        <em>mkState</em>(<em>attrs</em> : <a href="" target="contentFrame" class="scala/xml/MetaData">scala.xml.MetaData</a>, <em>nodes</em> : <a href="" target="contentFrame" class="scala/Seq">scala.Seq</a>[<a href="" target="contentFrame" class="scala/xml/Node">scala.xml.Node</a>], <em>ns</em> : <a href="" target="contentFrame" class="scala/xml/NamespaceBinding">scala.xml.NamespaceBinding</a>, <em>level</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>) : <a href="../../../../com/google/xml/combinators/XmlInputStore.html" target="_self">XmlInputStore</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Implementers should create a new instance of their class, given the Xml store data.</dd></dl>
+      <dl></dl>
+    <hr></hr></div>
+
+
+    <hr></hr>
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">GData Scala Client Library Documentation</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+      </body>
+      </html>

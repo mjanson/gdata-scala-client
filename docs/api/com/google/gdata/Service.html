@@ -1,0 +1,474 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+        <head><title>class Service in com.google.gdata</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.1.RC1)" name="generator"></meta><link href="../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../script.js"></script>
+        </head>
+        <body onload="init()">
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">GData Scala Client Library Documentation</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+        
+      <div class="entity">
+        <a href="../../../com/google/gdata$package.html" target="_self">com.google.gdata</a>
+        <br></br>
+        <span class="entity">class  Service</span>
+      </div><hr></hr>
+      <div class="source">
+        [source: <a href="" class="com/google/gdata/Service"><code>com/google/gdata/Service.scala</code></a>]
+      </div><hr></hr>
+      <a name="Service"></a><dl>
+      <dt>
+        
+        <code>abstract</code>
+        <code>class</code>
+        <em>Service</em>(<em>appName</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>service</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>)
+      </dt>
+      <dd><code> extends </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a></dd>
+    </dl>
+      <dl><dd>A base class for Google services. It provides the basic querying mechanism and
+ authentication. It caches 'gsessionid' parameters when redirected, and ships them 
+ with every future query.
+ 
+ All Google services should extend this class and provide specific methods for
+ that service. If a specific class is not yet available, this class can be used
+ with generic StdAtomFeed to retrieve and further process feeds.</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Parameters</b></dt><dd><code>appName - </code>The application name. It should contain the company name, application name                and its version, separated by '-'.</dd><dd><code>service - </code>The service name. See <a href="http://code.google.com/support/bin/answer.py?answer=62712&topic=10433"></dd><dt style="margin:10px 0 0 20px;">
+        <b>Author</b></dt><dd>Iulian Dragos</dd></dl>
+    <dl>
+      <dt style="margin:10px 0 0 20px;"><b>Direct Known Subclasses:</b></dt>
+      <dd><a href="../../../com/google/gdata/calendar/CalendarService.html" target="_self">CalendarService</a>, <a href="../../../com/google/gdata/youtube/YouTubeService.html" target="_self">YouTubeService</a></dd>
+      </dl><hr></hr>
+      
+
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Value Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code>protected var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/Service.html#authTokenFactory" target="_self">authTokenFactory</a></em>
+         : <a href="../../../com/google/gdata/client/AuthTokenFactory.html" target="_self">AuthTokenFactory</a>
+        
+        <div>A facotry for authentication tokens.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>protected var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/Service.html#requestFactory" target="_self">requestFactory</a></em>
+         : <a href="../../../com/google/gdata/client/GDataRequest$object.Factory.html" target="_self">Factory</a>
+        
+        <div>A factory for GData requests.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>protected var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/Service.html#user" target="_self">user</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+        
+        
+      </td>
+    </tr>
+      </table>
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Method Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code>final def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/Service.html#delete%28java.net.URL%29" target="_self">delete</a></em>
+        (<em>url</em> : <a href="" target="contentFrame" class="java/net/URL">java.net.URL</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        <div>DELETE the resource identified by the given URL.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/Service.html#fromEntryLink%28com.google.gdata.data.kinds.EntryLink%5BA%5D%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29" target="_self">fromEntryLink</a></em>
+        [<em>A</em>](<em>f</em> : <a href="../../../com/google/gdata/data/kinds/EntryLink.html" target="_self">EntryLink</a>[<a href="../../../com/google/gdata/Service.html#fromEntryLink%28com.google.gdata.data.kinds.EntryLink%5BA%5D%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>], <em>pa</em> : <a href="../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../com/google/gdata/Service.html#fromEntryLink%28com.google.gdata.data.kinds.EntryLink%5BA%5D%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>]) : <a href="../../../com/google/gdata/Service.html#fromEntryLink%28com.google.gdata.data.kinds.EntryLink%5BA%5D%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>
+        
+        <div>Return the entry embedded in the given entry link, or make a query to retrieve
+   it from the given URL. If the url is not given, it assumes the entry is embedded.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/Service.html#fromFeedLink%28com.google.gdata.data.kinds.FeedLink%5BA%5D%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29" target="_self">fromFeedLink</a></em>
+        [<em>A</em>](<em>f</em> : <a href="../../../com/google/gdata/data/kinds/FeedLink.html" target="_self">FeedLink</a>[<a href="../../../com/google/gdata/Service.html#fromFeedLink%28com.google.gdata.data.kinds.FeedLink%5BA%5D%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>], <em>pa</em> : <a href="../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../com/google/gdata/Service.html#fromFeedLink%28com.google.gdata.data.kinds.FeedLink%5BA%5D%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>]) : <a href="../../../com/google/gdata/Service.html#fromFeedLink%28com.google.gdata.data.kinds.FeedLink%5BA%5D%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>
+        
+        <div>Return the feed embedded in the given feed link, or make a query to retrieve
+   it from the given URL. If the url is not given, it assumes the feed is embedded.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>final def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/Service.html#insert%28java.net.URL%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29" target="_self">insert</a></em>
+        [<em>A</em>](<em>url</em> : <a href="" target="contentFrame" class="java/net/URL">java.net.URL</a>, <em>v</em> : <a href="../../../com/google/gdata/Service.html#insert%28java.net.URL%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>, <em>pa</em> : <a href="../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../com/google/gdata/Service.html#insert%28java.net.URL%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>]) : <a href="../../../com/google/gdata/Service.html#insert%28java.net.URL%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>
+        
+        <div>POST the given value to the given URL.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>protected def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/Service.html#mkRequest%28com.google.gdata.client.RequestMethod.Value%2CString%29" target="_self">mkRequest</a></em>
+        (<em>method</em> : <a href="" target="contentFrame" class="scala/Enumeration/Value">scala.Enumeration.Value</a>, <em>url</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../com/google/gdata/client/GDataRequest.html" target="_self">GDataRequest</a>
+        
+        
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>protected def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/Service.html#pickle%28com.google.gdata.client.GDataRequest%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29" target="_self">pickle</a></em>
+        [<em>A</em>](<em>request</em> : <a href="../../../com/google/gdata/client/GDataRequest.html" target="_self">GDataRequest</a>, <em>v</em> : <a href="../../../com/google/gdata/Service.html#pickle%28com.google.gdata.client.GDataRequest%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>, <em>pa</em> : <a href="../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../com/google/gdata/Service.html#pickle%28com.google.gdata.client.GDataRequest%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>]) : <a href="../../../com/google/gdata/Service.html#pickle%28com.google.gdata.client.GDataRequest%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>
+        
+        <div>Pickle the given value on the request object and unpickle the result. The
+   request should allow both input and output, and should be in a state
+   that allows writing (no reading had yet been performed).</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/Service.html#query%28String%2Ccom.google.gdata.Query%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29" target="_self">query</a></em>
+        [<em>A</em>](<em>base</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>q</em> : <a href="../../../com/google/gdata/Query.html" target="_self">Query</a>, <em>p</em> : <a href="../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../com/google/gdata/Service.html#query%28String%2Ccom.google.gdata.Query%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>]) : <a href="../../../com/google/gdata/Service.html#query%28String%2Ccom.google.gdata.Query%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>
+        
+        <div>Make the given query and parse the XML result using the given pickler.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/Service.html#query%28java.net.URL%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29" target="_self">query</a></em>
+        [<em>A</em>](<em>url</em> : <a href="" target="contentFrame" class="java/net/URL">java.net.URL</a>, <em>p</em> : <a href="../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../com/google/gdata/Service.html#query%28java.net.URL%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>]) : <a href="../../../com/google/gdata/Service.html#query%28java.net.URL%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>
+        
+        <div>Make the given query and parse the XML result using the given pickler.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/Service.html#query%28String%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29" target="_self">query</a></em>
+        [<em>A</em>](<em>url</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>p</em> : <a href="../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../com/google/gdata/Service.html#query%28String%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>]) : <a href="../../../com/google/gdata/Service.html#query%28String%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>
+        
+        <div>Make the given query and parse the XML result using the given pickler.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/Service.html#setUserCredentials%28String%2CString%2CString%2CString%29" target="_self">setUserCredentials</a></em>
+        (<em>username</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>passwd</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>cToken</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>cAnswer</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        <div>Set user credentials and captcha challenge.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/Service.html#setUserCredentials%28String%2CString%29" target="_self">setUserCredentials</a></em>
+        (<em>username</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>passwd</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        <div>Set user credentials.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>final def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/Service.html#update%28java.net.URL%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29" target="_self">update</a></em>
+        [<em>A</em>](<em>url</em> : <a href="" target="contentFrame" class="java/net/URL">java.net.URL</a>, <em>v</em> : <a href="../../../com/google/gdata/Service.html#update%28java.net.URL%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>, <em>pa</em> : <a href="../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../com/google/gdata/Service.html#update%28java.net.URL%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>]) : <a href="../../../com/google/gdata/Service.html#update%28java.net.URL%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>
+        
+        <div>PUT the given value to the given URL. The given url should exactly match the
+   it of the entry that is updated.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../com/google/gdata/Service.html#username" target="_self">username</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+        
+        <div>Retrieve the current username.</div>
+      </td>
+    </tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#getClass%28%29" target="_self">getClass</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#hashCode%28%29" target="_self">hashCode</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#equals%28Any%29" target="_self">equals</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#clone%28%29" target="_self">clone</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#toString%28%29" target="_self">toString</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notify%28%29" target="_self">notify</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notifyAll%28%29" target="_self">notifyAll</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%2CInt%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#finalize%28%29" target="_self">finalize</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%3D%3D%28AnyRef%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%21%3D%28AnyRef%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#eq%28AnyRef%29" target="_self">eq</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#ne%28AnyRef%29" target="_self">ne</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#synchronized%28T0%29" target="_self">synchronized</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%3D%3D%28Any%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%21%3D%28Any%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#isInstanceOf" target="_self">isInstanceOf</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#asInstanceOf" target="_self">asInstanceOf</a>
+        </td></tr>
+      </table>
+
+
+      
+
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Value Details</td></tr>
+        </table><div><a name="requestFactory"></a><dl>
+      <dt>
+        
+        <code>protected</code>
+        <code>var</code>
+        <em>requestFactory</em> : <a href="../../../com/google/gdata/client/GDataRequest$object.Factory.html" target="_self">Factory</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>A factory for GData requests.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="authTokenFactory"></a><dl>
+      <dt>
+        
+        <code>protected</code>
+        <code>var</code>
+        <em>authTokenFactory</em> : <a href="../../../com/google/gdata/client/AuthTokenFactory.html" target="_self">AuthTokenFactory</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>A facotry for authentication tokens.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="user"></a><dl>
+      <dt>
+        
+        <code>protected</code>
+        <code>var</code>
+        <em>user</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+      </dt>
+      <dd></dd>
+    </dl><hr></hr></div>
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Method Details</td></tr>
+        </table><div><a name="username"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>username</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Retrieve the current username.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="setUserCredentials%28String%2CString%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>setUserCredentials</em>(<em>username</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>passwd</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Set user credentials.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="setUserCredentials%28String%2CString%2CString%2CString%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>setUserCredentials</em>(<em>username</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>passwd</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>cToken</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>cAnswer</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Set user credentials and captcha challenge.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="query%28String%2Ccom.google.gdata.Query%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>query</em>[<em>A</em>](<em>base</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>q</em> : <a href="../../../com/google/gdata/Query.html" target="_self">Query</a>, <em>p</em> : <a href="../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../com/google/gdata/Service.html#query%28String%2Ccom.google.gdata.Query%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>]) : <a href="../../../com/google/gdata/Service.html#query%28String%2Ccom.google.gdata.Query%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Make the given query and parse the XML result using the given pickler.</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Throws</b></dt><dd><code>UnknownDocumentException - </code>if the pickler is unsuccessful.</dd><dd><code>AuthenticationException - </code>(one of its subclasses) if the operation fails because           of insufficient rights.</dd><dd><code>IOException - </code>if there are connection issues.</dd><dd><code>GDataRequestException - </code>if there are HTTP errors.</dd></dl>
+    <hr></hr>
+<a name="query%28String%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>query</em>[<em>A</em>](<em>url</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>p</em> : <a href="../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../com/google/gdata/Service.html#query%28String%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>]) : <a href="../../../com/google/gdata/Service.html#query%28String%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Make the given query and parse the XML result using the given pickler.</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Throws</b></dt><dd><code>UnknownDocumentException - </code>if the pickler is unsuccessful.</dd><dd><code>AuthenticationException - </code>(one of its subclasses) if the operation fails because           of insufficient rights.</dd><dd><code>IOException - </code>if there are connection issues.</dd><dd><code>GDataRequestException - </code>if there are HTTP errors.</dd></dl>
+    <hr></hr>
+<a name="query%28java.net.URL%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>query</em>[<em>A</em>](<em>url</em> : <a href="" target="contentFrame" class="java/net/URL">java.net.URL</a>, <em>p</em> : <a href="../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../com/google/gdata/Service.html#query%28java.net.URL%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>]) : <a href="../../../com/google/gdata/Service.html#query%28java.net.URL%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Make the given query and parse the XML result using the given pickler.</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Throws</b></dt><dd><code>UnknownDocumentException - </code>if the pickler is unsuccessful.</dd><dd><code>AuthenticationException - </code>(one of its subclasses) if the operation fails because           of insufficient rights.</dd><dd><code>IOException - </code>if there are connection issues.</dd><dd><code>GDataRequestException - </code>if there are HTTP errors.</dd></dl>
+    <hr></hr>
+<a name="insert%28java.net.URL%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29"></a><dl>
+      <dt>
+        
+        <code>final</code>
+        <code>def</code>
+        <em>insert</em>[<em>A</em>](<em>url</em> : <a href="" target="contentFrame" class="java/net/URL">java.net.URL</a>, <em>v</em> : <a href="../../../com/google/gdata/Service.html#insert%28java.net.URL%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>, <em>pa</em> : <a href="../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../com/google/gdata/Service.html#insert%28java.net.URL%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>]) : <a href="../../../com/google/gdata/Service.html#insert%28java.net.URL%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>POST the given value to the given URL.</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Throws</b></dt><dd><code>UnknownDocumentException - </code>if the pickler is unsuccessful.</dd><dd><code>AuthenticationException - </code>(one of its subclasses) if the operation fails because           of insufficient rights.</dd><dd><code>IOException - </code>if there are connection issues.</dd><dd><code>GDataRequestException - </code>if there are HTTP errors.</dd></dl>
+    <hr></hr>
+<a name="update%28java.net.URL%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29"></a><dl>
+      <dt>
+        
+        <code>final</code>
+        <code>def</code>
+        <em>update</em>[<em>A</em>](<em>url</em> : <a href="" target="contentFrame" class="java/net/URL">java.net.URL</a>, <em>v</em> : <a href="../../../com/google/gdata/Service.html#update%28java.net.URL%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>, <em>pa</em> : <a href="../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../com/google/gdata/Service.html#update%28java.net.URL%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>]) : <a href="../../../com/google/gdata/Service.html#update%28java.net.URL%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>PUT the given value to the given URL. The given url should exactly match the
+   it of the entry that is updated.</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Throws</b></dt><dd><code>UnknownDocumentException - </code>if the pickler is unsuccessful.</dd><dd><code>AuthenticationException - </code>(one of its subclasses) if the operation fails because           of insufficient rights.</dd><dd><code>IOException - </code>if there are connection issues.</dd><dd><code>GDataRequestException - </code>if there are HTTP errors.</dd></dl>
+    <hr></hr>
+<a name="delete%28java.net.URL%29"></a><dl>
+      <dt>
+        
+        <code>final</code>
+        <code>def</code>
+        <em>delete</em>(<em>url</em> : <a href="" target="contentFrame" class="java/net/URL">java.net.URL</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>DELETE the resource identified by the given URL.</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Throws</b></dt><dd><code>AuthenticationException - </code>(one of its subclasses) if the operation fails because           of insufficient rights.</dd><dd><code>IOException - </code>if there are connection issues.</dd><dd><code>GDataRequestException - </code>if there are HTTP errors.</dd></dl>
+    <hr></hr>
+<a name="pickle%28com.google.gdata.client.GDataRequest%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29"></a><dl>
+      <dt>
+        
+        <code>protected</code>
+        <code>def</code>
+        <em>pickle</em>[<em>A</em>](<em>request</em> : <a href="../../../com/google/gdata/client/GDataRequest.html" target="_self">GDataRequest</a>, <em>v</em> : <a href="../../../com/google/gdata/Service.html#pickle%28com.google.gdata.client.GDataRequest%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>, <em>pa</em> : <a href="../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../com/google/gdata/Service.html#pickle%28com.google.gdata.client.GDataRequest%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>]) : <a href="../../../com/google/gdata/Service.html#pickle%28com.google.gdata.client.GDataRequest%2CA%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Pickle the given value on the request object and unpickle the result. The
+   request should allow both input and output, and should be in a state
+   that allows writing (no reading had yet been performed).</dd></dl>
+      <dl><dt style="margin:10px 0 0 20px;">
+        <b>Throws</b></dt><dd><code>UnknownDocumentException - </code>if the pickler is unsuccessful.</dd><dd><code>AuthenticationException - </code>(one of its subclasses) if the operation fails because           of insufficient rights.</dd><dd><code>IOException - </code>if there are connection issues.</dd><dd><code>GDataRequestException - </code>if there are HTTP errors.</dd></dl>
+    <hr></hr>
+<a name="fromFeedLink%28com.google.gdata.data.kinds.FeedLink%5BA%5D%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>fromFeedLink</em>[<em>A</em>](<em>f</em> : <a href="../../../com/google/gdata/data/kinds/FeedLink.html" target="_self">FeedLink</a>[<a href="../../../com/google/gdata/Service.html#fromFeedLink%28com.google.gdata.data.kinds.FeedLink%5BA%5D%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>], <em>pa</em> : <a href="../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../com/google/gdata/Service.html#fromFeedLink%28com.google.gdata.data.kinds.FeedLink%5BA%5D%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>]) : <a href="../../../com/google/gdata/Service.html#fromFeedLink%28com.google.gdata.data.kinds.FeedLink%5BA%5D%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Return the feed embedded in the given feed link, or make a query to retrieve
+   it from the given URL. If the url is not given, it assumes the feed is embedded.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="fromEntryLink%28com.google.gdata.data.kinds.EntryLink%5BA%5D%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>fromEntryLink</em>[<em>A</em>](<em>f</em> : <a href="../../../com/google/gdata/data/kinds/EntryLink.html" target="_self">EntryLink</a>[<a href="../../../com/google/gdata/Service.html#fromEntryLink%28com.google.gdata.data.kinds.EntryLink%5BA%5D%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>], <em>pa</em> : <a href="../../../com/google/xml/combinators/Picklers$object.Pickler.html" target="_self">Pickler</a>[<a href="../../../com/google/gdata/Service.html#fromEntryLink%28com.google.gdata.data.kinds.EntryLink%5BA%5D%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>]) : <a href="../../../com/google/gdata/Service.html#fromEntryLink%28com.google.gdata.data.kinds.EntryLink%5BA%5D%2Ccom.google.xml.combinators.Picklers.Pickler%5BA%5D%29#A" target="_self">A</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Return the entry embedded in the given entry link, or make a query to retrieve
+   it from the given URL. If the url is not given, it assumes the entry is embedded.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="mkRequest%28com.google.gdata.client.RequestMethod.Value%2CString%29"></a><dl>
+      <dt>
+        
+        <code>protected</code>
+        <code>def</code>
+        <em>mkRequest</em>(<em>method</em> : <a href="" target="contentFrame" class="scala/Enumeration/Value">scala.Enumeration.Value</a>, <em>url</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../com/google/gdata/client/GDataRequest.html" target="_self">GDataRequest</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr></div>
+
+
+    <hr></hr>
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">GData Scala Client Library Documentation</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+      </body>
+      </html>

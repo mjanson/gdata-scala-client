@@ -1,0 +1,662 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+        <head><title>class AtomFeed in com.google.gdata.data.AtomFeeds</title>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.1.RC1)" name="generator"></meta><link href="../../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../../script.js"></script>
+        </head>
+        <body onload="init()">
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">GData Scala Client Library Documentation</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+        
+      <div class="entity">
+        <a href="../../../../com/google/gdata/data/AtomFeeds.html" target="_self">com.google.gdata.data.AtomFeeds</a>
+        <br></br>
+        <span class="entity">class  AtomFeed</span>
+      </div><hr></hr>
+      <div class="source">
+        [source: <a href="" class="com/google/gdata/data/AtomFeeds"><code>com/google/gdata/data/AtomFeeds.scala</code></a>]
+      </div><hr></hr>
+      <a name="AtomFeed"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>class</code>
+        <em>AtomFeed</em>
+      </dt>
+      <dd><code> extends </code><a href="" target="contentFrame" class="scala/Seq">scala.Seq</a>[<a href="../../../../com/google/gdata/data/Entries.html#Entry" target="_self">Entry</a>]<code> with </code><a href="../../../../com/google/xml/combinators/HasStore.html" target="_self">HasStore</a></dd>
+    </dl>
+      <dl><dd>An Atom Feed. It contains metadata about the feed and a sequence of entries.</dd></dl>
+      <dl></dl>
+    
+      <table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Additional Constructor Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html#this%28String%2CString%29" target="_self">this</a></em>
+        (<em>id</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>title</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
+        
+        <div>Convenience method for creating a new feed based on an id and a title.</div>
+      </td>
+    </tr>
+      </table>
+
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Value Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html#authors" target="_self">authors</a></em>
+         : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Person.html" target="_self">Person</a>]
+        
+        <div>The authors of this feed.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html#categories" target="_self">categories</a></em>
+         : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Category.html" target="_self">Category</a>]
+        
+        <div>Categories associated to this feed.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html#contributors" target="_self">contributors</a></em>
+         : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Person.html" target="_self">Person</a>]
+        
+        <div>Contributors associated to this feed.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html#entries" target="_self">entries</a></em>
+         : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Entries.html#Entry" target="_self">Entry</a>]
+        
+        <div>A list of entries contained in this feed.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html#generator" target="_self">generator</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/data/Generator.html" target="_self">Generator</a>]
+        
+        <div>User agent used to generate this feed.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html#icon" target="_self">icon</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+        
+        <div>IRI for an icon for this feed.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html#id" target="_self">id</a></em>
+         : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>
+        
+        <div>Permanent, unique id for this feed.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html#itemsPerPage" target="_self">itemsPerPage</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>]
+        
+        <div>The number of search results returned per page.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html#links" target="_self">links</a></em>
+         : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Link.html" target="_self">Link</a>]
+        
+        <div>References to web resources.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html#logo" target="_self">logo</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+        
+        <div>IRI for a visual identification of this feed.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html#rights" target="_self">rights</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+        
+        <div>Rights held over this feed.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html#startIndex" target="_self">startIndex</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>]
+        
+        <div>The index of the first search result in the current set of search results.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html#subtitle" target="_self">subtitle</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/data/Text.html" target="_self">Text</a>]
+        
+        <div>A subtitle of this feed.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html#title" target="_self">title</a></em>
+         : <a href="../../../../com/google/gdata/data/Text.html" target="_self">Text</a>
+        
+        <div>This feed's title.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html#totalResults" target="_self">totalResults</a></em>
+         : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>]
+        
+        <div>The number of search results available for this query.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> var</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html#updated" target="_self">updated</a></em>
+         : <a href="../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>
+        
+        <div>The most recent instant in time this feed has been modified.</div>
+      </td>
+    </tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Values and Variables inherited from <a href="../../../../com/google/xml/combinators/HasStore.html" target="_self">HasStore</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="../../../../com/google/xml/combinators/HasStore.html#store" target="_self">store</a>
+        </td></tr>
+      </table>
+<table summary="" cellpadding="3" class="member">
+      <tr><td class="title" colspan="2">Method Summary</td></tr>
+      <tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html#apply%28Int%29" target="_self">apply</a></em>
+        (<em>n</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>) : <a href="../../../../com/google/gdata/data/Entries.html#Entry" target="_self">Entry</a>
+        
+        <div>Return the n'th entry.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html#elements" target="_self">elements</a></em>
+         : <a href="" target="contentFrame" class="scala/Iterator">scala.Iterator</a>[<a href="../../../../com/google/gdata/data/Entries.html#Entry" target="_self">Entry</a>]
+        
+        <div>Return an iterator over the entries contained by this feed.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html#fillOwnFields%28List%5Bcom.google.gdata.data.Person%5D%2CList%5Bcom.google.gdata.data.Category%5D%2CList%5Bcom.google.gdata.data.Person%5D%2COption%5Bcom.google.gdata.data.Generator%5D%2COption%5BString%5D%2CString%2CList%5Bcom.google.gdata.data.Link%5D%2COption%5BString%5D%2COption%5BString%5D%2COption%5Bcom.google.gdata.data.Text%5D%2Ccom.google.gdata.data.Text%2Ccom.google.gdata.data.util.DateTime%2COption%5BInt%5D%2COption%5BInt%5D%2COption%5BInt%5D%2CList%5BAtomFeeds.this.Entry%5D%29" target="_self">fillOwnFields</a></em>
+        (<em>authors</em> : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Person.html" target="_self">Person</a>], <em>categories</em> : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Category.html" target="_self">Category</a>], <em>contributors</em> : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Person.html" target="_self">Person</a>], <em>generator</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/data/Generator.html" target="_self">Generator</a>], <em>icon</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>], <em>id</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>links</em> : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Link.html" target="_self">Link</a>], <em>logo</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>], <em>rights</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>], <em>subtitle</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/data/Text.html" target="_self">Text</a>], <em>title</em> : <a href="../../../../com/google/gdata/data/Text.html" target="_self">Text</a>, <em>updated</em> : <a href="../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>, <em>totalResults</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>], <em>startIndex</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>], <em>itemsPerPage</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>], <em>entries</em> : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Entries.html#Entry" target="_self">Entry</a>]) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
+        
+        <div>Initialization method to fill all known fields.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html#fromAtomFeed%28AtomFeeds.this.AtomFeed%29" target="_self">fromAtomFeed</a></em>
+        (<em>af</em> : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+        
+        <div>Copy known fields from another AtomFeed.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html#length" target="_self">length</a></em>
+         : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>
+        
+        <div>The length of the entry sequence.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>override def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html#toString%28%29" target="_self">toString</a></em>
+         : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>
+        
+        
+      </td>
+    </tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="" target="contentFrame" class="scala/Seq">scala.Seq</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="#lengthCompare" target="contentFrame" class="scala/Seq">scala.Seq.lengthCompare</a>, <a href="#size" target="contentFrame" class="scala/Seq">scala.Seq.size</a>, <a href="#isEmpty" target="contentFrame" class="scala/Seq">scala.Seq.isEmpty</a>, <a href="#concat" target="contentFrame" class="scala/Seq">scala.Seq.concat</a>, <a href="#last" target="contentFrame" class="scala/Seq">scala.Seq.last</a>, <a href="#lastOption" target="contentFrame" class="scala/Seq">scala.Seq.lastOption</a>, <a href="#first" target="contentFrame" class="scala/Seq">scala.Seq.first</a>, <a href="#firstOption" target="contentFrame" class="scala/Seq">scala.Seq.firstOption</a>, <a href="#headOption" target="contentFrame" class="scala/Seq">scala.Seq.headOption</a>, <a href="#++" target="contentFrame" class="scala/Seq">scala.Seq.++</a>, <a href="#isDefinedAt" target="contentFrame" class="scala/Seq">scala.Seq.isDefinedAt</a>, <a href="#lastIndexOf" target="contentFrame" class="scala/Seq">scala.Seq.lastIndexOf</a>, <a href="#map" target="contentFrame" class="scala/Seq">scala.Seq.map</a>, <a href="#flatMap" target="contentFrame" class="scala/Seq">scala.Seq.flatMap</a>, <a href="#filter" target="contentFrame" class="scala/Seq">scala.Seq.filter</a>, <a href="#take" target="contentFrame" class="scala/Seq">scala.Seq.take</a>, <a href="#drop" target="contentFrame" class="scala/Seq">scala.Seq.drop</a>, <a href="#slice" target="contentFrame" class="scala/Seq">scala.Seq.slice</a>, <a href="#slice" target="contentFrame" class="scala/Seq">scala.Seq.slice</a>, <a href="#takeWhile" target="contentFrame" class="scala/Seq">scala.Seq.takeWhile</a>, <a href="#dropWhile" target="contentFrame" class="scala/Seq">scala.Seq.dropWhile</a>, <a href="#reverse" target="contentFrame" class="scala/Seq">scala.Seq.reverse</a>, <a href="#contains" target="contentFrame" class="scala/Seq">scala.Seq.contains</a>, <a href="#subseq" target="contentFrame" class="scala/Seq">scala.Seq.subseq</a>, <a href="#toArray" target="contentFrame" class="scala/Seq">scala.Seq.toArray</a>, <a href="#toSeq" target="contentFrame" class="scala/Seq">scala.Seq.toSeq</a>, <a href="#projection" target="contentFrame" class="scala/Seq">scala.Seq.projection</a>, <a href="#equalsWith" target="contentFrame" class="scala/Seq">scala.Seq.equalsWith</a>, <a href="#startsWith" target="contentFrame" class="scala/Seq">scala.Seq.startsWith</a>, <a href="#endsWith" target="contentFrame" class="scala/Seq">scala.Seq.endsWith</a>, <a href="#indexOf" target="contentFrame" class="scala/Seq">scala.Seq.indexOf</a>, <a href="#containsSlice" target="contentFrame" class="scala/Seq">scala.Seq.containsSlice</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="" target="contentFrame" class="scala/Collection">scala.Collection</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="#stringPrefix" target="contentFrame" class="scala/Collection">scala.Collection.stringPrefix</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="" target="contentFrame" class="scala/Iterable">scala.Iterable</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="#partition" target="contentFrame" class="scala/Iterable">scala.Iterable.partition</a>, <a href="#foreach" target="contentFrame" class="scala/Iterable">scala.Iterable.foreach</a>, <a href="#forall" target="contentFrame" class="scala/Iterable">scala.Iterable.forall</a>, <a href="#exists" target="contentFrame" class="scala/Iterable">scala.Iterable.exists</a>, <a href="#find" target="contentFrame" class="scala/Iterable">scala.Iterable.find</a>, <a href="#findIndexOf" target="contentFrame" class="scala/Iterable">scala.Iterable.findIndexOf</a>, <a href="#indexOf" target="contentFrame" class="scala/Iterable">scala.Iterable.indexOf</a>, <a href="#foldLeft" target="contentFrame" class="scala/Iterable">scala.Iterable.foldLeft</a>, <a href="#foldRight" target="contentFrame" class="scala/Iterable">scala.Iterable.foldRight</a>, <a href="#/:" target="contentFrame" class="scala/Iterable">scala.Iterable./:</a>, <a href="#:\" target="contentFrame" class="scala/Iterable">scala.Iterable.:\</a>, <a href="#reduceLeft" target="contentFrame" class="scala/Iterable">scala.Iterable.reduceLeft</a>, <a href="#reduceRight" target="contentFrame" class="scala/Iterable">scala.Iterable.reduceRight</a>, <a href="#copyToBuffer" target="contentFrame" class="scala/Iterable">scala.Iterable.copyToBuffer</a>, <a href="#sameElements" target="contentFrame" class="scala/Iterable">scala.Iterable.sameElements</a>, <a href="#toList" target="contentFrame" class="scala/Iterable">scala.Iterable.toList</a>, <a href="#toStream" target="contentFrame" class="scala/Iterable">scala.Iterable.toStream</a>, <a href="#mkString" target="contentFrame" class="scala/Iterable">scala.Iterable.mkString</a>, <a href="#mkString" target="contentFrame" class="scala/Iterable">scala.Iterable.mkString</a>, <a href="#mkString" target="contentFrame" class="scala/Iterable">scala.Iterable.mkString</a>, <a href="#addString" target="contentFrame" class="scala/Iterable">scala.Iterable.addString</a>, <a href="#addString" target="contentFrame" class="scala/Iterable">scala.Iterable.addString</a>, <a href="#copyToArray" target="contentFrame" class="scala/Iterable">scala.Iterable.copyToArray</a>, <a href="#hasDefiniteSize" target="contentFrame" class="scala/Iterable">scala.Iterable.hasDefiniteSize</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="" target="contentFrame" class="scala/PartialFunction">scala.PartialFunction</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="#orElse" target="contentFrame" class="scala/PartialFunction">scala.PartialFunction.orElse</a>, <a href="#andThen" target="contentFrame" class="scala/PartialFunction">scala.PartialFunction.andThen</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="" target="contentFrame" class="scala/Function1">scala.Function1</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="#compose" target="contentFrame" class="scala/Function1">scala.Function1.compose</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#getClass%28%29" target="_self">getClass</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#hashCode%28%29" target="_self">hashCode</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#equals%28Any%29" target="_self">equals</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#clone%28%29" target="_self">clone</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notify%28%29" target="_self">notify</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#notifyAll%28%29" target="_self">notifyAll</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28Long%2CInt%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#wait%28%29" target="_self">wait</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#finalize%28%29" target="_self">finalize</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%3D%3D%28AnyRef%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#%21%3D%28AnyRef%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#eq%28AnyRef%29" target="_self">eq</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#ne%28AnyRef%29" target="_self">ne</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html#synchronized%28T0%29" target="_self">synchronized</a>
+        </td></tr>
+      </table><table summary="" cellpadding="3" class="inherited">
+        <tr><td class="title" colspan="2">
+          Methods inherited from <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html" target="_self">Any</a>
+        </td></tr>
+        <tr><td class="signature" colspan="2">
+          <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%3D%3D%28Any%29" target="_self">==</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#%21%3D%28Any%29" target="_self">!=</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#isInstanceOf" target="_self">isInstanceOf</a>, <a href="http://www.scala-lang.org/docu/files/api/scala/Any.html#asInstanceOf" target="_self">asInstanceOf</a>
+        </td></tr>
+      </table>
+
+
+      <table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Additional Constructor Details</td></tr>
+        </table><div><a name="this%28String%2CString%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>this</em>(<em>id</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>title</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Convenience method for creating a new feed based on an id and a title.</dd></dl>
+      <dl></dl>
+    <hr></hr></div>
+
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Value Details</td></tr>
+        </table><div><a name="authors"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>authors</em> : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Person.html" target="_self">Person</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>The authors of this feed.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="categories"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>categories</em> : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Category.html" target="_self">Category</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Categories associated to this feed.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="contributors"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>contributors</em> : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Person.html" target="_self">Person</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Contributors associated to this feed.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="generator"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>generator</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/data/Generator.html" target="_self">Generator</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>User agent used to generate this feed.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="icon"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>icon</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>IRI for an icon for this feed.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="id"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>id</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Permanent, unique id for this feed.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="links"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>links</em> : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Link.html" target="_self">Link</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>References to web resources.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="logo"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>logo</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>IRI for a visual identification of this feed.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="rights"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>rights</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Rights held over this feed.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="subtitle"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>subtitle</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/data/Text.html" target="_self">Text</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>A subtitle of this feed.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="title"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>title</em> : <a href="../../../../com/google/gdata/data/Text.html" target="_self">Text</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>This feed's title.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="updated"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>updated</em> : <a href="../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>The most recent instant in time this feed has been modified.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="entries"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>entries</em> : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Entries.html#Entry" target="_self">Entry</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>A list of entries contained in this feed.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="totalResults"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>totalResults</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>The number of search results available for this query.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="startIndex"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>startIndex</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>The index of the first search result in the current set of search results.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="itemsPerPage"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>var</code>
+        <em>itemsPerPage</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>The number of search results returned per page.</dd></dl>
+      <dl></dl>
+    <hr></hr></div>
+<table summary="" cellpadding="3" class="member-detail">
+          <tr><td class="title">Method Details</td></tr>
+        </table><div><a name="length"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>length</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>The length of the entry sequence.</dd></dl>
+      <dl></dl>
+    <dl>
+        <dt style="margin:10px 0 0 20px;">
+          <b>Overrides</b>
+        </dt>
+        <dd>
+        <a href="" target="contentFrame" class="scala/Seq">scala.Seq</a>.<a href="#length" target="contentFrame" class="scala/Seq">scala.Seq.length</a>
+        </dd>
+      </dl><hr></hr>
+<a name="elements"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>elements</em> : <a href="" target="contentFrame" class="scala/Iterator">scala.Iterator</a>[<a href="../../../../com/google/gdata/data/Entries.html#Entry" target="_self">Entry</a>]
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Return an iterator over the entries contained by this feed.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="apply%28Int%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>apply</em>(<em>n</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>) : <a href="../../../../com/google/gdata/data/Entries.html#Entry" target="_self">Entry</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Return the n'th entry.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="fillOwnFields%28List%5Bcom.google.gdata.data.Person%5D%2CList%5Bcom.google.gdata.data.Category%5D%2CList%5Bcom.google.gdata.data.Person%5D%2COption%5Bcom.google.gdata.data.Generator%5D%2COption%5BString%5D%2CString%2CList%5Bcom.google.gdata.data.Link%5D%2COption%5BString%5D%2COption%5BString%5D%2COption%5Bcom.google.gdata.data.Text%5D%2Ccom.google.gdata.data.Text%2Ccom.google.gdata.data.util.DateTime%2COption%5BInt%5D%2COption%5BInt%5D%2COption%5BInt%5D%2CList%5BAtomFeeds.this.Entry%5D%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>fillOwnFields</em>(<em>authors</em> : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Person.html" target="_self">Person</a>], <em>categories</em> : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Category.html" target="_self">Category</a>], <em>contributors</em> : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Person.html" target="_self">Person</a>], <em>generator</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/data/Generator.html" target="_self">Generator</a>], <em>icon</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>], <em>id</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>links</em> : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Link.html" target="_self">Link</a>], <em>logo</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>], <em>rights</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>], <em>subtitle</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/data/Text.html" target="_self">Text</a>], <em>title</em> : <a href="../../../../com/google/gdata/data/Text.html" target="_self">Text</a>, <em>updated</em> : <a href="../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>, <em>totalResults</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>], <em>startIndex</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>], <em>itemsPerPage</em> : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>], <em>entries</em> : <a href="" target="contentFrame" class="scala/List">scala.List</a>[<a href="../../../../com/google/gdata/data/Entries.html#Entry" target="_self">Entry</a>]) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Initialization method to fill all known fields.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="fromAtomFeed%28AtomFeeds.this.AtomFeed%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>fromAtomFeed</em>(<em>af</em> : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>) : <a href="http://www.scala-lang.org/docu/files/api/scala/Unit.html" target="_self">Unit</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Copy known fields from another AtomFeed.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="toString%28%29"></a><dl>
+      <dt>
+        
+        <code>override</code>
+        <code>def</code>
+        <em>toString</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>
+      </dt>
+      <dd></dd>
+    </dl><hr></hr></div>
+
+
+    <hr></hr>
+        <table summary="" class="navigation">
+        <tr>
+          <td class="navigation-links" valign="top">
+            <!-- <table><tr></tr></table> -->
+          </td>
+          <td align="right" valign="top" style="white-space:nowrap;" rowspan="2">
+            <div class="doctitle-larger">GData Scala Client Library Documentation</div>
+          </td>
+        </tr>
+        <tr><td></td></tr>
+      </table>
+      </body>
+      </html>
