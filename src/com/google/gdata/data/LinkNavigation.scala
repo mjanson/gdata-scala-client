@@ -34,4 +34,12 @@ trait LinkNavigation {
   /** Return the 'href' field of the link that matches the required 'rel' attribute. */
   def linkHref(rel: String): Option[String] =
     link(rel) map (_.href)
+  
+  /** Return the 'href' part of a link with relation 'edit', if any. */
+  def editLink: Option[String] = 
+    linkHref("edit")
+  
+  /** Return the 'href' part of a link with relation 'post', if any. */
+  def postLink: Option[String] =
+    linkHref("post")
 }

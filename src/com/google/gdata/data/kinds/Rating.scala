@@ -41,7 +41,7 @@ case class Rating(average: Option[Double], min: Int, max: Int,
     }
     sb.append('/').append(max)
     if (!numRaters.isEmpty)
-       sb.append(" out of ").append(numRaters.get)
+       sb.append(" (").append(numRaters.get).append(" voters").append(')')
     sb.toString
   }
 }
