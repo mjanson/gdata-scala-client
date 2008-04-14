@@ -37,26 +37,33 @@ import java.net.URL
  */
 class YouTubeService(appName: String) extends Service(appName, "youtube") {
 
+  /** The video feed module. It depends on the comments feed defined below. */
   val videos = new StdVideoFeed {
     override lazy val commentsFeed: YouTubeService.this.comments.type = comments
   }
   
+  /** A standard comments feed, used by videos and playlists. */
   val comments = new StdCommentsFeed
   
+  /** A contacts feed. */
   val contacts = new StdContactsFeed
   
+  /** A playlist feed. It depends on the comments feed defined above. */
   val playlist = new StdPlaylistFeed {
     override lazy val commentsFeed: YouTubeService.this.comments.type = comments
   }
   
+  /** A subscription feed. It uses the video feed of this service. */
   val subscription = new StdSubscriptionFeed {
     override lazy val videoFeeds: YouTubeService.this.videos.type = videos
   }
   
+  /** User playlist feed. */
   val userPlaylists = new StdUserPlaylistsFeed {
     override lazy val playlistFeed: YouTubeService.this.videos.type = videos
   }
   
+  /** A user profile feed. */ 
   val userProfile = new StdUserProfileEntry
   
   /** Return a video feed matching the given query. */

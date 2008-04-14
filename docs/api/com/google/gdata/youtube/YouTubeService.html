@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
         <head><title>class YouTubeService in com.google.gdata.youtube</title>
-        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.1.RC1)" name="generator"></meta><link href="../../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../../script.js"></script>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.0.r14476-b20080402192629)" name="generator"></meta><link href="../../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../../script.js"></script>
         </head>
         <body onload="init()">
         <table summary="" class="navigation">
@@ -58,7 +58,7 @@
         <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#comments" target="_self">comments</a></em>
          : <a href="../../../../com/google/gdata/youtube/StdCommentsFeed.html" target="_self">StdCommentsFeed</a>
         
-        
+        <div>A standard comments feed, used by videos and playlists.</div>
       </td>
     </tr>
 <tr>
@@ -69,7 +69,7 @@
         <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#contacts" target="_self">contacts</a></em>
          : <a href="../../../../com/google/gdata/youtube/StdContactsFeed.html" target="_self">StdContactsFeed</a>
         
-        
+        <div>A contacts feed.</div>
       </td>
     </tr>
 <tr>
@@ -80,7 +80,7 @@
         <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#playlist" target="_self">playlist</a></em>
          : <a href="../../../../com/google/gdata/youtube/StdPlaylistFeed.html" target="_self">StdPlaylistFeed</a>
         
-        
+        <div>A playlist feed. It depends on the comments feed defined above.</div>
       </td>
     </tr>
 <tr>
@@ -91,7 +91,7 @@
         <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#subscription" target="_self">subscription</a></em>
          : <a href="../../../../com/google/gdata/youtube/StdSubscriptionFeed.html" target="_self">StdSubscriptionFeed</a>
         
-        
+        <div>A subscription feed. It uses the video feed of this service.</div>
       </td>
     </tr>
 <tr>
@@ -102,7 +102,7 @@
         <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#userPlaylists" target="_self">userPlaylists</a></em>
          : <a href="../../../../com/google/gdata/youtube/StdUserPlaylistsFeed.html" target="_self">StdUserPlaylistsFeed</a>
         
-        
+        <div>User playlist feed.</div>
       </td>
     </tr>
 <tr>
@@ -113,7 +113,7 @@
         <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#userProfile" target="_self">userProfile</a></em>
          : <a href="../../../../com/google/gdata/youtube/StdUserProfileEntry.html" target="_self">StdUserProfileEntry</a>
         
-        
+        <div>A user profile feed.</div>
       </td>
     </tr>
 <tr>
@@ -124,7 +124,7 @@
         <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#videos" target="_self">videos</a></em>
          : <a href="../../../../com/google/gdata/youtube/StdVideoFeed.html" target="_self">StdVideoFeed</a>
         
-        
+        <div>The video feed module. It depends on the comments feed defined below.</div>
       </td>
     </tr>
       </table><table summary="" cellpadding="3" class="inherited">
@@ -142,10 +142,10 @@
         <code> def</code>
       </td>
       <td class="signature">
-        <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#getComments%28String%29" target="_self">getComments</a></em>
-        (<em>url</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#getComments%28YouTubeService.this.videos.Entry%29" target="_self">getComments</a></em>
+        (<em>ventry</em> : <a href="../../../../com/google/gdata/youtube/VideoEntries.VideoEntry.html" target="_self">VideoEntry</a>) : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>]
         
-        <div>Get the comment feed from the given url.</div>
+        <div>Get comments for the given video entry.</div>
       </td>
     </tr>
 <tr>
@@ -153,10 +153,10 @@
         <code> def</code>
       </td>
       <td class="signature">
-        <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#getComments%28YouTubeService.this.videos.Entry%29" target="_self">getComments</a></em>
-        (<em>ventry</em> : <a href="../../../../com/google/gdata/youtube/VideoEntries.VideoEntry.html" target="_self">VideoEntry</a>) : <a href="" target="contentFrame" class="scala/Option">scala.Option</a>[<a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>]
+        <em><a href="../../../../com/google/gdata/youtube/YouTubeService.html#getComments%28String%29" target="_self">getComments</a></em>
+        (<em>url</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
         
-        <div>Get comments for the given video entry.</div>
+        <div>Get the comment feed from the given url.</div>
       </td>
     </tr>
 <tr>
@@ -294,7 +294,10 @@
         <em>videos</em> : <a href="../../../../com/google/gdata/youtube/StdVideoFeed.html" target="_self">StdVideoFeed</a>
       </dt>
       <dd></dd>
-    </dl><hr></hr>
+    </dl>
+      <dl><dd>The video feed module. It depends on the comments feed defined below.</dd></dl>
+      <dl></dl>
+    <hr></hr>
 <a name="comments"></a><dl>
       <dt>
         
@@ -303,7 +306,10 @@
         <em>comments</em> : <a href="../../../../com/google/gdata/youtube/StdCommentsFeed.html" target="_self">StdCommentsFeed</a>
       </dt>
       <dd></dd>
-    </dl><hr></hr>
+    </dl>
+      <dl><dd>A standard comments feed, used by videos and playlists.</dd></dl>
+      <dl></dl>
+    <hr></hr>
 <a name="contacts"></a><dl>
       <dt>
         
@@ -312,7 +318,10 @@
         <em>contacts</em> : <a href="../../../../com/google/gdata/youtube/StdContactsFeed.html" target="_self">StdContactsFeed</a>
       </dt>
       <dd></dd>
-    </dl><hr></hr>
+    </dl>
+      <dl><dd>A contacts feed.</dd></dl>
+      <dl></dl>
+    <hr></hr>
 <a name="playlist"></a><dl>
       <dt>
         
@@ -321,7 +330,10 @@
         <em>playlist</em> : <a href="../../../../com/google/gdata/youtube/StdPlaylistFeed.html" target="_self">StdPlaylistFeed</a>
       </dt>
       <dd></dd>
-    </dl><hr></hr>
+    </dl>
+      <dl><dd>A playlist feed. It depends on the comments feed defined above.</dd></dl>
+      <dl></dl>
+    <hr></hr>
 <a name="subscription"></a><dl>
       <dt>
         
@@ -330,7 +342,10 @@
         <em>subscription</em> : <a href="../../../../com/google/gdata/youtube/StdSubscriptionFeed.html" target="_self">StdSubscriptionFeed</a>
       </dt>
       <dd></dd>
-    </dl><hr></hr>
+    </dl>
+      <dl><dd>A subscription feed. It uses the video feed of this service.</dd></dl>
+      <dl></dl>
+    <hr></hr>
 <a name="userPlaylists"></a><dl>
       <dt>
         
@@ -339,7 +354,10 @@
         <em>userPlaylists</em> : <a href="../../../../com/google/gdata/youtube/StdUserPlaylistsFeed.html" target="_self">StdUserPlaylistsFeed</a>
       </dt>
       <dd></dd>
-    </dl><hr></hr>
+    </dl>
+      <dl><dd>User playlist feed.</dd></dl>
+      <dl></dl>
+    <hr></hr>
 <a name="userProfile"></a><dl>
       <dt>
         
@@ -348,7 +366,10 @@
         <em>userProfile</em> : <a href="../../../../com/google/gdata/youtube/StdUserProfileEntry.html" target="_self">StdUserProfileEntry</a>
       </dt>
       <dd></dd>
-    </dl><hr></hr></div>
+    </dl>
+      <dl><dd>A user profile feed.</dd></dl>
+      <dl></dl>
+    <hr></hr></div>
 <table summary="" cellpadding="3" class="member-detail">
           <tr><td class="title">Method Details</td></tr>
         </table><div><a name="getVideos%28com.google.gdata.Query%29"></a><dl>

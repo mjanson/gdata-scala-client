@@ -23,7 +23,7 @@
   <property name="scala.dir" value="${env.SCALA_HOME}"/>
   <property name="build.dir" value="classes"/>
 	<property name="instr.dir" location="classes-instr"/>
-  <property name="docs.dir" value="docs"/>
+  <property name="docs.dir" value="docs/api"/>
 
   <property name="coverage.dir" value="coverage"/>
   <!--  directory that contains emma.jar and emma_ant.jar: -->
@@ -225,7 +225,8 @@
   <macrodef name="remove">
     <attribute name="dir"/>
     <sequential>
-      <delete dir="@{dir}" includeemptydirs="yes" quiet="yes" failonerror="no"/>
+      <delete dir="@{dir}" includeemptydirs="yes" quiet="yes" 
+      	failonerror="no" defaultexcludes="true"/>
     </sequential>
   </macrodef>
 

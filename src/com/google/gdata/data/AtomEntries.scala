@@ -24,23 +24,6 @@ import scala.xml.{NamespaceBinding, TopScope}
 import Picklers._
 import Atom._
 
-/** 
- * An interface for abstract entries. It is further refined by providing lower
- * bounds for the Entry type. @see AtomEntries.
- *
- * @author Iulian Dragos
- */
-trait Entries {
-  /** The abstract type for entries. */
-  type Entry <: HasStore
-  
-  /** A pickler for the abstract type Entry. */
-  def entryPickler: Pickler[Entry] = elem("entry", makeExtensible(entryContentsPickler))(Uris.atomNs)
-  
-  /** An abstract pickler for entries. Subclasses need to implement this. */
-  def entryContentsPickler: Pickler[Entry]
-}
-
 /**
  * Atom Entries provides a type of Atom entries and a pickler for the AtomEntry. The
  * Entry type remains abstract, to allow further refinements.

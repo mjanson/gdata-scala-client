@@ -35,6 +35,6 @@ class StdVideoFeed extends VideoFeeds {
   
   val commentsFeed = new StdCommentsFeed
   
-  def entryContentsPickler = videoEntryPickler
+  def entryContentsPickler = videoEntryContentsPickler
   def feedContentsPickler = atomFeedContentsPickler
 }

@@ -24,6 +24,13 @@ import com.google.gdata.data.kinds
 import com.google.xml.combinators.{~}
 import com.google.xml.combinators.Picklers._
 
+/**
+ * A component for video entries. It requires a comments feed instance, and an
+ * implementation of MediaRss. It refines the media rss content to support 
+ * youtube specific attributes.
+ * 
+ * @author Iulian Dragos
+ */
 trait VideoEntries extends AtomEntries {  this: VideoEntries with MediaRss =>
   type Entry <: VideoEntry
   type Content <: YouTubeContent
@@ -148,7 +155,7 @@ trait VideoEntries extends AtomEntries {  this: VideoEntries with MediaRss =>
   /**
    * A pickler for media entries. It pickles/unpickles just the contents of an entry. 
    */
-  def videoEntryPickler: Pickler[VideoEntry] =
+  def videoEntryContentsPickler: Pickler[VideoEntry] =
     wrap (atomEntryContentsPickler ~ videoEntryExtra) ({
       case ae ~ (media ~ noembed ~ racy ~ vc ~ rating ~ comments) => 
         val me = new VideoEntry

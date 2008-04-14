@@ -18,6 +18,7 @@ package com.google.gdata.youtube
 
 import com.google.gdata.data.{AtomEntries, AtomFeeds}
 
+/** A standard comment feed, using the atom feeds. */
 class StdCommentsFeed extends AtomFeeds with AtomEntries {
   type Feed = AtomFeed
   type Entry = AtomEntry

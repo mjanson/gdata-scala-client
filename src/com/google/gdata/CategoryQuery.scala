@@ -22,7 +22,8 @@ package com.google.gdata
  * most users should use @link com.google.gdata.Query.
  * 
  * @author Iulian Dragos
- * @see com.google.gdata.Query, com.google.gdata.SearchQuery
+ * @see com.google.gdata.Query
+ * @see com.google.gdata.SearchQuery
  */
 abstract class CategoryQuery {
   /** Match either this category or 'q'. */

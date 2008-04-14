@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
         <head><title>trait XmlOutputStore in com.google.xml.combinators</title>
-        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.1.RC1)" name="generator"></meta><link href="../../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../../script.js"></script>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.0.r14476-b20080402192629)" name="generator"></meta><link href="../../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../../script.js"></script>
         </head>
         <body onload="init()">
         <table summary="" class="navigation">
@@ -31,7 +31,7 @@
         <code>trait</code>
         <em>XmlOutputStore</em>
       </dt>
-      <dd><code> extends </code><a href="../../../../com/google/xml/combinators/XmlStore.html" target="_self">XmlStore</a><code> with </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a></dd>
+      <dd><code> extends </code><a href="../../../../com/google/xml/combinators/XmlStore.html" target="_self">XmlStore</a></dd>
     </dl>
       <dl><dd>An XML store used during pickling. It provides methods for adding
  XML elements, attributes and namespaces. Implementers decide on the
@@ -53,10 +53,10 @@
         <code>abstract def</code>
       </td>
       <td class="signature">
-        <em><a href="../../../../com/google/xml/combinators/XmlOutputStore.html#addAttribute%28String%2CString%2CString%29" target="_self">addAttribute</a></em>
-        (<em>pre</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>key</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>value</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/xml/combinators/XmlOutputStore.html" target="_self">XmlOutputStore</a>
+        <em><a href="../../../../com/google/xml/combinators/XmlOutputStore.html#addAttribute%28String%2CString%29" target="_self">addAttribute</a></em>
+        (<em>key</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>value</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/xml/combinators/XmlOutputStore.html" target="_self">XmlOutputStore</a>
         
-        <div>Return a new XmlStore with a new attribute prepended to the list of attrs</div>
+        <div>Return a new XmlStore with an unprefixed attribute appended to the list of attrs.</div>
       </td>
     </tr>
 <tr>
@@ -64,10 +64,10 @@
         <code>abstract def</code>
       </td>
       <td class="signature">
-        <em><a href="../../../../com/google/xml/combinators/XmlOutputStore.html#addAttribute%28String%2CString%29" target="_self">addAttribute</a></em>
-        (<em>key</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>value</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/xml/combinators/XmlOutputStore.html" target="_self">XmlOutputStore</a>
+        <em><a href="../../../../com/google/xml/combinators/XmlOutputStore.html#addAttribute%28String%2CString%2CString%29" target="_self">addAttribute</a></em>
+        (<em>pre</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>key</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>value</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/xml/combinators/XmlOutputStore.html" target="_self">XmlOutputStore</a>
         
-        <div>Return a new XmlStore with an unprefixed attribute appended to the list of attrs.</div>
+        <div>Return a new XmlStore with a new attribute prepended to the list of attrs</div>
       </td>
     </tr>
 <tr>

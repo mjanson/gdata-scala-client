@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
         <head><title>trait XmlInputStore in com.google.xml.combinators</title>
-        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.1.RC1)" name="generator"></meta><link href="../../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../../script.js"></script>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.0.r14476-b20080402192629)" name="generator"></meta><link href="../../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../../script.js"></script>
         </head>
         <body onload="init()">
         <table summary="" class="navigation">
@@ -31,7 +31,7 @@
         <code>trait</code>
         <em>XmlInputStore</em>
       </dt>
-      <dd><code> extends </code><a href="../../../../com/google/xml/combinators/XmlStore.html" target="_self">XmlStore</a><code> with </code><a href="http://www.scala-lang.org/docu/files/api/scala/AnyRef.html" target="_self">AnyRef</a></dd>
+      <dd><code> extends </code><a href="../../../../com/google/xml/combinators/XmlStore.html" target="_self">XmlStore</a></dd>
     </dl>
       <dl><dd>This class represents the input of picklers. It keeps around XML attributes,
  nodes and current namespace bindings. There are two modes in which input stores
@@ -45,7 +45,7 @@
  the accepted element was consumed. Implementers may choose whether to implement 
  it using mutable state (and return 'this') or use an immutable representation.</dd></dl>
       <dl><dt style="margin:10px 0 0 20px;">
-        <b>See Also</b></dt><dd><a href="../../../../com/google/xml/combinators/LinearStore.html" target="_self">com.google.xml.combinators.LinearStore</a></dd><dd><a href="../../../../com/google/xml/combinators/RandomAccessStore.html" target="_self">com.google.xml.combinators.RandomAccessStore</a></dd><dt style="margin:10px 0 0 20px;">
+        <b>See Also</b></dt><dd>com.google.xml.combinators.LinearStore</dd><dd>com.google.xml.combinators.RandomAccessStore</dd><dt style="margin:10px 0 0 20px;">
         <b>Author</b></dt><dd>Iulian Dragos</dd></dl>
     <dl>
       <dt style="margin:10px 0 0 20px;"><b>Direct Known Subclasses:</b></dt>
@@ -134,17 +134,6 @@
     </tr>
 <tr>
       <td class="modifiers" valign="top"> 
-        <code>protected[combinators] def</code>
-      </td>
-      <td class="signature">
-        <em><a href="../../../../com/google/xml/combinators/XmlInputStore.html#mkState%28scala.xml.MetaData%2CSeq%5Bscala.xml.Node%5D%2Cscala.xml.NamespaceBinding%29" target="_self">mkState</a></em>
-        (<em>attrs</em> : <a href="" target="contentFrame" class="scala/xml/MetaData">scala.xml.MetaData</a>, <em>nodes</em> : <a href="" target="contentFrame" class="scala/Seq">scala.Seq</a>[<a href="" target="contentFrame" class="scala/xml/Node">scala.xml.Node</a>], <em>ns</em> : <a href="" target="contentFrame" class="scala/xml/NamespaceBinding">scala.xml.NamespaceBinding</a>) : <a href="../../../../com/google/xml/combinators/XmlInputStore.html" target="_self">XmlInputStore</a>
-        
-        <div>Create a new xml store with the given data. Preserves the current randomAccessLevel</div>
-      </td>
-    </tr>
-<tr>
-      <td class="modifiers" valign="top"> 
         <code>protected abstract def</code>
       </td>
       <td class="signature">
@@ -152,6 +141,17 @@
         (<em>attrs</em> : <a href="" target="contentFrame" class="scala/xml/MetaData">scala.xml.MetaData</a>, <em>nodes</em> : <a href="" target="contentFrame" class="scala/Seq">scala.Seq</a>[<a href="" target="contentFrame" class="scala/xml/Node">scala.xml.Node</a>], <em>ns</em> : <a href="" target="contentFrame" class="scala/xml/NamespaceBinding">scala.xml.NamespaceBinding</a>, <em>level</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Int.html" target="_self">Int</a>) : <a href="../../../../com/google/xml/combinators/XmlInputStore.html" target="_self">XmlInputStore</a>
         
         <div>Implementers should create a new instance of their class, given the Xml store data.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code>protected[combinators] def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/xml/combinators/XmlInputStore.html#mkState%28scala.xml.MetaData%2CSeq%5Bscala.xml.Node%5D%2Cscala.xml.NamespaceBinding%29" target="_self">mkState</a></em>
+        (<em>attrs</em> : <a href="" target="contentFrame" class="scala/xml/MetaData">scala.xml.MetaData</a>, <em>nodes</em> : <a href="" target="contentFrame" class="scala/Seq">scala.Seq</a>[<a href="" target="contentFrame" class="scala/xml/Node">scala.xml.Node</a>], <em>ns</em> : <a href="" target="contentFrame" class="scala/xml/NamespaceBinding">scala.xml.NamespaceBinding</a>) : <a href="../../../../com/google/xml/combinators/XmlInputStore.html" target="_self">XmlInputStore</a>
+        
+        <div>Create a new xml store with the given data. Preserves the current randomAccessLevel</div>
       </td>
     </tr>
 <tr>

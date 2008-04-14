@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
         <head><title>class CalendarService in com.google.gdata.calendar</title>
-        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.1.RC1)" name="generator"></meta><link href="../../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../../script.js"></script>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.0.r14476-b20080402192629)" name="generator"></meta><link href="../../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../../script.js"></script>
         </head>
         <body onload="init()">
         <table summary="" class="navigation">
@@ -38,7 +38,7 @@
  subscriptions.</dd></dl>
       <dl><dt style="margin:10px 0 0 20px;">
         <b>Author</b></dt><dd>Iulian Dragos</dd><dt style="margin:10px 0 0 20px;">
-        <b>See Also</b></dt><dd><a href="http://code.google.com/apis/calendar/developers_guide_protocol.html">http://code.google.com/apis/calendar/developers_guide_protocol.html</a></dd><dd><a href="../../../../com/google/gdata/Service.html" target="_self">com.google.gdata.Service</a></dd></dl>
+        <b>See Also</b></dt><dd>http://code.google.com/apis/calendar/developers_guide_protocol.html</dd><dd>com.google.gdata.Service</dd></dl>
     
       
 
@@ -138,8 +138,20 @@
         <code> def</code>
       </td>
       <td class="signature">
-        <em><a href="../../../../com/google/gdata/calendar/CalendarService.html#getEvents%28String%29" target="_self">getEvents</a></em>
-        (<em>url</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
+        <em><a href="../../../../com/google/gdata/calendar/CalendarService.html#getEvents%28String%2CString%2Ccom.google.gdata.Query%29" target="_self">getEvents</a></em>
+        (<em>visibility</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>projection</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>q</em> : <a href="../../../../com/google/gdata/Query.html" target="_self">Query</a>) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
+        
+        <div>Retrieve events based on their visibility and with the amount of detail given by
+   the 'projection' parameter.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../com/google/gdata/calendar/CalendarService.html#getEvents%28java.net.URL%29" target="_self">getEvents</a></em>
+        (<em>url</em> : <a href="" target="contentFrame" class="java/net/URL">java.net.URL</a>) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
         
         <div>Retrieve events found at the given URL.</div>
       </td>
@@ -161,20 +173,8 @@
         <code> def</code>
       </td>
       <td class="signature">
-        <em><a href="../../../../com/google/gdata/calendar/CalendarService.html#getEvents%28String%2CString%2Ccom.google.gdata.Query%29" target="_self">getEvents</a></em>
-        (<em>visibility</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>projection</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>, <em>q</em> : <a href="../../../../com/google/gdata/Query.html" target="_self">Query</a>) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
-        
-        <div>Retrieve events based on their visibility and with the amount of detail given by
-   the 'projection' parameter.</div>
-      </td>
-    </tr>
-<tr>
-      <td class="modifiers" valign="top"> 
-        <code> def</code>
-      </td>
-      <td class="signature">
-        <em><a href="../../../../com/google/gdata/calendar/CalendarService.html#getEvents%28java.net.URL%29" target="_self">getEvents</a></em>
-        (<em>url</em> : <a href="" target="contentFrame" class="java/net/URL">java.net.URL</a>) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
+        <em><a href="../../../../com/google/gdata/calendar/CalendarService.html#getEvents%28String%29" target="_self">getEvents</a></em>
+        (<em>url</em> : <a href="" target="contentFrame" class="java/lang/String">java.lang.String</a>) : <a href="../../../../com/google/gdata/data/AtomFeeds.AtomFeed.html" target="_self">AtomFeed</a>
         
         <div>Retrieve events found at the given URL.</div>
       </td>
@@ -451,7 +451,7 @@
       <dl><dd>Retrieve events based on their visibility and with the amount of detail given by
    the 'projection' parameter.</dd></dl>
       <dl><dt style="margin:10px 0 0 20px;">
-        <b>See Also</b></dt><dd><a href="http://code.google.com/apis/calendar/reference.html#Projection">http://code.google.com/apis/calendar/reference.html#Projection</a></dd><dd><a href="../../../../com/google/gdata/calendar/CalendarService.html" target="_self">com.google.gdata.calendar.CalendarService</a></dd><dt style="margin:10px 0 0 20px;">
+        <b>See Also</b></dt><dd>http://code.google.com/apis/calendar/reference.html#Projection</dd><dd>com.google.gdata.calendar.CalendarService</dd><dt style="margin:10px 0 0 20px;">
         <b>Throws</b></dt><dd><code>UnknownDocumentException - </code>if the feed is not an event feed.</dd><dd><code>AuthenticationException - </code>(one of its subclasses) if the operation fails because           of insufficient rights.</dd><dd><code>IOException - </code>if there are connection issues.</dd><dd><code>GDataRequestException - </code>if there are HTTP errors.</dd></dl>
     <hr></hr>
 <a name="getEvents%28String%2CString%2CString%2Ccom.google.gdata.Query%29"></a><dl>
@@ -466,7 +466,7 @@
       <dl><dd>Retrieve events for the given user, based on their visibility and with the amount 
    of detail given by the 'projection' parameter.</dd></dl>
       <dl><dt style="margin:10px 0 0 20px;">
-        <b>See Also</b></dt><dd><a href="http://code.google.com/apis/calendar/reference.html#Projection">http://code.google.com/apis/calendar/reference.html#Projection</a></dd><dd><a href="../../../../com/google/gdata/calendar/CalendarService.html" target="_self">com.google.gdata.calendar.CalendarService</a></dd><dt style="margin:10px 0 0 20px;">
+        <b>See Also</b></dt><dd>http://code.google.com/apis/calendar/reference.html#Projection</dd><dd>com.google.gdata.calendar.CalendarService</dd><dt style="margin:10px 0 0 20px;">
         <b>Throws</b></dt><dd><code>UnknownDocumentException - </code>if the feed is not an event feed.</dd><dd><code>AuthenticationException - </code>(one of its subclasses) if the operation fails because           of insufficient rights.</dd><dd><code>IOException - </code>if there are connection issues.</dd><dd><code>GDataRequestException - </code>if there are HTTP errors.</dd></dl>
     <hr></hr>
 <a name="addEvent%28java.net.URL%2CCalendarService.this.eventsFeed.Entry%29"></a><dl>

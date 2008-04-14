@@ -14,30 +14,24 @@
  */
 
 
-package com.google.gdata.data;
+package com.google.gdata.data
 
 import com.google.xml.combinators.{Picklers, ~, HasStore}
-import com.google.gdata.data.util.DateTime
-
 import Picklers._
-import Atom._
 
-/**
- * A module for Feeds. Use this by mixing it in a class that has an Entries implementation.
- *
- * This module provides a feed and a feed pickler.
- * This module requires an entry type and an entry pickler.
+/** 
+ * An interface for abstract entries. It is further refined by providing lower
+ * bounds for the Entry type. @see AtomEntries.
  *
  * @author Iulian Dragos
  */
-trait Feeds { this: Feeds with Entries =>
-  type Feed <: Seq[Entry] with HasStore
+trait Entries {
+  /** The abstract type for entries. */
+  type Entry <: HasStore
   
-  /** A pickler for feeds. */
-  def feedPickler: Pickler[Feed] = elem("feed", makeExtensible(feedContentsPickler))(Uris.atomNs)
+  /** A pickler for the abstract type Entry. */
+  def entryPickler: Pickler[Entry] = elem("entry", makeExtensible(entryContentsPickler))(Uris.atomNs)
   
-  /** An abstract pickler for feed contents. Subclasses need to implement this method. */
-  def feedContentsPickler: Pickler[Feed]
+  /** An abstract pickler for entries. Subclasses need to implement this. */
+  def entryContentsPickler: Pickler[Entry]
 }
-
-
