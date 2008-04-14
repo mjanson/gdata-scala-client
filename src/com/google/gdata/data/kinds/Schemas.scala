@@ -42,4 +42,6 @@ object Schemas {
   final val EVENT = "http://schemas.google.com/g/2005#event"
   final val EVENT_ALT = "http://schemas.google.com/g/2005#event.alternate"
   final val EVENT_PARKING = "http://schemas.google.com/g/2005#event.parking"
+  
+  final val KIND = "http://schemas.google.com/g/2005#kind"
 }

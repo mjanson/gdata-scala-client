@@ -291,4 +291,18 @@ object CalendarService {
   
   /** Basic Atom feed without any extension elements. */
   final val BASIC = "basic"
+  
+  /** Rel value for ACL feed links. */
+  final val ACL_REL = "http//schemas.google.com/acl/2007#accessControlList"
+  final val ACL_RULE = "http//schemas.google.com/acl/2007#accessRule"
+  
+  /** Rel value for controlled object links. */
+  final val CONTROLLED_OBJECT_REL = "http://schemas.google.com/acl/2007#controlledObject"
+  
+  final val ROLE_NONE = "http://schemas.google.com/gCal/2005#none"
+  final val ROLE_READ = "http://schemas.google.com/gCal/2005#read"
+  final val ROLE_FREEBUSY = "http://schemas.google.com/gCal/2005#freebusy"
+  final val ROLE_EDITOR = "http://schemas.google.com/gCal/2005#editor"
+  final val ROLE_OWNER = "http://schemas.google.com/gCal/2005#owner"
+  final val ROLE_ROOT = "http://schemas.google.com/gCal/2005#root"
 }

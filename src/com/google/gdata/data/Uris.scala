@@ -67,4 +67,9 @@ object Uris {
   
   /** A Google calendar namespace binding. */
   lazy val gCalNs = ("gCal", CALENDAR)
+  
+  /** The access control list namespace */
+  final val ACL = "http://schemas.google.com/acl/2007."
+  
+  lazy val gAclNs = ("gAcl", ACL)
 }
