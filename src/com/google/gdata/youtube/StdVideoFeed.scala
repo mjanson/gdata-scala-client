@@ -30,11 +30,11 @@ class StdVideoFeed extends VideoFeeds {
   type Content = YouTubeContent
   type Group   = YouTubeGroup
   
-  def groupContentsPickler = ytGroupContentsPickler
-  def contentContentsPickler = ytContentContentsPickler
+  protected def groupContentsPickler = ytGroupContentsPickler
+  protected def contentContentsPickler = ytContentContentsPickler
   
   val commentsFeed = new StdCommentsFeed
   
-  def entryContentsPickler = videoEntryContentsPickler
-  def feedContentsPickler = atomFeedContentsPickler
+  protected def entryContentsPickler = videoEntryContentsPickler
+  protected def feedContentsPickler = atomFeedContentsPickler
 }

@@ -81,7 +81,7 @@ trait CalendarEntries extends AtomEntries {
   }
   
   /** A pickler for CalendarEntry contents. */
-  def calendarEntryContentsPickler: Picklers.Pickler[CalendarEntry] = {
+  protected def calendarEntryContentsPickler: Picklers.Pickler[CalendarEntry] = {
     import Picklers._
     implicit val ns = Uris.gCalNs
     

@@ -33,8 +33,8 @@ class StdPlaylistFeed extends AtomFeeds with MediaRss with PlaylistVideoEntries 
   
   val commentsFeed = new StdCommentsFeed
   
-  def feedContentsPickler = atomFeedContentsPickler
-  def entryContentsPickler = playlistVideoEntryContentsPickler
-  def contentContentsPickler = ytContentContentsPickler
-  def groupContentsPickler = ytGroupContentsPickler
+  protected def feedContentsPickler = atomFeedContentsPickler
+  protected def entryContentsPickler = playlistVideoEntryContentsPickler
+  protected def contentContentsPickler = ytContentContentsPickler
+  protected def groupContentsPickler = ytGroupContentsPickler
 }

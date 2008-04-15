@@ -33,5 +33,5 @@ trait Entries {
   def entryPickler: Pickler[Entry] = elem("entry", makeExtensible(entryContentsPickler))(Uris.atomNs)
   
   /** An abstract pickler for entries. Subclasses need to implement this. */
-  def entryContentsPickler: Pickler[Entry]
+  protected def entryContentsPickler: Pickler[Entry]
 }

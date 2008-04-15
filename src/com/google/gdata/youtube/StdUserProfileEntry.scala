@@ -29,5 +29,5 @@ class StdUserProfileEntry extends UserProfileEntries {
   val subscriptionFeeds = new StdSubscriptionFeed
   val contactFeeds = new StdContactsFeed
   
-  def entryContentsPickler = userProfileEntryContents
+  protected def entryContentsPickler = userProfileEntryContents
 }

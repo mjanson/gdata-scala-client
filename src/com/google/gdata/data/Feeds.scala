@@ -37,7 +37,7 @@ trait Feeds { this: Feeds with Entries =>
   def feedPickler: Pickler[Feed] = elem("feed", makeExtensible(feedContentsPickler))(Uris.atomNs)
   
   /** An abstract pickler for feed contents. Subclasses need to implement this method. */
-  def feedContentsPickler: Pickler[Feed]
+  protected def feedContentsPickler: Pickler[Feed]
 }
 
 

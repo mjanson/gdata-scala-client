@@ -27,5 +27,5 @@ class StdAtomFeed extends AtomFeeds with AtomEntries {
   type Entry = AtomEntry
   
   def feedContentsPickler = atomFeedContentsPickler
-  def entryContentsPickler = atomEntryContentsPickler
+  protected def entryContentsPickler = atomEntryContentsPickler
 }

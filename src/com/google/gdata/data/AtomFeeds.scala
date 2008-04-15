@@ -165,7 +165,7 @@ trait AtomFeeds extends Feeds { this: AtomFeeds with Entries =>
       ~ rep(entryPickler))
   }
 
-  lazy val atomFeedContentsPickler: Pickler[AtomFeed] = wrap (atomFeedContents) ({
+  lazy protected val atomFeedContentsPickler: Pickler[AtomFeed] = wrap (atomFeedContents) ({
     case authors ~ cats ~ contribs ~ generator ~ icon ~ id
          ~ links ~ logo ~ rights ~ subtitle ~ title ~ updated ~ totalResults
          ~ startIndex ~ itemsPerPage ~ entries => 

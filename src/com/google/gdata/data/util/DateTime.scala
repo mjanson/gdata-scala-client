@@ -29,7 +29,8 @@ import java.util.{Date, Calendar, GregorianCalendar, TimeZone}
  * @param value The number of milliseconds from the Epoch.
  * @param tzShift The time zone shift, in milliseconds. 
  */
-class DateTime(private var value: Long, private var tzShift: Long) extends Ordered[DateTime] {
+class DateTime(private[util] var value: Long, 
+               private[util] var tzShift: Long) extends Ordered[DateTime] {
   
   /** 
    * Compare this DateTime to another. Date d1 is less than d2 iff the UTC time of d1
@@ -47,7 +48,7 @@ class DateTime(private var value: Long, private var tzShift: Long) extends Order
   /**
    * The hash code is obtained by XOR-ing the two int halves of the 'value' field.
    * 
-   * @see java.lang.Long.hashCode
+   * @see java.lang.Long#hashCode
    */
   override def hashCode: Int =
     (this.value ^ (this.value >>> 32)).toInt
@@ -64,6 +65,25 @@ class DateTime(private var value: Long, private var tzShift: Long) extends Order
   def this(date: Date, tz: TimeZone) {
     this(date.getTime(), tz.getOffset(date.getTime()))
   }
+  
+  /** Copy constructor. */
+  def this(other: DateTime) {
+    this(other.value, other.tzShift)
+  }
+  
+  /** 
+   * Return a new DateTime shifted in the future by the given number of milliseconds. The
+   * argument may be negative.
+   */
+  def +(delta: Long): DateTime =
+    new DateTime(value + delta, tzShift)
+  
+  /**
+   * Return a new DateTime shifted in the past by the given number of milliseconds. The
+   * argument may be negative.
+   */
+  def -(delta: Long): DateTime =
+    new DateTime(value - delta, tzShift)
   
   /** Is this date time a date only? */
   var dateOnly: Boolean = false 

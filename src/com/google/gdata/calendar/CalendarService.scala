@@ -43,6 +43,9 @@ class CalendarService(appName: String) extends Service(appName, "cl")  {
     override lazy val contactEntries: contacts.type = contacts
   }
   
+  /** The access control list feed. */
+  val aclFeed = new StdAclFeed
+  
   /** A calendars feed. */
   object calendarsFeed extends StdCalendarsFeed {
     override lazy val contactEntries: contacts.type = contacts
@@ -58,7 +61,7 @@ class CalendarService(appName: String) extends Service(appName, "cl")  {
    * @throws GDataRequestException if there are HTTP errors.
    */
   def getCalendars(url: URL): calendarsFeed.Feed = {
-    query(url, calendarsFeed.feedContentsPickler)
+    query(url, calendarsFeed.feedPickler)
   }
   
   /**
@@ -71,7 +74,7 @@ class CalendarService(appName: String) extends Service(appName, "cl")  {
    * @throws GDataRequestException if there are HTTP errors.
    */
   def getCalendars(url: String): calendarsFeed.Feed = {
-    query(url, calendarsFeed.feedContentsPickler)
+    query(url, calendarsFeed.feedPickler)
   }
   
   /**
@@ -84,7 +87,7 @@ class CalendarService(appName: String) extends Service(appName, "cl")  {
    * @throws GDataRequestException if there are HTTP errors.
    */
   def getAllUserCalendars: calendarsFeed.Feed = {
-    getCalendars(CalendarService.FEEDS + "/" + "allcalendars/full")
+    getCalendars(CalendarService.FEEDS + "/default/allcalendars/full")
   }
   
   /**
@@ -97,7 +100,7 @@ class CalendarService(appName: String) extends Service(appName, "cl")  {
    * @throws GDataRequestException if there are HTTP errors.
    */
   def getOwnedUserCalendars: calendarsFeed.Feed = {
-    getCalendars(CalendarService.FEEDS + "/" + "owncalendars/full")
+    getCalendars(CalendarService.FEEDS + "/default/owncalendars/full")
   }
 
   /**
@@ -259,6 +262,36 @@ class CalendarService(appName: String) extends Service(appName, "cl")  {
    */
   def updateEvent(url: URL, e: eventsFeed.Entry): eventsFeed.Entry = {
     update(url, e, eventsFeed.entryPickler)
+  }
+  
+  /**
+   * Retrieve the access control list for the calender at the given URL. The acl feed URL
+   * is found in a link element with rel set to http//schemas.google.com/acl/2007#accessControlList.
+   * Only owners of a calendar can retrieve the ACL feed.
+   * 
+   * @throws UnknownDocumentException if the feed is not an event feed.
+   * @throws AuthenticationException (one of its subclasses) if the operation fails because
+   *         of insufficient rights.
+   * @throws IOException if there are connection issues.
+   * @throws GDataRequestException if there are HTTP errors.
+   */
+  def getAccessControlList(url: URL): aclFeed.Feed = {
+    query(url, aclFeed.feedPickler)
+  }
+  
+  /**
+   * Retrieve the access control list for the given calender. Only owners of a calendar
+   * can retrieve the ACL feed. Returns the ACL feed if the calendar has the ACL link,
+   * or None.
+   * 
+   * @throws UnknownDocumentException if the feed is not an event feed.
+   * @throws AuthenticationException (one of its subclasses) if the operation fails because
+   *         of insufficient rights.
+   * @throws IOException if there are connection issues.
+   * @throws GDataRequestException if there are HTTP errors.
+   */
+  def getAccessControlList(cal: calendarsFeed.Entry): Option[aclFeed.Feed] = {
+    cal.linkHref(CalendarService.ACL_REL) map (href => getAccessControlList(new URL(href)))
   }
 }
 

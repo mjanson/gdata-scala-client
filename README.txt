@@ -1,26 +1,32 @@
 Google data API for Scala
 ==========================================================
 
-April  7, 2008
+April  15, 2008
 
-The GData package contains Scala bindings for Google Data APIs. It
+The Google Data package contains Scala bindings for Google Data APIs. It
 consists of a generic XML pickling library, generic data classes and
 picklers for Atom and Google common elements, authentication and
-HTTP connection handling. It has specific bindings for the YouTube and
-Calendar API.
+HTTP connection handling. For up to date information about what
+services are supported, see the project webpage:
+
+http://code.google.com/p/gdata-scala-client/
 
 Building
 ========
 
-To build the project you need ant, and a Scala compiler. It has been
-tested with version 2.7.0 (RC), but should work with the latest stable
-release as well (2.6.1). Remember to have the environment variable
-SCALA_HOME pointing to the Scala distribution (it should point to the
-directory containing 'lib\scala-compiler.jar'. For 2.7.0 it is the directory
-where you installed Scala, for earlier releases you need to append
-'share/scala'). To build, type:
+To build the project you need ant, and a Scala compiler. It is known
+that it does not work with the latesc stable release (2.7.0). It works
+with 2.7.1 RC1. Remember to have the environment variable SCALA_HOME
+pointing to the Scala distribution (it should point to the directory
+containing 'lib\scala-compiler.jar'. For 2.7.0 and later it is the
+directory where you installed Scala, for earlier releases you need to
+append 'share/scala'). To build, type:
 
 ant build
+
+For more information, check the Developer's Guide:
+
+http://code.google.com/p/gdata-scala-client/wiki/DevelopersGuide
 
 Tests
 =====
@@ -48,3 +54,7 @@ again. You'll find an html report in the 'coverage/'
 directory. Results are not very precise, since some synthetic methods
 like $tag, are taken into accound and bring down the coverage
 percentage.
+
+For more information, see the Developer's Guide:
+
+http://code.google.com/p/gdata-scala-client/wiki/DevelopersGuide

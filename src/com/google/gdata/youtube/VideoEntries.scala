@@ -38,7 +38,7 @@ trait VideoEntries extends AtomEntries {  this: VideoEntries with MediaRss =>
   val commentsFeed: AtomFeeds
   
   /** A pickler for youtube content. */
-  def ytContentContentsPickler: Pickler[YouTubeContent] =
+  protected def ytContentContentsPickler: Pickler[YouTubeContent] =
     (wrap (baseContentPickler ~ attr("format", intVal, Uris.ytNs))
         ({case bc ~ f => 
            val c = new YouTubeContent()

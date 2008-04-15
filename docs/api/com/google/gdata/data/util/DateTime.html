@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
         <head><title>class DateTime in com.google.gdata.data.util</title>
-        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.0.r14476-b20080402192629)" name="generator"></meta><link href="../../../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../../../script.js"></script>
+        <meta http-equiv="content-type" content="text/html; charset=UTF8"></meta><meta content="scaladoc (version 2.7.1.r14655-b20080415113712)" name="generator"></meta><link href="../../../../../style.css" type="text/css" rel="stylesheet"></link><script type="text/javascript" src="../../../../../script.js"></script>
         </head>
         <body onload="init()">
         <table summary="" class="navigation">
@@ -29,7 +29,7 @@
         
         <code></code>
         <code>class</code>
-        <em>DateTime</em>(<code>private </code><em>value</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Long.html" target="_self">Long</a>, <code>private </code><em>tzShift</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Long.html" target="_self">Long</a>)
+        <em>DateTime</em>(<code>val </code><em>value</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Long.html" target="_self">Long</a>, <code>val </code><em>tzShift</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Long.html" target="_self">Long</a>)
       </dt>
       <dd><code> extends </code><a href="" target="contentFrame" class="scala/Ordered">scala.Ordered</a>[<a href="../../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>]</dd>
     </dl>
@@ -48,11 +48,10 @@
         <code> def</code>
       </td>
       <td class="signature">
-        <em><a href="../../../../../com/google/gdata/data/util/DateTime.html#this%28java.util.Date%29" target="_self">this</a></em>
-        (<em>date</em> : <a href="" target="contentFrame" class="java/util/Date">java.util.Date</a>) : <a href="../../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>
+        <em><a href="../../../../../com/google/gdata/data/util/DateTime.html#this%28com.google.gdata.data.util.DateTime%29" target="_self">this</a></em>
+        (<em>other</em> : <a href="../../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>) : <a href="../../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>
         
-        <div>Create a DateTime from the specificed Java Date. The given date is considered
-   to be in UTC time (zero time zone shift).</div>
+        <div>Copy constructor.</div>
       </td>
     </tr>
 <tr>
@@ -64,6 +63,18 @@
         (<em>date</em> : <a href="" target="contentFrame" class="java/util/Date">java.util.Date</a>, <em>tz</em> : <a href="" target="contentFrame" class="java/util/TimeZone">java.util.TimeZone</a>) : <a href="../../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>
         
         <div>Create a DateTime from the given Java Date.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/google/gdata/data/util/DateTime.html#this%28java.util.Date%29" target="_self">this</a></em>
+        (<em>date</em> : <a href="" target="contentFrame" class="java/util/Date">java.util.Date</a>) : <a href="../../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>
+        
+        <div>Create a DateTime from the specificed Java Date. The given date is considered
+   to be in UTC time (zero time zone shift).</div>
       </td>
     </tr>
       </table>
@@ -85,6 +96,30 @@
 <table summary="" cellpadding="3" class="member">
       <tr><td class="title" colspan="2">Method Summary</td></tr>
       <tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/google/gdata/data/util/DateTime.html#%2B%28Long%29" target="_self">+</a></em>
+        (<em>delta</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Long.html" target="_self">Long</a>) : <a href="../../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>
+        
+        <div>Return a new DateTime shifted in the future by the given number of milliseconds. The
+   argument may be negative.</div>
+      </td>
+    </tr>
+<tr>
+      <td class="modifiers" valign="top"> 
+        <code> def</code>
+      </td>
+      <td class="signature">
+        <em><a href="../../../../../com/google/gdata/data/util/DateTime.html#-%28Long%29" target="_self">-</a></em>
+        (<em>delta</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Long.html" target="_self">Long</a>) : <a href="../../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>
+        
+        <div>Return a new DateTime shifted in the past by the given number of milliseconds. The
+   argument may be negative.</div>
+      </td>
+    </tr>
+<tr>
       <td class="modifiers" valign="top"> 
         <code> def</code>
       </td>
@@ -191,6 +226,18 @@
     </dl>
       <dl><dd>Create a DateTime from the given Java Date.</dd></dl>
       <dl></dl>
+    <hr></hr>
+<a name="this%28com.google.gdata.data.util.DateTime%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>this</em>(<em>other</em> : <a href="../../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>) : <a href="../../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Copy constructor.</dd></dl>
+      <dl></dl>
     <hr></hr></div>
 
 <table summary="" cellpadding="3" class="member-detail">
@@ -253,7 +300,33 @@
     </dl>
       <dl><dd>The hash code is obtained by XOR-ing the two int halves of the 'value' field.</dd></dl>
       <dl><dt style="margin:10px 0 0 20px;">
-        <b>See Also</b></dt><dd>java.lang.Long.hashCode</dd></dl>
+        <b>See Also</b></dt><dd><a href="#hashCode" target="contentFrame" class="java/lang/Long">java.lang.Long.hashCode</a></dd></dl>
+    <hr></hr>
+<a name="%2B%28Long%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>+</em>(<em>delta</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Long.html" target="_self">Long</a>) : <a href="../../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Return a new DateTime shifted in the future by the given number of milliseconds. The
+   argument may be negative.</dd></dl>
+      <dl></dl>
+    <hr></hr>
+<a name="-%28Long%29"></a><dl>
+      <dt>
+        
+        <code></code>
+        <code>def</code>
+        <em>-</em>(<em>delta</em> : <a href="http://www.scala-lang.org/docu/files/api/scala/Long.html" target="_self">Long</a>) : <a href="../../../../../com/google/gdata/data/util/DateTime.html" target="_self">DateTime</a>
+      </dt>
+      <dd></dd>
+    </dl>
+      <dl><dd>Return a new DateTime shifted in the past by the given number of milliseconds. The
+   argument may be negative.</dd></dl>
+      <dl></dl>
     <hr></hr>
 <a name="toDate"></a><dl>
       <dt>

@@ -27,7 +27,18 @@ import org.junit._
 class CalendarFeedsTest extends AnyRef with FeedFileTest {
   
   @Test def testCalendarsFeed {
-    testRoundtrip("feeds/calendars-feed-in.xml", (new StdCalendarsFeed).feedPickler)
+    val feed = new CalendarService("test").calendarsFeed
+    testRoundtrip("feeds/calendars-feed-in.xml", feed.feedPickler)
+    testRoundtrip("feeds/calendars-feed-in-2.xml", feed.feedPickler)
   }
   
+  @Test def testAclFeed {
+    val feed = new CalendarService("test").aclFeed
+    testRoundtrip("feeds/acl-feed-in.xml", feed.feedPickler)
+  }
+  
+  @Test def testEventFeed {
+    val feed = new CalendarService("test").eventsFeed
+    testRoundtrip("feeds/events-feed-in.xml", feed.feedPickler)
+  }
 }

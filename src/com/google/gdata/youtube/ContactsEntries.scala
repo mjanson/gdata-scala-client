@@ -60,7 +60,7 @@ trait ContactsEntries extends AtomEntries {
   }
   
   /** A pickler for contact entries. */
-  def contactEntryContentsPickler: Picklers.Pickler[ContactEntry] = {
+  protected def contactEntryContentsPickler: Picklers.Pickler[ContactEntry] = {
     import Picklers._
 
     def fromContactEntry(ce: ContactEntry) = 

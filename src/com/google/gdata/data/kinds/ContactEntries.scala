@@ -84,7 +84,7 @@ trait ContactEntries extends AtomEntries {
   }
   
   /** A pickler for contact entry contents. */
-  def contactEntryContentsPickler: Picklers.Pickler[ContactEntry] = {
+  protected def contactEntryContentsPickler: Picklers.Pickler[ContactEntry] = {
     import Picklers._
     
     val ctents = interleaved(atomEntryContentsPickler ~ rep(Email.pickler) ~ rep(Im.pickler)

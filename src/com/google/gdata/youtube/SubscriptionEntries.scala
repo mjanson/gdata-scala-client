@@ -63,7 +63,7 @@ trait SubscriptionEntries extends AtomEntries {
   }
   
   /** A pickler for subscription entries. */
-  def subscriptionEntryContentsPickler = {
+  protected def subscriptionEntryContentsPickler = {
     implicit val ns = Uris.ytNs
     import Picklers._
     

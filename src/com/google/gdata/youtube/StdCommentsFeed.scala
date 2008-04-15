@@ -23,6 +23,6 @@ class StdCommentsFeed extends AtomFeeds with AtomEntries {
   type Feed = AtomFeed
   type Entry = AtomEntry
   
-  def feedContentsPickler = atomFeedContentsPickler
-  def entryContentsPickler = atomEntryContentsPickler
+  protected def feedContentsPickler = atomFeedContentsPickler
+  protected def entryContentsPickler = atomEntryContentsPickler
 }

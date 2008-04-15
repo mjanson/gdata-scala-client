@@ -64,7 +64,7 @@ trait PlaylistEntries extends AtomEntries {
   }
 
   /** A pickler for playlist entries. */
-  def playlistEntryContentsPickler = 
+  protected def playlistEntryContentsPickler = 
     (wrap (atomEntryContentsPickler ~ interleaved(opt(elem("description", text)(Uris.ytNs)) 
         ~ opt(FeedLink.pickler(playlistFeedPickler))))
         ({ case ae ~ (desc ~ feedLink) =>

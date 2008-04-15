@@ -27,6 +27,6 @@ class StdContactsFeed extends AtomFeeds with ContactsEntries {
   type Feed = AtomFeed
   type Entry = ContactEntry
   
-  def feedContentsPickler = atomFeedContentsPickler
-  def entryContentsPickler = contactEntryContentsPickler
+  protected def feedContentsPickler = atomFeedContentsPickler
+  protected def entryContentsPickler = contactEntryContentsPickler
 }

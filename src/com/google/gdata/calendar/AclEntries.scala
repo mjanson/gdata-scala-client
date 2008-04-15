@@ -69,7 +69,7 @@ trait AclEntries extends AtomEntries {
   }
   
   /** A pickler for access control entries. */
-  def aclEntryContentsPickler: Picklers.Pickler[AclEntry] = {
+  protected def aclEntryContentsPickler: Picklers.Pickler[AclEntry] = {
     import Picklers._
     
     def fromAclEntry(aclEntry: AclEntry) = 

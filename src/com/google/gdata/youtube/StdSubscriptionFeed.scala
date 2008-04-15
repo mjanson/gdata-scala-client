@@ -29,6 +29,6 @@ class StdSubscriptionFeed extends AtomFeeds with SubscriptionEntries {
   
   val videoFeeds = new StdVideoFeed
   
-  def feedContentsPickler = atomFeedContentsPickler
-  def entryContentsPickler = subscriptionEntryContentsPickler
+  protected def feedContentsPickler = atomFeedContentsPickler
+  protected def entryContentsPickler = subscriptionEntryContentsPickler
 }

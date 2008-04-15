@@ -106,7 +106,8 @@
       classpathref="build.classpath"/>
   </target>
 
-  <target name="build.samples" depends="init,build">
+  <target name="build.samples" depends="init,build"
+  	description="Build sample applications.">
     <echo level="verbose" message="build.dir=${build.dir}"/>
     <mkdir dir="${build.dir}"/>
     <scalac
@@ -119,7 +120,8 @@
     />
   </target>
 
-  <target name="build" depends="init,build.combinators">
+  <target name="build" depends="init,build.combinators"
+  	description="Build project.">
     <echo level="verbose" message="build.dir=${build.dir}"/>
     <mkdir dir="${build.dir}"/>
     <scalac
@@ -155,7 +157,8 @@
     </emma>
   </target>
 	
-  <target name="test" depends="instrument,test.feeds">
+  <target name="test" depends="instrument,test.feeds,test.functional"
+  	 description="Run all tests, including functional tests.">
     <junit fork="true">
       <test name="com.google.xml.combinators.PicklerTest"/>
       <test name="com.google.xml.combinators.PicklerPermuteTest"/>
@@ -174,7 +177,8 @@
     </junit>
   </target>
 
-  <target name="test.feeds" depends="build.test, instrument">
+  <target name="test.feeds" depends="build.test, instrument"
+  	description="Run feed tests. They run offline, using saved XML feeds.">
     <junit fork="true">
       <test name="com.google.gdata.youtube.YouTubeFeedsTest"/>
       <test name="com.google.gdata.calendar.CalendarFeedsTest"/>
@@ -187,8 +191,23 @@
     	<jvmarg value="-Demma.coverage.out.merge=true"/>
     </junit>
   </target>
-	
-  <target name="coverage" depends="test">
+
+  <target name="test.functional" depends="build.test, instrument"
+  	description="Run functional tests. They require a valid internet connection and may take longer.">
+    <junit fork="true">
+      <test name="com.google.gdata.calendar.CalendarFunctionalTest"/>
+      <formatter type="plain" usefile="false"/>
+      <classpath>
+        <pathelement location="${instr.dir}"/>
+        <path refid="test.classpath"/>
+      </classpath> 
+      <jvmarg value="-Demma.coverage.out.file=${coverage.dir}/coverage.emma"/>
+      <jvmarg value="-Demma.coverage.out.merge=true"/>
+    </junit>
+  </target>
+
+  <target name="coverage" depends="test"
+  	description="Generate HTML reports on test coverage (requires emma).">
   	<fail unless="emma.available" 
   		message="emma not found. Test coverage is not available. 
   		Set the emma.dir property to point to your emma instalation."/>
@@ -207,7 +226,8 @@
 	
   <!-- DOCS -->
   
-  <target name="docs" depends="init">
+  <target name="docs" depends="init"
+  	description="Build API scaladocs.">
     <mkdir dir="${docs.dir}"/>
     <scaladoc
       srcdir="${source.dir}"
@@ -230,7 +250,7 @@
     </sequential>
   </macrodef>
 
-  <target name="clean">
+  <target name="clean" description="Remove generated files.">
     <remove dir="${build.dir}"/>
     <remove dir="${docs.dir}"/>
   	<remove dir="${coverage.dir}"/>

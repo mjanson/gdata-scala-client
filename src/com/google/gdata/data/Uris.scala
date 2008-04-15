@@ -69,7 +69,7 @@ object Uris {
   lazy val gCalNs = ("gCal", CALENDAR)
   
   /** The access control list namespace */
-  final val ACL = "http://schemas.google.com/acl/2007."
+  final val ACL = "http://schemas.google.com/acl/2007"
   
   lazy val gAclNs = ("gAcl", ACL)
 }

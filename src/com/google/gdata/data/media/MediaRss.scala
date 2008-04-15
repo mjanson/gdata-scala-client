@@ -37,14 +37,14 @@ trait MediaRss {
   def groupPickler: Pickler[Group] = elem("group", groupContentsPickler)(mediaNs)
 
   /** Abstract pickler for Group objects. */
-  def groupContentsPickler: Pickler[Group]
+  protected def groupContentsPickler: Pickler[Group]
   
   type Content <: BaseContent
   
   def contentPickler: Pickler[Content] = elem("content", contentContentsPickler)(mediaNs)
   
   /** Abstract pickler for Content objects. */
-  def contentContentsPickler: Pickler[Content]
+  protected def contentContentsPickler: Pickler[Content]
 
   /**
    * A media:content element. It describes the media object being syndicated.

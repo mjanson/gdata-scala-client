@@ -28,7 +28,7 @@ class StdUserPlaylistsFeed extends UserPlaylistsFeed {
 
   val playlistFeed = new StdVideoFeed()
   
-  def feedContentsPickler  = atomFeedContentsPickler
-  def entryContentsPickler = playlistEntryContentsPickler
+  protected def feedContentsPickler  = atomFeedContentsPickler
+  protected def entryContentsPickler = playlistEntryContentsPickler
   def playlistFeedPickler  = playlistFeed.feedPickler
 }
