@@ -49,7 +49,7 @@ trait PlaylistVideoEntries extends VideoEntries { this: PlaylistVideoEntries wit
     }
   }
   
-  def playlistVideoEntryContentsPickler = {
+  protected def playlistVideoEntryContentsPickler = {
     import Picklers._
     
     val contents = interleaved(
