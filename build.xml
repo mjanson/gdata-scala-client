@@ -23,6 +23,8 @@
   <property name="build.dir" value="classes"/>
 	<property name="instr.dir" location="classes-instr"/>
   <property name="docs.dir" value="docs/api"/>
+	<property name="dists.dir" value="dists"/>
+	<property name="version" value="0.1"/>
 
   <property name="coverage.dir" value="coverage"/>
   <!--  directory that contains emma.jar and emma_ant.jar: -->
@@ -223,6 +225,13 @@
     </emma>
   </target>
 	
+	<target name="dist" depends="build"
+		description="Pack a distribution">
+    <echo level="verbose" message="dist.dir=${dists.dir}"/>
+    <mkdir dir="${dists.dir}"/>
+    <jar basedir="${build.dir}" destfile="${dists.dir}/gdata-scala-client-${version}.jar"/>
+	</target>
+	
   <!-- DOCS -->
   
   <target name="docs" depends="init"
@@ -249,7 +258,7 @@
     </sequential>
   </macrodef>
 
-  <target name="clean" description="Remove generated files.">
+  <target name="clean" description="Remove generated files (except dists directory).">
     <remove dir="${build.dir}"/>
     <remove dir="${docs.dir}"/>
   	<remove dir="${coverage.dir}"/>
