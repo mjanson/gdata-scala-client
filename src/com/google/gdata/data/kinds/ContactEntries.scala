@@ -62,6 +62,17 @@ trait ContactEntries extends AtomEntries {
       this.emails = emails.toList
     }
     
+    /** Show emails and phone numbers of this contact. */
+    override def toString: String = {
+      val sb = new StringBuilder
+      sb.append(title.content)
+      sb.append("\nEmails: ")
+      for (e <- emails) sb.append(" ").append(e.address)
+      sb.append("\nPhones:")
+      for (e <- phoneNumbers) sb.append(" ").append(e.phone)
+      sb.toString
+    }
+    
     /** Fill fields declared by this class, using the given parameters. */
     def fillOwnFields(emails: List[Email], instantMessageIds: List[Im], 
         phoneNumbers: List[PhoneNumber], postalAddresses: List[PostalAddress],

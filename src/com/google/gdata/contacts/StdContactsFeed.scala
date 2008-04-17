@@ -14,21 +14,20 @@
  */
 
 
-package com.google.gdata.youtube
+package com.google.gdata.contacts
 
 import com.google.gdata.data.AtomFeeds
+import com.google.gdata.data.kinds.ContactEntries
 
 /**
- * A concrete, standard contacts feed, used by YouTube. The standard contact
- * kind, used by Google Contacts API is different. See the Contacts API 
- * documentation.
+ * A standard contacts feed.
  * 
  * @author Iulian Dragos
  */
-class StdContactsFeed extends AtomFeeds with ContactsEntries {
+class StdContactsFeed extends AtomFeeds with ContactEntries {
   type Feed = AtomFeed
   type Entry = ContactEntry
   
-  protected def feedContentsPickler = atomFeedContentsPickler
-  protected def entryContentsPickler = contactEntryContentsPickler
+  def feedContentsPickler = atomFeedContentsPickler
+  def entryContentsPickler = contactEntryContentsPickler
 }

@@ -21,6 +21,9 @@ import com.google.gdata.data.util.DateTime
 /**
  * A calendar query. It adds methods for specifying whether recurring events should
  * be expanded, which events should be returned, the timezone for the returned times, etc. 
+ * 
+ * @author Iulian Dragos
+ * @see http://code.google.com/apis/calendar/reference.html#Parameters
  */
 class CalendarQuery extends Query {
   /**
