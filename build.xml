@@ -39,7 +39,9 @@
   </path>
 
   <!-- this loads <emma> and <emmajava> custom tasks: -->
-  <taskdef resource="emma_ant.properties" classpathref="emma.lib"/>
+  <target name="emma_init" if="emma.available">
+    <taskdef resource="emma_ant.properties" classpathref="emma.lib"/>
+  </target>
   
   <!--
   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
@@ -147,7 +149,7 @@
         />
   </target>
   
-  <target name="instrument" depends="init, build.test" if="emma.available">
+  <target name="instrument" depends="init, build.test, emma_init" if="emma.available">
   	<mkdir dir="${instr.dir}"/>
     <emma enabled="${emma.available}">
       <instr destdir="${instr.dir}" metadatafile="${coverage.dir}/coverage.emma">
@@ -230,6 +232,10 @@
     <echo level="verbose" message="dist.dir=${dists.dir}"/>
     <mkdir dir="${dists.dir}"/>
     <jar basedir="${build.dir}" destfile="${dists.dir}/gdata-scala-client-${version}.jar"/>
+    
+    <zip destfile="${dists.dir}/gdata-scala-client-${version}-src.zip">
+      <fileset dir="." includes="lib/**/*,src/**/*,tests/**/*,test-data/**/*,build.xml,COPYING,README.txt"/>
+	</zip>
 	</target>
 	
   <!-- DOCS -->
