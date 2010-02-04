@@ -487,7 +487,7 @@ object Picklers extends AnyRef with TupleToPairFunctions {
         case Some(e: Elem) => 
           pb.unpickle(LinearStore.fromElem(e)) match {
             case Success(v1, in1) =>
-              Success(v1, in.mkState(in.attrs, in.nodes.toList.remove(_ == e), in.ns))
+              Success(v1, in.mkState(in.attrs, in.nodes.toList.filterNot(_ == e), in.ns))
             case f: NoSuccess =>
               Failure(f.msg, in)
           }

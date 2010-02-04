@@ -14,7 +14,8 @@
  */
 
 
-package com.google.gdata.contacts
+package com.google.gdata
+package contacts
 
 /**
  * A service class for Google Contacts API. It provides conenience methods for

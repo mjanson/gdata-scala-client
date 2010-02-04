@@ -14,7 +14,8 @@
  */
 
 
-package com.google.gdata.data.kinds
+package com.google.gdata.data
+package kinds
 
 import com.google.xml.combinators.{Picklers, HasStore, ~}
 

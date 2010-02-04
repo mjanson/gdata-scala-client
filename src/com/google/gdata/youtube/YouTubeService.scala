@@ -16,9 +16,8 @@
 
 package com.google.gdata.youtube
 
-import com.google.gdata.Service
-
 import java.net.URL
+import com.google.gdata.{Query, Service}
 
 
 /**
@@ -39,7 +38,7 @@ class YouTubeService(appName: String) extends Service(appName, "youtube") {
 
   /** The video feed module. It depends on the comments feed defined below. */
   val videos = new StdVideoFeed {
-    override lazy val commentsFeed: YouTubeService.this.comments.type = comments
+    override val commentsFeed: YouTubeService.this.comments.type = comments
   }
   
   /** A standard comments feed, used by videos and playlists. */
@@ -50,17 +49,17 @@ class YouTubeService(appName: String) extends Service(appName, "youtube") {
   
   /** A playlist feed. It depends on the comments feed defined above. */
   val playlist = new StdPlaylistFeed {
-    override lazy val commentsFeed: YouTubeService.this.comments.type = comments
+    override val commentsFeed: YouTubeService.this.comments.type = comments
   }
   
   /** A subscription feed. It uses the video feed of this service. */
   val subscription = new StdSubscriptionFeed {
-    override lazy val videoFeeds: YouTubeService.this.videos.type = videos
+    override val videoFeeds: YouTubeService.this.videos.type = videos
   }
   
   /** User playlist feed. */
   val userPlaylists = new StdUserPlaylistsFeed {
-    override lazy val playlistFeed: YouTubeService.this.videos.type = videos
+    override val playlistFeed: YouTubeService.this.videos.type = videos
   }
   
   /** A user profile feed. */ 

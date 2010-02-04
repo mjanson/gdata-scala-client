@@ -14,7 +14,8 @@
  */
 
 
-package com.google.gdata.calendar
+package com.google.gdata
+package calendar
 
 import com.google.gdata.data.{AtomEntries, kinds, Uris}
 import com.google.gdata.data.kinds.{ContactEntries, Where}

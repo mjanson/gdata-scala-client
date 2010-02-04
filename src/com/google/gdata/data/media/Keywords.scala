@@ -14,7 +14,8 @@
  */
 
 
-package com.google.gdata.data.media
+package com.google.gdata.data
+package media
 
 import com.google.xml.combinators.~
 import com.google.xml.combinators.Picklers._

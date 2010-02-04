@@ -81,12 +81,12 @@ class ClientLoginFactory(appName: String, service: String) extends AuthTokenFact
     val connection = new HttpConnection(url.openConnection.asInstanceOf[HttpURLConnection])
     connection.doInput = true
     connection.doOutput = true
-	connection.requestMethod = "POST"
-	connection("Content-Type") = "application/x-www-form-urlencoded"
+    connection.requestMethod = "POST"
+    connection("Content-Type") = "application/x-www-form-urlencoded"
  
     val response = connection.connect
 
-	val writer = new BufferedWriter(new OutputStreamWriter(connection.outputStream))
+    val writer = new BufferedWriter(new OutputStreamWriter(connection.outputStream))
     var params = List(("Email", username),
                       ("Passwd", password), 
                       ("source", appName), 
@@ -116,7 +116,7 @@ class ClientLoginFactory(appName: String, service: String) extends AuthTokenFact
   private def parseToken(body: String): String = {
     val lines = body.split('\n')
     for (line <- lines) line.split('=') match {
-      case Seq("Auth", token) => return token
+      case Array("Auth", token) => return token
       case _ => ()
     }
     ""

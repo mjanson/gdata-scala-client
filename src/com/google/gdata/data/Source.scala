@@ -101,6 +101,8 @@ class Source {
 
 /** Provide a pickler for Source. */
 object Source {
+  private implicit val atomNs = Uris.atomNs
+
   lazy val atomSourceContents =
     interleaved(
         rep(atomPerson("author"))
@@ -115,8 +117,6 @@ object Source {
       ~ opt(atomText("title"))
       ~ opt(elem("updated", dateTime)))
 
-  private implicit val atomNs = Uris.atomNs
-  
   /** A pickler for Source. */
   lazy val pickler: Pickler[Source] = wrap (elem("source", atomSourceContents)) ({
     case authors ~ cats ~ contribs ~ generator ~ id

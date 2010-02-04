@@ -14,7 +14,8 @@
  */
 
 
-package com.google.gdata.contacts
+package com.google.gdata
+package contacts
 
 /**
  * A Contacts API query. It adds service specific query parameters, like ordering,

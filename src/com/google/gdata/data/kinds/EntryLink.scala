@@ -17,6 +17,7 @@
 package com.google.gdata.data.kinds
 
 import com.google.xml.combinators.{Picklers, ~}
+import com.google.gdata.data.Uris
 
 /**
  * Represents a logically nested entry. For example, a <gd:who> representing a contact

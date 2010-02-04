@@ -34,18 +34,20 @@ class ListSet[A] extends Set[A] {
     this.elems = elems 
   }
   
-  def +=(elem: A) {
+  def +=(elem: A): this.type = {
     if (!elems.contains(elem))
       elems = elem :: elems
+    this
   }
   
-  def -=(elem: A) {
-    elems = elems.remove(_ == elem)
+  def -=(elem: A): this.type = {
+    elems = elems.filterNot(_ == elem)
+    this
   }
   
   override def clone = new ListSet(elems)
   
-  def size = elems.length
+  override def size = elems.length
   def contains(elem: A) = elems.contains(elem)
-  def elements = elems.elements
+  def iterator = elems.iterator
 }

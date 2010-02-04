@@ -32,9 +32,9 @@ class StdVideoFeed extends VideoFeeds {
   
   protected def groupContentsPickler = ytGroupContentsPickler
   protected def contentContentsPickler = ytContentContentsPickler
-  
+
   val commentsFeed = new StdCommentsFeed
-  
+
   protected def entryContentsPickler = videoEntryContentsPickler
   protected def feedContentsPickler = atomFeedContentsPickler
 }

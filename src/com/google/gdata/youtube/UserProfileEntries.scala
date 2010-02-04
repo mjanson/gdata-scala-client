@@ -14,7 +14,8 @@
  */
 
 
-package com.google.gdata.youtube
+package com.google
+package gdata.youtube
 
 import com.google.gdata.data.{AtomEntries, AtomFeeds, Uris}
 import com.google.gdata.data.kinds.FeedLink

@@ -47,13 +47,13 @@ class Query(var searchQuery: SearchQuery) {
   
   /** Add a category to this query. */
   def /(q: CategoryQuery): this.type = {
-    categories = URLEncoder.encode(q.toString) :: categories
+    categories = URLEncoder.encode(q.toString, "UTF-8") :: categories
     this
   }
   
   /** Add a category to this query. */
   def /(cat: String): this.type = {
-    categories = URLEncoder.encode(cat) :: categories
+    categories = URLEncoder.encode(cat, "UTF-8") :: categories
     this
   }
   
@@ -90,7 +90,7 @@ class Query(var searchQuery: SearchQuery) {
    * url-encodes the given value.
    */
   def addParam(name: String, value: String): this.type = {
-    params = (name, java.net.URLEncoder.encode(value)) :: params
+    params = (name, java.net.URLEncoder.encode(value, "UTF-8")) :: params
     this
   }
   

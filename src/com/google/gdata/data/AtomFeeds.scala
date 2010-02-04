@@ -87,7 +87,7 @@ trait AtomFeeds extends Feeds { this: AtomFeeds with Entries =>
     def length = entries.length
     
     /** Return an iterator over the entries contained by this feed. */
-    def elements: Iterator[Entry] = entries.elements
+    def iterator: Iterator[Entry] = entries.iterator
     
     /** Return the n'th entry. */
     def apply(n: Int): Entry = entries(n)

@@ -14,7 +14,8 @@
  */
 
 
-package com.google.gdata.calendar
+package com.google.gdata
+package calendar
 
 import java.net.URL
 
@@ -37,10 +38,10 @@ class CalendarService(appName: String) extends Service(appName, "cl")  {
   /** An events feed. */
   object eventsFeed extends StdEventsFeed {
     /** Make sure the comments feed used by events is the one used by this Service. */
-    override lazy val commentsFeed: comments.type = comments
+    override val commentsFeed: comments.type = comments
 
     /** Make sure the contact entries used by events is the one used by this Service. */
-    override lazy val contactEntries: contacts.type = contacts
+    override val contactEntries: contacts.type = contacts
   }
   
   /** The access control list feed. */
@@ -48,7 +49,7 @@ class CalendarService(appName: String) extends Service(appName, "cl")  {
   
   /** A calendars feed. */
   object calendarsFeed extends StdCalendarsFeed {
-    override lazy val contactEntries: contacts.type = contacts
+    override val contactEntries: contacts.type = contacts
   }
   
   /**

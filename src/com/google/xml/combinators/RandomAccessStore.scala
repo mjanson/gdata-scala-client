@@ -34,7 +34,7 @@ import scala.xml.{Node, Elem, MetaData, NamespaceBinding, Text, ProcInstr,
 class RandomAccessStore(myAttrs: MetaData, myNodes: Seq[Node], 
     myNs: NamespaceBinding, level: Int) extends LinearStore(myAttrs, myNodes.toList, myNs) {
   import collection.mutable.{Set, MultiMap}
-  import collection.jcl.LinkedHashMap
+  import collection.mutable.LinkedHashMap
   
   randomAccessLevel = level
 
@@ -47,8 +47,8 @@ class RandomAccessStore(myAttrs: MetaData, myNodes: Seq[Node],
     
   {
     // initialize store by mapping names to elements.
-    for (val n <- myNodes) 
-      nodeMap.add(n.label, new Entry(n))
+    for (n <- myNodes)
+      nodeMap.addBinding(n.label, new Entry(n))
   }
   def this(underlying: XmlInputStore) = 
     this(underlying.attrs, underlying.nodes, underlying.ns, underlying.randomAccessLevel)
@@ -58,11 +58,11 @@ class RandomAccessStore(myAttrs: MetaData, myNodes: Seq[Node],
    * perform lookups and removal.
    */
   override def acceptElem(label: String, uri: String): (Option[Node], RandomAccessStore) = {
-    for (val elems <- nodeMap.get(label);
+    for (elems <- nodeMap.get(label);
          val entry <- elems)
       entry.n match {
         case e: Elem if (e.namespace == uri) => 
-          nodeMap.remove(label, entry)
+          nodeMap.removeBinding(label, entry)
           return (Some(e), this)
       case _ => ()
     }
@@ -72,7 +72,7 @@ class RandomAccessStore(myAttrs: MetaData, myNodes: Seq[Node],
   /** Return the list of nodes. It reads them from the internal map. */
   override def nodes: List[Node] = {
     val buf = new scala.xml.NodeBuffer
-    for (ns <- nodeMap.values; entry <- ns.elements) {
+    for (ns <- nodeMap.valuesIterator; entry <- ns.iterator) {
       buf += entry.n
     }
     buf.toList

@@ -15,7 +15,7 @@
   <property name="samples.dir"  value="samples"/>
   <property name="lib.dir"      value="lib"/>
   <property name="junit.jar"    value="${lib.dir}/junit-4.4.jar"/>
-  <property name="xmldiff.jar"  value="${lib.dir}/xmldiff-0.2.jar"/>
+  <property name="xmldiff.jar"  value="${lib.dir}/xmldiff-0.3.jar"/>
   <property file="./build.properties"/>
 
   <!-- the following properties can be set in the above property file -->
@@ -61,7 +61,7 @@
       <condition><not><and>
         <available classname="scala.Predef"
                    classpath="${scala-library.jar}"/>
-        <available classname="scala.List"
+        <available classname="scala.collection.immutable.List"
                    classpath="${scala-library.jar}"/>
       </and></not></condition>
     </fail>

@@ -14,7 +14,8 @@
  */
 
 
-package com.google.gdata.youtube
+package com.google.gdata
+package youtube
 
 /**
  * A YouTube specific query.

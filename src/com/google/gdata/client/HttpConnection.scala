@@ -23,7 +23,7 @@ import java.io.{InputStream, OutputStream, InputStreamReader, BufferedReader}
 import java.nio.charset.Charset
 import java.security.Permission
 
-import scala.collection.{mutable, immutable, jcl}
+import scala.collection.{mutable, immutable}
 
 /**
  * Scala wrapper over HttpURLConnection. Turns getter/setters into properties and implements
@@ -208,13 +208,11 @@ class HttpConnection(val underlying: HttpURLConnection) {
         while (iter.hasNext) ab += iter.next
         ab.toList
       }
-      
-      val wrapper = new jcl.MapWrapper[String, java.util.List[String]] { 
-        val underlying = HttpConnection.this.underlying.getHeaderFields 
-      }
+
+      import collection.JavaConversions.asMap
       val res: mutable.Map[String, List[String]] = new mutable.HashMap
 
-      for ((key, headers) <- wrapper if key ne null)
+      for ((key, headers) <- underlying.getHeaderFields if key ne null)
         res(key) = toScalaList(headers)
 
       res

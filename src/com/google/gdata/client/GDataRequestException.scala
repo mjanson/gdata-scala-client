@@ -19,24 +19,24 @@ package com.google.gdata.client
 /** Base class for GData request exceptions. */
 class GDataRequestException(msg: String) extends Exception(msg)
 
-case class NotModifiedException extends GDataRequestException(
+case class NotModifiedException() extends GDataRequestException(
     "Not modified.")
 
-case class BadRequestException extends GDataRequestException(
+case class BadRequestException() extends GDataRequestException(
     "Invalid request URI or header, or unsupported nonstandard parameter.")
 
-case class UnauthorizedException extends GDataRequestException("Authorization required")
+case class UnauthorizedException() extends GDataRequestException("Authorization required")
 
-case class ForbiddenException extends GDataRequestException(
+case class ForbiddenException() extends GDataRequestException(
     "Unsupported standard parameter, or authentication failed.")
 
-case class NotFoundException extends GDataRequestException(
+case class NotFoundException() extends GDataRequestException(
     "Resource not found.")
 
-case class ConflictException extends GDataRequestException(
+case class ConflictException() extends GDataRequestException(
     "Specified version number doesn't match resource's latest version number.")
 
-case class InternalServerErrorException extends GDataRequestException(
+case class InternalServerErrorException() extends GDataRequestException(
     "Internal error.")
 
 /** Redirection. The header collection should contain a 'Location' field. */

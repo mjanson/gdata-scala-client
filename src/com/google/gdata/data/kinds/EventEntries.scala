@@ -14,10 +14,12 @@
  */
 
 
-package com.google.gdata.data.kinds
+package com.google.gdata.data
+package kinds
 
 import com.google.xml.combinators.{Picklers, ~}
 import com.google.gdata.data.util.DateTime
+import com.google.gdata.data.{AtomFeeds, AtomEntries}
 
 /**
  * An event kind. It extends Atom entries with elements for describing a calendar

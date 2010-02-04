@@ -18,7 +18,7 @@ package com.google.gdata.calendar
 
 import com.google.gdata.data.util.DateTime
 import com.google.gdata.data.{Text, TextContent}
-import data.kinds.{When, EventEntries}
+import com.google.gdata.data.kinds.{When, EventEntries}
 
 import org.junit.{Test, Before, Assert}
 

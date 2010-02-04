@@ -24,7 +24,7 @@ import com.google.xml.combinators._
 import java.net.URL
 
 /**
- * An illogical collection of things one cand do with the Calendar API.
+ * An illogical collection of things one can do with the Calendar API.
  */
 object Main extends Application {
 
