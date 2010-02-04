@@ -24,7 +24,7 @@
 	<property name="instr.dir" location="classes-instr"/>
   <property name="docs.dir" value="docs/api"/>
 	<property name="dists.dir" value="dists"/>
-	<property name="version" value="0.1"/>
+	<property name="version" value="0.2"/>
 
   <property name="coverage.dir" value="coverage"/>
   <!--  directory that contains emma.jar and emma_ant.jar: -->
