@@ -27,8 +27,8 @@ import com.google.gdata.data.Uris.mediaNs
  * @see http://search.yahoo.com/mrss
  * @author Iulian Dragos 
  */
-case class Text(tpe: String, value: String, lang: Option[String], 
-                start: Option[NormalPlayTime], end: Option[NormalPlayTime])
+case class Text(tpe: String = "plain", value: String, lang: Option[String] = None, 
+                start: Option[NormalPlayTime] = None, end: Option[NormalPlayTime] = None)
 
 object Text {
   

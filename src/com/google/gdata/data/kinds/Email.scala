@@ -30,10 +30,10 @@ case class Email(
   var address: String,
   
   /** A simple string value used to name this email address (like 'Work', 'Home'). */
-  var label: Option[String],
+  var label: Option[String] = None,
   
   /** A programmatic value that identifies the type of email. */
-  var rel: Option[String],
+  var rel: Option[String] = None,
   
   /** At most one email may be primary. Default value is "false". */
   var primary: Boolean) {

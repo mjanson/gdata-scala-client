@@ -28,31 +28,31 @@ import com.google.xml.combinators.{Picklers, ~}
  */
 case class Reminder(
     /** Absolute time at which the reminder should be issued. */
-    absoluteTime: Option[DateTime],
+    absoluteTime: Option[DateTime] = None,
     
     /** The notification method the reminder should use, like 'alert', 'email, 'sms'. */
-    method: Option[String],
+    method: Option[String] = None,
     
     /**
      * Period of time before gd:when/@startTime when a reminder should be issued. 
      * If the parent entity's target time is a date rather than a specific time, 
      * then these attributes are relative to midnight (00:00) on that date 
      */
-    days: Option[Int],
+    days: Option[Int] = None,
     
     /**
      * Period of time before gd:when/@startTime when a reminder should be issued. 
      * If the parent entity's target time is a date rather than a specific time, 
      * then these attributes are relative to midnight (00:00) on that date 
      */
-    hours: Option[Int],
+    hours: Option[Int] = None,
     
     /**
      * Period of time before gd:when/@startTime when a reminder should be issued. 
      * If the parent entity's target time is a date rather than a specific time, 
      * then these attributes are relative to midnight (00:00) on that date 
      */
-    minutes: Option[Int])
+    minutes: Option[Int] = None)
 
 object Reminder {
   import Picklers._

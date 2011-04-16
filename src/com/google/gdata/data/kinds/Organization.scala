@@ -27,19 +27,19 @@ import com.google.xml.combinators.{Picklers, ~}
  */
 case class Organization(
     /** A string value used to identify this address. */
-    var label: Option[String],
+    var label: Option[String] = None,
     
     /** A programmatic value that identifies the type of postal address. */
-    var rel: Option[String],
+    var rel: Option[String] = None,
     
     /** At most one phone number is the primary number. */
     var primary: Boolean,
     
     /** The organization name. */
-    var name: Option[String],
+    var name: Option[String] = None,
     
     /** The title of a person within the organization. */
-    var title: Option[String])
+    var title: Option[String] = None)
 
 object Organization {
   import Picklers._

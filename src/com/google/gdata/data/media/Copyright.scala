@@ -27,7 +27,7 @@ import com.google.gdata.data.Uris.mediaNs
  * @see http://search.yahoo.com/mrss
  * @author Iulian Dragos 
  */
-case class Copyright(url: Option[String], value: String)
+case class Copyright(url: Option[String] = None, value: String)
 
 object Copyright {
   val pickler: Pickler[Copyright] = 

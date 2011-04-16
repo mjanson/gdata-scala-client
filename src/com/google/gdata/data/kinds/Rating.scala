@@ -28,8 +28,8 @@ import com.google.xml.combinators.{Picklers, ~}
  * @param numRaters The number of ratings taken account by the average value.
  * @param value   Rating value.
  */
-case class Rating(average: Option[Double], min: Int, max: Int, 
-    numRaters: Option[Int], rel: String, value: Option[Int]) {
+case class Rating(average: Option[Double] = None, min: Int, max: Int, 
+    numRaters: Option[Int] = None, rel: String, value: Option[Int] = None) {
   
   override def toString = {
     val sb = new StringBuilder

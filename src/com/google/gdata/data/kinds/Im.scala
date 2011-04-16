@@ -26,9 +26,9 @@ import com.google.xml.combinators.{Picklers, ~}
  * @see http://code.google.com/apis/gdata/elements.html#gdIm
  */
 case class Im(var address: String,
-    var label: Option[String],
-    var rel: Option[String],
-    var protocol: Option[String],
+    var label: Option[String] = None,
+    var rel: Option[String] = None,
+    var protocol: Option[String] = None,
     var primary: Boolean) {
   
   /** Convenience constructor for an instant messaging address. */

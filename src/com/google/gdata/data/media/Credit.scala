@@ -27,7 +27,7 @@ import com.google.gdata.data.Uris.mediaNs
  * @see http://search.yahoo.com/mrss
  * @author Iulian Dragos 
  */
-case class Credit(scheme: String, role: Option[String], value: String)
+case class Credit(scheme: String, role: Option[String] = None, value: String)
 
 object Credit {
   /** Default credit scheme is European Broadcasting Union Role Codes. */

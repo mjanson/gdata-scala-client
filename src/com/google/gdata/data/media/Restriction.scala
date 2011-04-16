@@ -26,7 +26,7 @@ import com.google.gdata.data.Uris.mediaNs
  * @see http://search.yahoo.com/mrss
  * @author Iulian Dragos 
  */
-case class Restriction(relationship: String, tpe: Option[String], value: List[String])
+case class Restriction(relationship: String, tpe: Option[String] = None, value: List[String] = Nil)
 
 object Restriction {
   

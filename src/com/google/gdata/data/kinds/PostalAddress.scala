@@ -27,10 +27,10 @@ import com.google.xml.combinators.{Picklers, ~}
  */
 case class PostalAddress(
     /** A string value used to identify this address. */
-    var label: Option[String],
+    var label: Option[String] = None,
     
     /** A programmatic value that identifies the type of postal address. */
-    var rel: Option[String],
+    var rel: Option[String] = None,
     
     /** At most one phone number is the primary number. */
     var primary: Boolean,

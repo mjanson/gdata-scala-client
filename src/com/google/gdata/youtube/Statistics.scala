@@ -9,8 +9,10 @@ import com.google.gdata.data.Uris
  * 
  * @author Iulian Dragos
  */
-case class Statistics(viewCount: Option[Int], videoWatchCount: Option[Int], 
-    subscriberCount: Option[Int], lastWebAccess: Option[DateTime])
+case class Statistics(viewCount: Option[Int] = None, 
+		videoWatchCount: Option[Int] = None, 
+        subscriberCount: Option[Int] = None,
+        lastWebAccess: Option[DateTime] = None)
 
 object Statistics {
   import Picklers._

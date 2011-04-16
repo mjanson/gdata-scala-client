@@ -33,7 +33,7 @@ import scala.xml.{NamespaceBinding, TopScope}
  * @see http://search.yahoo.com/mrss
  * @author Iulian Dragos 
  */
-case class Category(scheme: String, label: Option[String], value: String)
+case class Category(scheme: String, label: Option[String] = None, value: String)
 
 object Category {
   final val DEFAULT_SCHEMA = "http://search.yahoo.com/mrss/category_schema"

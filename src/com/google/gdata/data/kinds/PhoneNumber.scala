@@ -27,13 +27,13 @@ import com.google.xml.combinators.{Picklers, ~}
  */
 case class PhoneNumber(
     /** A string value used to identify this phone number. */
-    var label: Option[String],
+    var label: Option[String] = None,
     
     /** The type of this phone number. */
-    var rel: Option[String],
+    var rel: Option[String] = None,
     
     /** A phone URI for programmatic access. See RFC 3966. */
-    var uri: Option[String],
+    var uri: Option[String] = None,
     
     /** At most one phone number is the primary number. */
     var primary: Boolean,

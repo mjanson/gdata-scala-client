@@ -26,7 +26,7 @@ import com.google.gdata.data.Uris.mediaNs
  *
  * @author Iulian Dragos
  */
-case class SimpleText(tpe: String, value: String)
+case class SimpleText(tpe: String = "plain", value: String)
 
 object SimpleText {
   /** Return a pickle for the given element name. */

@@ -27,7 +27,7 @@ import com.google.gdata.data.Uris.mediaNs
  * @see http://search.yahoo.com/mrss
  * @author Iulian Dragos 
  */
-case class Player(url: String, height: Option[Int], width: Option[Int])
+case class Player(url: String, height: Option[Int] = None, width: Option[Int] = None)
 
 object Player {
   
