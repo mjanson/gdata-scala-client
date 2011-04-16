@@ -192,6 +192,6 @@ class ContentTest extends PicklerAsserts {
   }
 }
 
-object ContentTestApp extends ContentTest with Application {
+object ContentTestApp extends ContentTest with App {
   testGroup
 }

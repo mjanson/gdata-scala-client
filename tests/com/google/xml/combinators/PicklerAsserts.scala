@@ -18,6 +18,7 @@ package com.google.xml.combinators;
 
 import org.junit.Assert
 import scala.xml.{Node, Utility, Elem}
+import com.google.xmldiff.Comparison
 
 /**
  * This trait defines specialized asserts for testing picklers.
@@ -26,6 +27,8 @@ import scala.xml.{Node, Utility, Elem}
  */
 trait PicklerAsserts {
   import Picklers._
+  
+  val xmlComp = new Comparison
    
   def assertSucceedsWith[A](name: String, expected: A, in: Elem, pa: Pickler[A]) {
     val result = pa.unpickle(LinearStore.fromElem(in))
@@ -37,8 +40,10 @@ trait PicklerAsserts {
   
   /** Test that the value 'v' pickles to the expected xml node. */
   def assertPicklesTo[A](name: String, expected: Node, v: A, pa: Pickler[A]) {
-    Assert.assertEquals(name, Utility.trim(expected), 
-        Utility.trim(pa.pickle(v, PlainOutputStore.empty).rootNode))
+	val exp = Utility.trim(expected).asInstanceOf[Elem]
+	val act = Utility.trim(pa.pickle(v, PlainOutputStore.empty).rootNode).asInstanceOf[Elem]
+	val res = xmlComp(exp, act)
+	Assert.assertTrue(name, res.isSimilar)
   }
   
   /**

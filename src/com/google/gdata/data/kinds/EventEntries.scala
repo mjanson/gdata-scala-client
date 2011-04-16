@@ -72,6 +72,9 @@ trait EventEntries extends AtomEntries {
     
     /** Reccurence exceptions for this event. */
     var exceptions: List[RecurrenceException[Entry]] = Nil
+
+    /** Reminders for this event. */
+    var reminders: List[Reminder] = Nil
     
     /** Convenience method for creating a one-shot event entry. */
     def this(title: String, content: String, start: DateTime, end: DateTime) {
@@ -97,7 +100,8 @@ trait EventEntries extends AtomEntries {
         when: List[When], locations: List[Where[contactEntries.Entry]],
         participants: List[Who[contactEntries.Entry]], quickAdd: Boolean,
         extendedProperties: List[ExtendedProperty], 
-        exceptions: List[RecurrenceException[Entry]]): this.type = {
+        exceptions: List[RecurrenceException[Entry]],
+        reminders: List[Reminder]): this.type = {
       this.comments = comments
       this.eventStatus = eventStatus
       this.recurrence = recurrence
@@ -109,6 +113,7 @@ trait EventEntries extends AtomEntries {
       this.quickAdd = quickAdd
       this.extendedProperties = extendedProperties
       this.exceptions = exceptions
+      this.reminders = reminders
       this
     }
     
@@ -117,7 +122,7 @@ trait EventEntries extends AtomEntries {
       fromAtomEntry(ev)
       fillOwnFields(ev.comments, ev.eventStatus, ev.recurrence, ev.transparency, ev.visibility, 
           ev.when, ev.locations, ev.participants, ev.quickAdd, ev.extendedProperties, 
-          ev.exceptions)
+          ev.exceptions, ev.reminders)
     }
   }
   
@@ -136,22 +141,23 @@ trait EventEntries extends AtomEntries {
         ~ rep(Who.pickler(contactEntries.entryPickler))
         ~ default(elem("quickAdd", attr("value",boolVal))(Uris.gCalNs), false)
         ~ rep(ExtendedProperty.pickler)
-        ~ rep(RecurrenceException.pickler(entryPickler)))
+        ~ rep(RecurrenceException.pickler(entryPickler))
+        ~ rep(Reminder.pickler))
                                
     wrap (contents) {
     case ae ~ comments ~ eventStatus ~ recurrence ~ transparency 
         ~ visibility ~ when ~ locations ~ participants ~ quickAdd ~ extendedProperties
-        ~ exceptions =>
+        ~ exceptions ~ reminders =>
       val ce = new EventEntry().fromAtomEntry(ae)
       ce.fillOwnFields(comments, eventStatus, recurrence, transparency,
-          visibility, when, locations, participants, quickAdd, extendedProperties, exceptions)
+          visibility, when, locations, participants, quickAdd, extendedProperties, exceptions, reminders)
     } (fromEventEntry)
   }
   
   private def fromEventEntry(ce: EventEntry) = 
     (new ~(ce, ce.comments) ~ ce.eventStatus ~ ce.recurrence ~ ce.transparency
         ~ ce.visibility ~ ce.when ~ ce.locations ~ ce.participants ~ ce.quickAdd
-        ~ ce.extendedProperties ~ ce.exceptions)
+        ~ ce.extendedProperties ~ ce.exceptions ~ ce.reminders)
 }
 
 /**

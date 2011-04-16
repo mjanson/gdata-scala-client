@@ -53,7 +53,7 @@ trait XmlOutputStore extends XmlStore {
 class PlainOutputStore(var attrs: MetaData, nods: Seq[Node], 
                        var ns: NamespaceBinding) extends XmlOutputStore {
 
-  private val nodeBuf = new mutable.ListBuffer[Node]
+  private val nodeBuf = new mutable.ArrayBuffer[Node]
   
   def nodes: Seq[Node] = nodeBuf.readOnly
   

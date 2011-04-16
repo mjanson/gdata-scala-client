@@ -34,7 +34,7 @@ trait AtomFeeds extends Feeds { this: AtomFeeds with Entries =>
   /** 
    * An Atom Feed. It contains metadata about the feed and a sequence of entries.
    */
-  class AtomFeed extends AnyRef with Seq[Entry] with HasStore {
+  class AtomFeed extends AnyRef with Seq[Entry] with LinkNavigation with HasStore {
     /** The authors of this feed. */
     var authors: List[Person] = Nil
     
