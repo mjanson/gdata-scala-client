@@ -51,6 +51,9 @@ class When {
     this.startTime = Some(startTime)
     this.endTime = Some(endTime)
   }
+  
+  override def toString() = 
+	  "When(%s, %s, %s, %s)".format(startTime, endTime, valueString, reminders)
 }
 
 object When {
