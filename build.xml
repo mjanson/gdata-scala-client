@@ -247,7 +247,6 @@
       srcdir="${source.dir}"
       destdir="${docs.dir}"
       deprecation="yes" unchecked="yes"
-      windowtitle="GData Scala Client Library Documentation"
       doctitle="GData Scala Client"
       classpathref="build.classpath">
         <include name="**/*.scala"/>
