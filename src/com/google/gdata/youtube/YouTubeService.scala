@@ -38,7 +38,7 @@ class YouTubeService(appName: String) extends Service(appName, "youtube") {
 
   /** The video feed module. It depends on the comments feed defined below. */
   val videos = new StdVideoFeed {
-    override val commentsFeed: YouTubeService.this.comments.type = comments
+    override lazy val commentsFeed: YouTubeService.this.comments.type = comments
   }
   
   /** A standard comments feed, used by videos and playlists. */
